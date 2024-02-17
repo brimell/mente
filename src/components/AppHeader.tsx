@@ -26,10 +26,27 @@ export default function AppHeader() {
 				height: "100vh",
 				position: "fixed",
 				left: 0,
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "space-between",
 			}}
 		>
-			<div style={{ color: "white", fontSize: 24, textAlign: "center", margin: "20px 0" }}>Mood</div>
-			<Menu theme="dark" mode="vertical" defaultSelectedKeys={["1"]} style={{ textAlign: "center" }}>
+			<div
+				style={{
+					color: "white",
+					fontSize: 24,
+					textAlign: "center",
+					margin: "20px 0",
+				}}
+			>
+				Mood
+			</div>
+			<Menu
+				theme="dark"
+				mode="vertical"
+				defaultSelectedKeys={["1"]}
+				style={{ textAlign: "center" }}
+			>
 				<Menu.Item key="1">
 					<Link to="/">Home</Link>
 				</Menu.Item>
@@ -37,14 +54,22 @@ export default function AppHeader() {
 					<Link to="/about">About</Link>
 				</Menu.Item>
 			</Menu>
-			{currentUser ? (
+			{currentUser && (
 				<Menu theme="dark" mode="vertical">
-					<Menu.Item key="3" onClick={handleLogout}>
-						<FontAwesomeIcon icon={faSignOutAlt} style={{ fontSize: "24px", color: "white" }} />
+					<Menu.Item
+						key="3"
+						onClick={handleLogout}
+						style={{ textAlign: "center" }}
+					>
+						<FontAwesomeIcon
+							icon={faSignOutAlt}
+							style={{ fontSize: "24px", color: "white" }}
+						/>
 					</Menu.Item>
 				</Menu>
-			) : (
-				<div style={{ textAlign: "center", marginTop: "20px" }}>
+			)}
+			{!currentUser && (
+				<div style={{ textAlign: "center", marginBottom: "20px" }}>
 					<Button type="primary">Sign In</Button>
 				</div>
 			)}
