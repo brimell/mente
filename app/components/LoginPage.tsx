@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Form, Input, Button, Typography, Space } from 'antd';
