@@ -1,9 +1,19 @@
 import { useState } from 'react';
-import { Layout, Button, Modal, Form, Input, Select } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-
-const { Content } = Layout;
-const { Option } = Select;
+import {
+  Box,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  FormControl,
+  FormLabel,
+  Select,
+} from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
 
 const HomePage = () => {
   const [moodData, setMoodData] = useState([]);
@@ -24,57 +34,52 @@ const HomePage = () => {
   };
 
   return (
-    <Layout style={{ padding: '24px 24px 0' }}>
-      <Content
-        className="site-layout-background"
-        style={{
-          padding: 24,
-          margin: 0,
-          minHeight: 280,
-        }}
+    <Box p="24px">
+      <h1>Dashboard</h1>
+      {/* Render mood data */}
+      <Box>
+        {moodData.map((mood, index) => (
+          <Box key={index}>
+            <p>
+              {mood.date}: {mood.mood}
+            </p>
+          </Box>
+        ))}
+      </Box>
+      {/* Button to add new mood */}
+      <Button
+        colorScheme="blue"
+        onClick={showModal}
+        leftIcon={<AddIcon />}
       >
-        <h1>Dashboard</h1>
-        {/* Render mood data */}
-        <div>
-          {moodData.map((mood, index) => (
-            <div key={index}>
-              <p>{mood.date}: {mood.mood}</p>
-            </div>
-          ))}
-        </div>
-        {/* Button to add new mood */}
-        <Button type="primary" onClick={showModal} icon={<PlusOutlined />}>
-          Add Mood
-        </Button>
-        {/* Modal for adding mood */}
-        <Modal title="Add Mood" visible={isModalVisible} onCancel={handleCancel} footer={null}>
-          <Form
-            name="add-mood-form"
-            onFinish={onFinish}
-          >
-            <Form.Item
-              label="Mood"
-              name="mood"
-              rules={[{ required: true, message: 'Please select mood!' }]}
-            >
-              <Select>
-                <Option value="Happy">Happy</Option>
-                <Option value="Sad">Sad</Option>
-                <Option value="Angry">Angry</Option>
-                <Option value="Excited">Excited</Option>
-                <Option value="Calm">Calm</Option>
-                {/* Add more mood options as needed */}
+        Add Mood
+      </Button>
+      {/* Modal for adding mood */}
+      <Modal isOpen={isModalVisible} onClose={handleCancel}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add Mood</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl>
+              <FormLabel>Mood</FormLabel>
+              <Select name="mood" rules={[{ required: true, message: 'Please select mood!' }]}>
+                <option value="Happy">Happy</option>
+                <option value="Sad">Sad</option>
+                <option value="Angry">Angry</option>
+                <option value="Excited">Excited</option>
+                <option value="Calm">Calm</option>
               </Select>
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
-      </Content>
-    </Layout>
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={onFinish}>
+              Save
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Box>
   );
 };
 
