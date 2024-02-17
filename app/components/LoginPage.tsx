@@ -1,7 +1,6 @@
-"use client"
 import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { Form, Input, Button, Typography, Space } from 'antd';
+import { Form, Input, Button, Typography, Space, message } from 'antd'; // Import message from antd
 
 const { Title } = Typography;
 
@@ -22,10 +21,15 @@ const LoginPage: React.FC = () => {
 
   const handleEmailSignUp = async () => {
     try {
+      // Check if the password meets the minimum length requirement
+      if (password.length < 6) {
+        throw new Error('Password must be at least 6 characters long.');
+      }
       await createUserWithEmailAndPassword(auth, email, password);
       // Redirect or navigate to another page upon successful signup
     } catch (error) {
       console.error('Error signing up with email and password:', error);
+      message.error(error.message); // Display error message using Ant Design message component
     }
   };
 

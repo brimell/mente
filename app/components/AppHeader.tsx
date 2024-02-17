@@ -4,12 +4,12 @@ import { Layout, Menu } from "antd";
 import { useContext } from "react";
 import MainContext from "../contexts/MainContext";
 import { LogoutOutlined } from "@ant-design/icons";
+import { User } from "firebase/auth";
+import { logoutUser } from "../utils/auth";
 
 const { Header } = Layout;
 
-export default function AppHeader() {
-	const { currentUser } = useContext(MainContext);
-
+export default function AppHeader(currentUser: User | null) {
 	return (
 		<Header
 			style={{
@@ -29,7 +29,7 @@ export default function AppHeader() {
 					<Link href="/about">About</Link>
 				</Menu.Item>
 				{!currentUser && (
-					<Menu.Item key="3" onClick={handleLogout}>
+					<Menu.Item key="3" onClick={logoutUser}>
 						<LogoutOutlined />
 					</Menu.Item>
 				)}

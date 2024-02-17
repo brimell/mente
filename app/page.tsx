@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+"use client";
+import React, { useContext, Suspense } from "react";
 import MainContextProvider, { MainContext } from "./contexts/MainContext";
 import MoodForm from "./components/MoodForm";
 import MoodList from "./components/MoodList";
@@ -14,26 +15,18 @@ const { Title } = Typography;
 const { Header, Content } = Layout;
 
 const HomePage: React.FC = () => {
+	const { currentUser } = useContext(MainContext);
+
 	return (
 		<MainContextProvider>
-			<Layout>
-				<AppHeader />
-				<Content style={{ padding: "0 50px", marginTop: 64 }}>
-					<div
-						style={{
-							background: "#fff",
-							padding: 24,
-							minHeight: 380,
-						}}
-					>
-						{currentUser ? (
-							<></>
-						) : (
-							<LoginPage /> // Render LoginPage if user is not authenticated
-						)}
-					</div>
-				</Content>
-			</Layout>
+			<Suspense fallback={<div>Loading...</div>}>
+				<Layout>
+					<AppHeader currentUser={currentUser} />
+					<Content style={{ marginTop: 64 }}>
+						{!currentUser ? <LoginPage /> : null}
+					</Content>
+				</Layout>
+			</Suspense>
 		</MainContextProvider>
 	);
 };
