@@ -1,4 +1,3 @@
-"use client";
 import React, { useContext, Suspense } from "react";
 import MainContextProvider, { MainContext } from "./contexts/MainContext";
 import MoodForm from "./components/MoodForm";

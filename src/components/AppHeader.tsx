@@ -5,7 +5,7 @@ import { useContext } from "react";
 import MainContext from "../contexts/MainContext";
 import { LogoutOutlined } from "@ant-design/icons";
 import { User } from "firebase/auth";
-import { logoutUser } from "../utils/auth";
+import { logoutUser } from "../../old/utils/auth";
 
 const { Header } = Layout;
 
