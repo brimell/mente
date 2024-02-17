@@ -5,7 +5,7 @@ import {
 	collection,
 	getDocs,
 } from "firebase/firestore";
-import { db, auth } from "../../server/utils/firebaseInit";
+import { db, auth } from "../utils/firebaseInit";
 
 interface Mood {
 	id: string;

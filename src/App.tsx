@@ -1,15 +1,12 @@
 import React, { useContext, Suspense } from "react";
 import MainContextProvider, { MainContext } from "./contexts/MainContext";
-import MoodForm from "./components/MoodForm";
-import MoodList from "./components/MoodList";
 import LoginPage from "./components/LoginPage";
 
-import { Layout, Menu, Button, Typography } from "antd";
+import { Layout} from "antd";
 
 import AppHeader from "./components/AppHeader";
 
-const { Title } = Typography;
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 const HomePage: React.FC = () => {
 	const { currentUser } = useContext(MainContext);
@@ -19,7 +16,7 @@ const HomePage: React.FC = () => {
 		<MainContextProvider>
 			<Suspense fallback={<div>Loading...</div>}>
 				<Layout>
-					<AppHeader currentUser={currentUser} />
+					<AppHeader />
 					<Content style={{ marginTop: 64 }}>
 						{!currentUser ? <LoginPage /> : null}
 					</Content>

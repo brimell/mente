@@ -17,7 +17,7 @@ const LoginPage: React.FC = () => {
       } else {
         throw new Error(response.data.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error signing in with email and password:', error);
       message.error(error.message); // Display error message using Ant Design message component
     }
