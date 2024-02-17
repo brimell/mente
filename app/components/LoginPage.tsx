@@ -1,6 +1,8 @@
-"use client"
 import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { Form, Input, Button, Typography, Space } from 'antd';
+
+const { Title } = Typography;
 
 const auth = getAuth();
 
@@ -37,13 +39,23 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={handleEmailLogin}>Login with Email</button>
-      <button onClick={handleEmailSignUp}>Sign Up with Email</button>
-      <button onClick={handleGoogleLogin}>Login with Google</button>
+    <div style={{ maxWidth: 400, margin: 'auto' }}>
+      <Title level={2}>Login</Title>
+      <Form layout="vertical">
+        <Form.Item label="Email">
+          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </Form.Item>
+        <Form.Item label="Password">
+          <Input.Password value={password} onChange={(e) => setPassword(e.target.value)} />
+        </Form.Item>
+        <Form.Item>
+          <Space>
+            <Button type="primary" onClick={handleEmailLogin}>Login with Email</Button>
+            <Button onClick={handleEmailSignUp}>Sign Up with Email</Button>
+            <Button type="primary" onClick={handleGoogleLogin}>Login with Google</Button>
+          </Space>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
