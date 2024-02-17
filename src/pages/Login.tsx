@@ -1,19 +1,26 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { loginUser } from '../utils/auth'; // Import loginUser utility function
+import { MainContext } from '../contexts/MainContext';
+import { useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
+  const { currentUser } = useContext(MainContext);
+	const navigateTo = useNavigate();
 
   const onFinish = async (values: { username: any; password: any; }) => {
     setLoading(true);
     const { username, password } = values;
     try {
-      await loginUser(username, password); // Use loginUser function from auth utils
+      await loginUser(username, password); // Login user
       console.log('Logged in successfully!');
       setLoading(false);
-      // Redirect or handle login success
+      // Redirect to main page if user is logged in
+      if (currentUser) {
+        navigateTo('/');
+      }
     } catch (error) {
       console.error('Login error:', error);
       setLoading(false);
@@ -69,4 +76,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;

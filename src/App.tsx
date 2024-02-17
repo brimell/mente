@@ -1,7 +1,7 @@
 import React, { useContext, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Updated import
 import MainContextProvider, { MainContext } from "./contexts/MainContext";
-import LoginPage from "./components/LoginPage";
+import Login from "./pages/Login";
 import { Layout } from "antd";
 import AppHeader from "./components/AppHeader";
 
@@ -19,11 +19,11 @@ const HomePage: React.FC = () => {
 						<AppHeader />
 						<Content style={{ marginTop: 64 }}>
 							<Routes>
-								<Route path="/login" element={<LoginPage />} />
+								<Route path="/login" element={<Login />} />
 								<Route
 									path="/"
 									element={
-										!currentUser ? <LoginPage /> : null
+										currentUser ? <Home /> : <Login />
 									}
 								/>
 							</Routes>

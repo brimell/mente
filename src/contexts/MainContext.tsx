@@ -44,6 +44,7 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({
 		};
 
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			console.log("User state changed", user)
 			setCurrentUser(user); // Update current user state
 		});
 
