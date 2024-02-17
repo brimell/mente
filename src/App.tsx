@@ -6,8 +6,6 @@ import LoginPage from "./components/LoginPage";
 
 import { Layout, Menu, Button, Typography } from "antd";
 
-import Link from "next/link";
-import { auth } from "../server/utils/firebaseInit";
 import AppHeader from "./components/AppHeader";
 
 const { Title } = Typography;

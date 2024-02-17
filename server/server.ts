@@ -2,13 +2,14 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as admin from 'firebase-admin';
 import { auth } from './utils/firebaseInit';
+import authMiddleware from './utils/authMiddleware'
 
 const app = express();
 app.use(cors());
 
 
 // Create an endpoint for user registration
-app.post('/register', async (req, res) => {
+app.post('/api/register', async (req, res) => {
   try {
     const { email, password } = req.body;
     const userRecord = await admin.auth().createUser({
@@ -22,7 +23,7 @@ app.post('/register', async (req, res) => {
 });
 
 // Create an endpoint for user login
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     const userRecord = await admin.auth().getUserByEmail(email);
@@ -32,4 +33,10 @@ app.post('/login', async (req, res) => {
   } catch (error) {
     res.status(401).json({ error: 'Invalid credentials' });
   }
+});
+
+app.get('/api/users', authMiddleware.checkIfAuthenticated, (req, res) => {
+  // Handle your logic here (e.g., fetch user data)
+  // req.authId contains the authenticated user's ID
+  res.send('Authenticated route');
 });
