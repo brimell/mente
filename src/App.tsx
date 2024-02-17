@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Up
 import MainContextProvider, { MainContext } from "./contexts/MainContext";
 import Login from "./pages/Login";
 import { Layout, Spin } from "antd";
-import AppHeader from "./components/AppHeader";
+import AppSidebar from "./components/AppSidebar";
 import Home from "./pages/Home";
 
-const { Content } = Layout;
+const { Content, Sider } = Layout;
 
 const App: React.FC = () => {
 	return (
@@ -39,8 +39,19 @@ function Main() {
 
 	return (
 		<Layout>
-			<AppHeader />
-			<Content style={{ marginTop: 64 }}>
+			<Sider
+				breakpoint="lg"
+				collapsedWidth="0"
+				style={{
+					backgroundColor: "#001529",
+					height: "100vh",
+					left: 0,
+					display: "grid",
+				}}
+			>
+				<AppSidebar />
+			</Sider>
+			<Content style={{ marginTop: 32, marginLeft: 32 }}>
 				<Routes>
 					<Route path="/login" element={<Login />} />
 					<Route

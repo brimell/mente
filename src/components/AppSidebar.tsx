@@ -6,9 +6,7 @@ import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { logoutUser } from "../utils/auth";
 import { Link, useNavigate } from "react-router-dom";
 
-const { Sider } = Layout;
-
-export default function AppHeader() {
+export default function AppSidebar() {
 	const navigateTo = useNavigate();
 	const { currentUser } = useContext(MainContext);
 
@@ -18,19 +16,11 @@ export default function AppHeader() {
 	};
 
 	return (
-		<Sider
-			breakpoint="lg"
-			collapsedWidth="0"
-			style={{
-				backgroundColor: "#001529",
-				height: "100vh",
-				position: "fixed",
-				left: 0,
-				display: "flex",
-				flexDirection: "column",
-				justifyContent: "space-between",
-			}}
-		>
+		<div style={{
+			display: "grid",
+			height: "100%",
+			gridTemplateRows: "1fr 10fr 1fr",
+		}}>
 			<div
 				style={{
 					color: "white",
@@ -73,6 +63,6 @@ export default function AppHeader() {
 					<Button type="primary">Sign In</Button>
 				</div>
 			)}
-		</Sider>
+		</div>
 	);
 }
