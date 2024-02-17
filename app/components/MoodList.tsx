@@ -6,7 +6,10 @@ interface MoodListProps {
   moods: { date: string; mood: string }[];
 }
 
-const MoodList: React.FC<MoodListProps> = ({ moods }) => {
+const MoodList: React.FC<MoodListProps> = () => {
+
+  
+
   return (
     <List
       dataSource={moods}
