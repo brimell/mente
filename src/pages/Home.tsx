@@ -1,85 +1,56 @@
 import { useState } from 'react';
-import {
-  Box,
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  FormControl,
-  FormLabel,
-  Select,
-} from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import { Layout, Card, Form } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLaugh, faFrown, faAngry, faSmile, faMeh } from '@fortawesome/free-solid-svg-icons';
+
+const { Content } = Layout;
 
 const HomePage = () => {
   const [moodData, setMoodData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const onFinish = (values) => {
-    // Handle form submission, add mood data to state, and close modal
-    setMoodData([...moodData, values]);
-    setIsModalVisible(false);
+  const addMood = (mood) => {
+    // Add mood data to state
+    setMoodData([...moodData, { mood, date: new Date().toISOString() }]);
   };
 
   return (
-    <Box p="24px">
-      <h1>Dashboard</h1>
-      {/* Render mood data */}
-      <Box>
-        {moodData.map((mood, index) => (
-          <Box key={index}>
-            <p>
-              {mood.date}: {mood.mood}
-            </p>
-          </Box>
-        ))}
-      </Box>
-      {/* Button to add new mood */}
-      <Button
-        colorScheme="blue"
-        onClick={showModal}
-        leftIcon={<AddIcon />}
+    <Layout style={{ padding: '24px 24px 0' }}>
+      <Content
+        className="site-layout-background"
+        style={{
+          padding: 24,
+          margin: 0,
+          minHeight: 280,
+        }}
       >
-        Add Mood
-      </Button>
-      {/* Modal for adding mood */}
-      <Modal isOpen={isModalVisible} onClose={handleCancel}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Add Mood</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <FormLabel>Mood</FormLabel>
-              <Select name="mood" rules={[{ required: true, message: 'Please select mood!' }]}>
-                <option value="Happy">Happy</option>
-                <option value="Sad">Sad</option>
-                <option value="Angry">Angry</option>
-                <option value="Excited">Excited</option>
-                <option value="Calm">Calm</option>
-              </Select>
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" onClick={onFinish}>
-              Save
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
+        <h1>Dashboard</h1>
+
+        <div>
+          {moodData.map((mood, index) => (
+            <div key={index}>
+              <p>{mood.date}: {mood.mood}</p>
+            </div>
+          ))}
+        </div>
+
+        <Card
+          title="Add Mood"
+          bordered={false}
+          style={{ width: 300 }}
+        >
+          <Form name="add-mood-form">
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <FontAwesomeIcon icon={faAngry} style={{ fontSize: '24px', cursor: 'pointer' }} onClick={() => addMood(1)} />
+              <FontAwesomeIcon icon={faFrown} style={{ fontSize: '24px', cursor: 'pointer' }} onClick={() => addMood(2)} />
+              <FontAwesomeIcon icon={faMeh} style={{ fontSize: '24px', cursor: 'pointer' }} onClick={() => addMood(3)} />
+              <FontAwesomeIcon icon={faSmile} style={{ fontSize: '24px', cursor: 'pointer' }} onClick={() => addMood(4)} />
+              <FontAwesomeIcon icon={faLaugh} style={{ fontSize: '24px', cursor: 'pointer' }} onClick={() => addMood(5)} />
+            </div>
+          </Form>
+        </Card>
+      </Content>
+    </Layout>
   );
 };
 
