@@ -2,7 +2,7 @@ import React, { useContext, Suspense, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Updated import
 import MainContextProvider, { MainContext } from "./contexts/MainContext";
 import Login from "./pages/Login";
-import { Layout } from "antd";
+import { Layout, Spin } from "antd";
 import AppHeader from "./components/AppHeader";
 import Home from "./pages/Home";
 
@@ -27,11 +27,14 @@ function Main() {
 
 	useEffect(() => {
 		// Check if the currentUser has been loaded
+		if (currentUser === undefined) {
+			return;
+		}
 		setLoading(false);
 	}, [currentUser]);
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return <Spin size="large" style={{ marginTop: 200 }} />;
 	}
 
 	return (
