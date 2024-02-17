@@ -4,27 +4,31 @@ Welcome to LifeTrack, your all-in-one platform for tracking and analyzing variou
 
 ## Features
 
-### 1. Calendar Integration
+### 1. Mood Tracking
+- Log your mood and emotions throughout the day to gain insights into your mental well-being.
+- Identify patterns and correlations between your mood and other tracked activities to improve your overall happiness.
+
+### 2. Calendar Integration
 - Sync your Google Calendar events to visualize your schedule alongside your other tracked activities.
 - Plan your days more efficiently by identifying correlations between your calendar events and other tracked metrics.
 
-### 2. Music Listening Analysis
+### 3. Music Listening Analysis
 - Connect your Last.fm account to track your music listening habits.
 - Gain insights into your mood, productivity, and activities based on the music you listen to throughout the day.
 
-### 3. Sleep Tracking
+### 4. Sleep Tracking
 - Utilize data from the Oura Ring to monitor your sleep duration, quality, and patterns.
 - Identify factors affecting your sleep and optimize your bedtime routine for better rest.
 
-### 4. Productivity Monitoring
+### 5. Productivity Monitoring
 - Integrate with RescueTime to analyze how you spend your time on digital devices.
 - Identify time sinks, track progress on tasks, and optimize your workflow for improved productivity.
 
-### 5. Code Activity Tracking
+### 6. Code Activity Tracking
 - Connect your GitHub account to track your coding activity and project contributions.
 - Monitor your coding habits, set coding goals, and visualize your progress over time.
 
-### 6. Fitness and Activity Tracking
+### 7. Fitness and Activity Tracking
 - Sync your activities from Strava to monitor your workouts, runs, and other physical activities.
 - Set fitness goals, track your performance, and stay motivated to lead an active lifestyle.
 
