@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { createContext, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
@@ -71,14 +71,8 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({
 		};
 	}, [db, auth]);
 
-	const contextValue: MainContextType = {
-		db,
-		moods,
-		currentUser,
-	};
-
 	return (
-		<MainContext.Provider value={contextValue}>
+		<MainContext.Provider value={{ db, moods, currentUser }}>
 			{children}
 		</MainContext.Provider>
 	);
