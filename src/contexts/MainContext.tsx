@@ -26,7 +26,7 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
 	const [moods, setMoods] = useState<Mood[]>([]);
-	const [currentUser, setCurrentUser] = useState<User | null>(undefined);
+	const [currentUser, setCurrentUser] = useState<User | null | undefined>(undefined);
 
 	useEffect(() => {
 		const fetchMoods = async () => {

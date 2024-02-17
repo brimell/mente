@@ -53,13 +53,6 @@ const HomePage = () => {
             onFinish={onFinish}
           >
             <Form.Item
-              label="Date"
-              name="date"
-              rules={[{ required: true, message: 'Please select date!' }]}
-            >
-              <Input type="date" />
-            </Form.Item>
-            <Form.Item
               label="Mood"
               name="mood"
               rules={[{ required: true, message: 'Please select mood!' }]}

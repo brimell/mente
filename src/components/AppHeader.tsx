@@ -1,11 +1,12 @@
-import { Layout, Menu } from "antd";
-import { useContext } from "react";
+import React, { useContext } from "react";
+import { Layout, Menu, Button } from "antd";
 import { MainContext } from "../contexts/MainContext";
-import { LogoutOutlined } from "@ant-design/icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { logoutUser } from "../utils/auth";
 import { Link, useNavigate } from "react-router-dom";
 
-const { Header } = Layout;
+const { Sider } = Layout;
 
 export default function AppHeader() {
 	const navigateTo = useNavigate();
@@ -13,33 +14,40 @@ export default function AppHeader() {
 
 	const handleLogout = () => {
 		logoutUser();
-		navigateTo("/"); // Redirect to home page after logout
+		navigateTo("/");
 	};
 
 	return (
-		<Header
+		<Sider
+			breakpoint="lg"
+			collapsedWidth="0"
 			style={{
+				backgroundColor: "#001529",
+				height: "100vh",
 				position: "fixed",
-				zIndex: 1,
-				width: "100%",
-				display: "flex",
-				justifyContent: "space-between",
+				left: 0,
 			}}
 		>
-			<div style={{ color: "white", fontSize: 24 }}>Mood</div>
-			<Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
+			<div style={{ color: "white", fontSize: 24, textAlign: "center", margin: "20px 0" }}>Mood</div>
+			<Menu theme="dark" mode="vertical" defaultSelectedKeys={["1"]} style={{ textAlign: "center" }}>
 				<Menu.Item key="1">
 					<Link to="/">Home</Link>
 				</Menu.Item>
 				<Menu.Item key="2">
 					<Link to="/about">About</Link>
 				</Menu.Item>
-				{currentUser && (
-					<Menu.Item key="3" onClick={handleLogout}>
-						<LogoutOutlined />
-					</Menu.Item>
-				)}
 			</Menu>
-		</Header>
+			{currentUser ? (
+				<Menu theme="dark" mode="vertical">
+					<Menu.Item key="3" onClick={handleLogout}>
+						<FontAwesomeIcon icon={faSignOutAlt} style={{ fontSize: "24px", color: "white" }} />
+					</Menu.Item>
+				</Menu>
+			) : (
+				<div style={{ textAlign: "center", marginTop: "20px" }}>
+					<Button type="primary">Sign In</Button>
+				</div>
+			)}
+		</Sider>
 	);
 }
