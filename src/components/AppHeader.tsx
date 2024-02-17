@@ -34,7 +34,7 @@ export default function AppHeader() {
 				<Menu.Item key="2">
 					<Link to="/about">About</Link>
 				</Menu.Item>
-				{!currentUser && (
+				{currentUser && (
 					<Menu.Item key="3" onClick={handleLogout}>
 						<LogoutOutlined />
 					</Menu.Item>
