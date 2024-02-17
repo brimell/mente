@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import axios from 'axios';
 import { Form, Input, Button, Typography, Space, message } from 'antd'; // Import message from antd
 
 const { Title } = Typography;
-
-const auth = getAuth();
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -12,10 +10,16 @@ const LoginPage: React.FC = () => {
 
   const handleEmailLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // Redirect or navigate to another page upon successful login
+      const response = await axios.post('/api/login', { email, password });
+
+      if (response.status === 200) {
+        // Redirect or navigate to another page upon successful login
+      } else {
+        throw new Error(response.data.message);
+      }
     } catch (error) {
       console.error('Error signing in with email and password:', error);
+      message.error(error.message); // Display error message using Ant Design message component
     }
   };
 
@@ -25,8 +29,14 @@ const LoginPage: React.FC = () => {
       if (password.length < 6) {
         throw new Error('Password must be at least 6 characters long.');
       }
-      await createUserWithEmailAndPassword(auth, email, password);
-      // Redirect or navigate to another page upon successful signup
+
+      const response = await axios.post('/api/signup', { email, password });
+
+      if (response.status === 201) {
+        // Redirect or navigate to another page upon successful signup
+      } else {
+        throw new Error(response.data.message);
+      }
     } catch (error: any) {
       console.error('Error signing up with email and password:', error);
       message.error(error.message); // Display error message using Ant Design message component
@@ -35,9 +45,8 @@ const LoginPage: React.FC = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      // Redirect or navigate to another page upon successful login
+      // Implement the logic to handle Google login through your server
+      console.log('Google login logic');
     } catch (error) {
       console.error('Error signing in with Google:', error);
     }

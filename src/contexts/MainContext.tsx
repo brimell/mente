@@ -1,4 +1,3 @@
-"use client";
 import React, { createContext, useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import {
@@ -6,7 +5,7 @@ import {
 	collection,
 	getDocs,
 } from "firebase/firestore";
-import { db, auth } from "../../old/firebaseInit";
+import { db, auth } from "../../server/utils/firebaseInit";
 
 interface Mood {
 	id: string;
