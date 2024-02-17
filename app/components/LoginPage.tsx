@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
       }
       await createUserWithEmailAndPassword(auth, email, password);
       // Redirect or navigate to another page upon successful signup
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error signing up with email and password:', error);
       message.error(error.message); // Display error message using Ant Design message component
     }

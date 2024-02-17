@@ -16,6 +16,7 @@ const { Header, Content } = Layout;
 
 const HomePage: React.FC = () => {
 	const { currentUser } = useContext(MainContext);
+  console.log(currentUser);
 
 	return (
 		<MainContextProvider>
