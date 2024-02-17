@@ -21,7 +21,7 @@ interface MainContextType {
 	currentUser: User | null; // Add current user information
 }
 
-export const MainContext = createContext<MainContextType | null>(null);
+export const MainContext = createContext<MainContextType>({ db: {} } as MainContextType);
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

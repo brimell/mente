@@ -1,4 +1,4 @@
-// ./app/page.tsx
+"use client"
 import React, { useContext } from 'react';
 import { Typography } from 'antd';
 import MainContextProvider, { MainContext } from './contexts/MainContext';
