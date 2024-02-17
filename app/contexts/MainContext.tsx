@@ -1,5 +1,7 @@
+"use client"
 import React, { createContext, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import {
 	Firestore,
 	getFirestore,
@@ -16,6 +18,7 @@ interface Mood {
 interface MainContextType {
 	db: Firestore;
 	moods: Mood[];
+	currentUser: User | null; // Add current user information
 }
 
 export const MainContext = createContext<MainContextType | null>(null);
@@ -32,11 +35,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db: Firestore = getFirestore(app);
+const auth = getAuth(); // Initialize Firebase Auth
 
 const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
 	const [moods, setMoods] = useState<Mood[]>([]);
+	const [currentUser, setCurrentUser] = useState<User | null>(null);
 
 	useEffect(() => {
 		const fetchMoods = async () => {
@@ -53,17 +58,23 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({
 			}
 		};
 
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			setCurrentUser(user); // Update current user state
+		});
+
 		fetchMoods();
 
 		// Clean up
 		return () => {
+			unsubscribe(); // Unsubscribe from auth state changes
 			// Cleanup code if needed
 		};
-	}, [db]);
+	}, [db, auth]);
 
 	const contextValue: MainContextType = {
 		db,
 		moods,
+		currentUser,
 	};
 
 	return (
