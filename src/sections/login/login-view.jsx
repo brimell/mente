@@ -13,6 +13,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
+import { Link as RouterLink } from 'react-router-dom';
+
 import { useRouter } from 'src/routes/hooks';
 
 import { bgGradient } from 'src/theme/css';
@@ -103,7 +105,7 @@ export default function LoginView() {
 
           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
             Don’t have an account?
-            <Link to="/signup" variant="subtitle2" sx={{ ml: 0.5 }}>
+            <Link component={RouterLink} to="/signup" variant="subtitle2" underline="hover" style={{marginLeft: "1%"}}>
               Get started
             </Link>
           </Typography>
