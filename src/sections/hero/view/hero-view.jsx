@@ -24,7 +24,7 @@ const HeroView = () => {
 
     const type = () => {
       if (charIndex < currentPhrase.length) {
-        textElement.textContent += currentPhrase.charAt(charIndex);
+        textElement.textContent = "We excel at " + currentPhrase.substring(0, charIndex + 1);
         charIndex++;
         adjustCursorPosition();
         setTimeout(type, 100);
@@ -36,8 +36,8 @@ const HeroView = () => {
     };
 
     const erase = () => {
-      if (charIndex > 0) {
-        textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+      if (charIndex >= 0) {
+        textElement.textContent = "We excel at " + currentPhrase.substring(0, charIndex);
         charIndex--;
         adjustCursorPosition();
         setTimeout(erase, 50);
