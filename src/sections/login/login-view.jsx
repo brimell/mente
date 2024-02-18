@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import { Box } from '@mui/material';
 import Link from '@mui/material/Link';
@@ -13,34 +13,44 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { Link as RouterLink } from 'react-router-dom';
-
-import { useRouter } from 'src/routes/hooks';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import { bgGradient } from 'src/theme/css';
 
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
+import { loginUser } from '../../utils/auth';
 
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
   const theme = useTheme();
 
-  const router = useRouter();
+  const navigate = useNavigate();
+
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+
   const handleClick = () => {
-    router.push('/dashboard');
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    // Call the loginUser function with email and password
+    loginUser(email, password);
+
+    navigate('/app');
   };
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <TextField inputRef={emailRef} name="email" label="Email address" />
 
         <TextField
+          inputRef={passwordRef}
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
@@ -101,11 +111,17 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">sign in to mood</Typography>
+          <Typography variant="h2">sign in</Typography>
 
           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
             don't have an account?
-            <Link component={RouterLink} to="/signup" variant="subtitle2" underline="hover" style={{marginLeft: "1%"}}>
+            <Link
+              component={RouterLink}
+              to="/signup"
+              variant="subtitle2"
+              underline="hover"
+              style={{ marginLeft: '1%' }}
+            >
               get started
             </Link>
           </Typography>

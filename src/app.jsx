@@ -1,6 +1,6 @@
 import 'src/global.css';
 
-import Router from 'src/routes/sections';
+import AppRouter from 'src/routes/sections';
 import ThemeProvider from 'src/theme';
 import MainContextProvider from './contexts/MainContext';
 
@@ -14,7 +14,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <MainContextProvider>
-        <Router />
+        <AppRouter />
       </MainContextProvider>
     </ThemeProvider>
   );

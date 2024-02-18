@@ -13,6 +13,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
+import { Link as RouterLink } from 'react-router-dom';
+
 import { useRouter } from 'src/routes/hooks';
 
 import { bgGradient } from 'src/theme/css';
@@ -22,7 +24,7 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function SignupView() {
+export default function LoginView() {
   const theme = useTheme();
 
   const router = useRouter();
@@ -68,7 +70,7 @@ export default function SignupView() {
         color="inherit"
         onClick={handleClick}
       >
-        Sign Up
+        Login
       </LoadingButton>
     </>
   );
@@ -99,7 +101,14 @@ export default function SignupView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">sign up to mood</Typography>
+          <Typography variant="h2">sign up</Typography>
+
+          <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
+            already have an account?
+            <Link component={RouterLink} to="/login" variant="subtitle2" underline="hover" style={{marginLeft: "1%"}}>
+              login
+            </Link>
+          </Typography>
 
           <Stack direction="row" spacing={2}>
             <Button
@@ -135,7 +144,7 @@ export default function SignupView() {
 
           <Divider sx={{ my: 3 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
+              or
             </Typography>
           </Divider>
 
