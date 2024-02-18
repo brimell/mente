@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { AppView } from 'src/sections/overview/view';
+import { DashboardView } from '../sections/dashboard/DashboardView';
 
 // ----------------------------------------------------------------------
 
@@ -8,10 +8,10 @@ export default function AppPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title>mood | dashboard</title>
       </Helmet>
 
-      <AppView />
+      <DashboardView />
     </>
   );
 }

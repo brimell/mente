@@ -104,9 +104,9 @@ export default function LoginView() {
           <Typography variant="h4">sign in to mood</Typography>
 
           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-            Don’t have an account?
+            don't have an account?
             <Link component={RouterLink} to="/signup" variant="subtitle2" underline="hover" style={{marginLeft: "1%"}}>
-              Get started
+              get started
             </Link>
           </Typography>
 
@@ -144,7 +144,7 @@ export default function LoginView() {
 
           <Divider sx={{ my: 3 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
+              or
             </Typography>
           </Divider>
 
