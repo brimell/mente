@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Container } from '@mui/material';
-import gsap from 'gsap';
+import '../hero.css';
 
 const phrases = [
   'helping you improve your life.',
@@ -10,65 +10,58 @@ const phrases = [
   'empowering personal growth.',
 ];
 
-const Hero = () => {
+const HeroView = () => {
+  const textRef = useRef(null);
+  const cursorRef = useRef(null);
+
   useEffect(() => {
-    const textElement = document.querySelector('.text');
-    const textHide = document.querySelector('.text_hide');
-    const textCursor = document.querySelector('.text_cursor');
+    const textElement = textRef.current;
+    const textCursorElement = cursorRef.current;
 
-    const typingAnimation = () => {
-      let textArray = phrases[Math.floor(Math.random() * phrases.length)].split('');
-      let textLength = textArray.length;
+    let currentIndex = 0;
+    let currentPhrase = phrases[currentIndex];
+    let charIndex = 0;
 
-      const cursorAnimation = gsap.to(textCursor, {
-        opacity: 0,
-        repeat: -1,
-        yoyo: true,
-        duration: 0.7,
-      });
-
-      gsap.timeline({ onComplete: typingAnimation })
-        .to(textCursor, { opacity: 1, repeat: 1, repeatDelay: 1, duration: 0.7 })
-        .to(textElement, {
-          opacity: 1,
-          duration: 0.5,
-          onStart: () => (textElement.textContent = ''),
-          onComplete: () => cursorAnimation.restart(),
-        });
-
-      textArray.forEach((char, index) => {
-        const span = document.createElement('span');
-        span.textContent = char;
-        span.style.position = 'relative';
-        span.style.top = '-100%';
-        textElement.appendChild(span);
-
-        gsap.to(span, {
-          opacity: 1,
-          top: 0,
-          duration: 0.3,
-          delay: index * 0.1,
-          ease: 'power1.in',
-        });
-
-        gsap.to(textHide, {
-          left: `${((index + 1) / textLength) * 100}%`,
-          duration: 3,
-          ease: 'power1.inOut',
-        });
-      });
+    const type = () => {
+      if (charIndex < currentPhrase.length) {
+        textElement.textContent += currentPhrase.charAt(charIndex);
+        charIndex++;
+        adjustCursorPosition();
+        setTimeout(type, 100);
+      } else {
+        currentIndex = (currentIndex + 1) % phrases.length;
+        currentPhrase = phrases[currentIndex];
+        setTimeout(erase, 2000);
+      }
     };
 
-    typingAnimation();
+    const erase = () => {
+      if (charIndex > 0) {
+        textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+        adjustCursorPosition();
+        setTimeout(erase, 50);
+      } else {
+        setTimeout(type, 1000);
+      }
+    };
+
+    const adjustCursorPosition = () => {
+      const screenWidth = window.innerWidth;
+      const textWidth = textElement.getBoundingClientRect().width;
+      textCursorElement.style.left = `${screenWidth / 2 + textWidth / 2}px`;
+    };
+
+    type();
   }, []);
 
   return (
     <Container style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div className="text_hide"></div>
-      <div className="text" style={{ fontSize: '2rem'}}></div>
-      <div className="text_cursor" style={{ borderLeft: '3px solid black' }}></div>
+      <div className="text" ref={textRef}></div>
+      <div className="text_cursor" ref={cursorRef}></div>
     </Container>
   );
 };
 
-export default Hero;
+export default HeroView;
