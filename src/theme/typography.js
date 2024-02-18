@@ -22,7 +22,7 @@ export function responsiveFontSizes({ sm, md, lg }) {
   };
 }
 
-export const primaryFont = 'Crimson Text, serif';
+export const primaryFont = 'Outfit, sans-serif';
 
 // ----------------------------------------------------------------------
 

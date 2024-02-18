@@ -1,13 +1,11 @@
 import React, { lazy, Suspense, useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import DashboardLayout from 'src/layouts/dashboard';
+import DashboardLayout from '../layouts/dashboard';
 import HeroPage from 'src/pages/hero';
 import LoginPage from 'src/pages/login';
 import SignUpPage from 'src/pages/signup';
 import { MainContext } from '../contexts/MainContext';
-import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
-
 
 const AppPage = lazy(() => import('src/pages/app'));
 const BlogPage = lazy(() => import('src/pages/blog'));
