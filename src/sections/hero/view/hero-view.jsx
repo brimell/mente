@@ -33,8 +33,10 @@ const containerStyle = css`
   flex-direction: column;
 `;
 
+const titleFontSize = "5rem";
+
 const textStyle = (theme) => css`
-  font-size: 2rem;
+  font-size: ${titleFontSize};
   opacity: 0;
   animation: ${fadeInAnimation} 0.5s forwards;
   position: relative;
@@ -51,7 +53,7 @@ const textStyle = (theme) => css`
     right: 0;
     transform: translateY(-50%);
     width: 3px;
-    height: 2rem;
+    height: ${titleFontSize};
     background-color: #000; /* Black color from palette */
     animation: ${cursorBlinkAnimation} 0.7s infinite;
   }
@@ -101,7 +103,7 @@ const HeroView = () => {
 
     const type = () => {
       if (charIndex < currentPhrase.length) {
-        textElement.innerHTML = `<span>We excel at </span><span>${currentPhrase.substring(
+        textElement.innerHTML = `<span>we excel at </span><span>${currentPhrase.substring(
           0,
           charIndex + 1
         )}</span>`;
@@ -114,7 +116,7 @@ const HeroView = () => {
 
     const erase = () => {
       if (charIndex >= 0) {
-        textElement.innerHTML = `<span>We excel at </span><span>${currentPhrase.substring(
+        textElement.innerHTML = `<span>we excel at </span><span>${currentPhrase.substring(
           0,
           charIndex
         )}</span>`;
@@ -136,8 +138,8 @@ const HeroView = () => {
       <div css={textHideStyle}></div>
       <div css={textStyle(theme)} ref={textRef}></div>
       <div css={buttonContainer}>
-        <Button variant="contained" color="primary" onClick={handleSignUpClick}>Sign Up</Button>
-        <Button variant="outlined" color="primary" onClick={handleLoginClick}>Login</Button>
+        <Button variant="contained" color="primary" onClick={handleSignUpClick}>sign up</Button>
+        <Button variant="outlined" color="primary" onClick={handleLoginClick}>login</Button>
       </div>
     </div>
   );
