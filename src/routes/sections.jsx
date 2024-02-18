@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import DashboardLayout from 'src/layouts/dashboard';
 import HeroPage from 'src/pages/hero';
 import LoginPage from 'src/pages/login';
+import SignUpPage from 'src/pages/signup';
 import { MainContext } from '../contexts/MainContext';
 
 const IndexPage = lazy(() => import('src/pages/app'));
@@ -19,6 +20,7 @@ export default function AppRouter() {
       <Routes>
         <Route path="/" element={<HeroPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         {currentUser ? (
           <>
             <Route

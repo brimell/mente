@@ -89,7 +89,7 @@ const HeroView = () => {
     navigate('/login');
   };
   const handleSignUpClick = () => {
-    navigate('/register');
+    navigate('/signup');
   };
 
   useEffect(() => {
