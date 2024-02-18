@@ -7,7 +7,7 @@ import LoginPage from 'src/pages/login';
 import SignUpPage from 'src/pages/signup';
 import { MainContext } from '../contexts/MainContext';
 
-const IndexPage = lazy(() => import('src/pages/app'));
+const AppPage = lazy(() => import('src/pages/app'));
 const BlogPage = lazy(() => import('src/pages/blog'));
 const UserPage = lazy(() => import('src/pages/user'));
 const ProductsPage = lazy(() => import('src/pages/products'));
@@ -24,11 +24,11 @@ export default function AppRouter() {
         {currentUser ? (
           <>
             <Route
-              path="dashboard/*"
+              path="app/*"
               element={(
                 <DashboardLayout>
                   <Suspense fallback={<div>Loading...</div>}>
-                    <Route index element={<IndexPage />} />
+                    <Route index element={<AppPage />} />
                     <Route path="user" element={<UserPage />} />
                     <Route path="products" element={<ProductsPage />} />
                     <Route path="blog" element={<BlogPage />} />
@@ -36,7 +36,7 @@ export default function AppRouter() {
                 </DashboardLayout>
               )}
             />
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/app" replace />} />
           </>
         ) : (
           <Route path="*" element={<Navigate to="/" replace />} />
