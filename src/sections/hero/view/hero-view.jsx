@@ -3,6 +3,7 @@ import { css, keyframes } from '@emotion/react';
 import React, { useEffect, useRef } from 'react';
 import { Button } from '@mui/material';
 import { useTheme } from '@emotion/react';
+import { useNavigate } from 'react-router-dom';
 
 const fadeInAnimation = keyframes`
   from {
@@ -82,6 +83,14 @@ const phrases = [
 const HeroView = () => {
   const theme = useTheme();
   const textRef = useRef(null);
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+  const handleSignUpClick = () => {
+    navigate('/register');
+  };
 
   useEffect(() => {
     const textElement = textRef.current;
@@ -127,8 +136,8 @@ const HeroView = () => {
       <div css={textHideStyle}></div>
       <div css={textStyle(theme)} ref={textRef}></div>
       <div css={buttonContainer}>
-        <Button variant="contained" color="primary">Sign Up</Button>
-        <Button variant="outlined" color="primary">Login</Button>
+        <Button variant="contained" color="primary" onClick={handleSignUpClick}>Sign Up</Button>
+        <Button variant="outlined" color="primary" onClick={handleLoginClick}>Login</Button>
       </div>
     </div>
   );
