@@ -5,9 +5,6 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 
 import Chart, { useChart } from 'src/components/chart';
-import { useState } from 'react';
-
-// ----------------------------------------------------------------------
 
 export default function StatsGraph({ title, subheader, chart, ...other }) {
   const { labels, colors, series, options } = chart;
@@ -30,7 +27,7 @@ export default function StatsGraph({ title, subheader, chart, ...other }) {
       shared: true,
       intersect: false,
       y: {
-        formatter: (value, { series, seriesIndex, dataPointIndex, w }) => {
+        formatter: (value, { seriesIndex }) => {
           if (typeof value !== 'undefined') {
             if (seriesIndex === 1) {
               return `${value.toFixed(0)}/5`;
