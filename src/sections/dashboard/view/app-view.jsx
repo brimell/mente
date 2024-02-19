@@ -15,8 +15,7 @@ import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
-
-// ----------------------------------------------------------------------
+import MoodRecorder from '../mood-recorder';
 
 export default function DashboardView() {
   return (
@@ -60,6 +59,9 @@ export default function DashboardView() {
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
+        </Grid>
+        <Grid xs={"12"} md={"auto"} lg={6}>
+          <MoodRecorder />
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
