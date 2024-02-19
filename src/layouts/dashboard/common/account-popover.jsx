@@ -11,6 +11,8 @@ import IconButton from '@mui/material/IconButton';
 
 import { account } from 'src/_mock/account';
 
+import { logoutUser } from 'src/utils/auth';
+
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -40,6 +42,11 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
+  const handleLogout = () => {
+    handleClose();
+    logoutUser();
+  }
 
   return (
     <>
@@ -105,7 +112,7 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={handleLogout}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Logout
