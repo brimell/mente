@@ -19,7 +19,6 @@ import { bgGradient } from 'src/theme/css';
 
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
-import { loginUser } from '../../utils/auth';
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +29,7 @@ export default function LoginView() {
 
 
   const [showPassword, setShowPassword] = useState(false);
+  const { loginUser } = useContext(MainContext);
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);

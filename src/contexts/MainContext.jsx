@@ -1,5 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+import {
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut,
+  updateProfile,
+  updateEmail
+} from 'firebase/auth';
 import { Firestore, collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../utils/firebaseInit';
 
@@ -9,8 +17,88 @@ const MainContextProvider = ({ children }) => {
   const [moods, setMoods] = useState([]);
   const [currentUser, setCurrentUser] = useState();
 
+  const registerUser = async (email, username, password) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      user.updateProfile({ displayName: username });
+
+      console.log('User registered:', user);
+      return user;
+    } catch (error) {
+      console.error('Error registering user:', error);
+      throw error;
+    }
+  };
+
+  const loginUser = async (email, password) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      setCurrentUser(userCredential.user);
+
+      console.log('User logged in:', user);
+      return user;
+    } catch (error) {
+      console.error('Error logging in:', error);
+      throw error;
+    }
+  };
+
+  const logoutUser = async () => {
+    try {
+      await signOut(auth);
+      setCurrentUser(null);
+      console.log('User logged out');
+    } catch (error) {
+      console.error('Error during logout:', error);
+      throw error;
+    }
+  };
+
+  const resetPassword = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      console.log('Password reset email sent to:', email);
+    } catch (error) {
+      console.error('Error sending password reset email:', error);
+      throw error;
+    }
+  };
+
+  const setEmail = async (newEmail) => {
+    try {
+      await updateEmail(auth.currentUser, newEmail);
+      console.log('Email updated to:', newEmail);
+    } catch (error) {
+      console.error('Error updating email:', error);
+      throw error;
+    }
+  };
+
+  function setDisplayName(newDisplayName) {
+    updateProfile(auth.currentUser, { displayName: newDisplayName })
+      .then(() => {
+        console.log('Display name updated to:', newDisplayName);
+      })
+      .catch((error) => {
+        console.error('Error updating display name:', error);
+        throw error;
+      });
+  }
+
+  function setPhotoURL(newPhotoURL) {
+    updateProfile(auth.currentUser, { photoURL: newPhotoURL })
+      .then(() => {
+        console.log('Photo URL updated to:', newPhotoURL);
+      })
+      .catch((error) => {
+        console.error('Error updating photo URL:', error);
+        throw error;
+      });
+  }
+
   useEffect(() => {
-    console.log('currentUser', currentUser)
+    console.log('currentUser', currentUser);
     const fetchMoods = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'moods'));
@@ -39,7 +127,23 @@ const MainContextProvider = ({ children }) => {
     };
   }, [db, auth]);
 
-  return <MainContext.Provider value={{ db, moods, currentUser }}>{children}</MainContext.Provider>;
+  return (
+    <MainContext.Provider
+      value={{
+        db,
+        moods,
+        currentUser,
+        loginUser,
+        logoutUser,
+        resetPassword,
+        setDisplayName,
+        setPhotoURL,
+        registerUser,
+      }}
+    >
+      {children}
+    </MainContext.Provider>
+  );
 };
 
 export default MainContextProvider;

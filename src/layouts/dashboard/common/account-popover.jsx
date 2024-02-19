@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { Box } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
@@ -10,13 +10,13 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import { account } from 'src/_mock/account';
-import { logoutUser } from 'src/utils/auth';
 import SettingsModal from './settings-modal';
-import { setDisplayName } from '../../../utils/auth';
+import { MainContext } from '../../../contexts/MainContext';
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const [openSettingsModal, setOpenSettingsModal] = useState(false);
+  const { setDisplayName, logoutUser } = useContext(MainContext);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);

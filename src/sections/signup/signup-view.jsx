@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { Box } from '@mui/material';
 import Link from '@mui/material/Link';
@@ -21,10 +21,7 @@ import { bgGradient } from 'src/theme/css';
 
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
-
-import { registerUser } from 'src/utils/auth';
-
-// ----------------------------------------------------------------------
+import { MainContext } from '../../contexts/MainContext';
 
 export default function LoginView() {
   const theme = useTheme();
@@ -34,6 +31,7 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const { registerUser } = useContext(MainContext);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
