@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import { account } from 'src/_mock/account';
 import { logoutUser } from 'src/utils/auth';
 import SettingsModal from './settings-modal';
+import { setDisplayName } from '../../../utils/auth';
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
@@ -40,8 +41,9 @@ export default function AccountPopover() {
   };
 
   const handleSaveSettings = (displayName) => {
-    // Logic to save settings (e.g., call API)
+    setDisplayName(displayName);
     console.log('New display name:', displayName);
+
     handleCloseSettingsModal();
   };
 

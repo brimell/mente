@@ -6,7 +6,7 @@ export const registerUser = async (email, username, password) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     user.updateProfile({ displayName: username })
-    
+
     console.log("User registered:", user);
     return user;
   } catch (error) {
@@ -46,3 +46,23 @@ export const resetPassword = async (email) => {
     throw error;
   }
 };
+
+export const updateEmail = async (newEmail) => {
+  try {
+    await updateEmail(auth.currentUser, newEmail);
+    console.log("Email updated to:", newEmail);
+  } catch (error) {
+    console.error("Error updating email:", error);
+    throw error;
+  }
+};
+
+export const setDisplayName = async (displayName) => {
+  try {
+    await auth.currentUser.updateProfile({ displayName });
+    console.log("Display name updated to:", displayName);
+  } catch (error) {
+    console.error("Error updating display name:", error);
+    throw error;
+  }
+}
