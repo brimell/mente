@@ -28,7 +28,7 @@ export default function DashboardView() {
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Weekly Sales"
+            title="this week's mood"
             total={714000}
             color="success"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
@@ -37,7 +37,7 @@ export default function DashboardView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="New Users"
+            title="this week's sleep"
             total={1352831}
             color="info"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
@@ -46,7 +46,7 @@ export default function DashboardView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Item Orders"
+            title="this week's time wasted"
             total={1723315}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
@@ -55,7 +55,7 @@ export default function DashboardView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Bug Reports"
+            title="this week's activity"
             total={234}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
@@ -106,7 +106,7 @@ export default function DashboardView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
-            title="Current Visits"
+            title="Time Chart"
             chart={{
               series: [
                 { label: 'America', value: 4344 },

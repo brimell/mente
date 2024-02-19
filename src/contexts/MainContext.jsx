@@ -17,6 +17,9 @@ export const MainContext = createContext(null);
 const MainContextProvider = ({ children }) => {
   const [moods, setMoods] = useState([]);
   const [currentUser, setCurrentUser] = useState();
+  const [rescueTimeData, setRescueTimeData] = useState([]);
+
+  
 
   const registerUser = async (email, username, password) => {
     try {
@@ -100,6 +103,8 @@ const MainContextProvider = ({ children }) => {
         throw error;
       });
   }
+
+
 
   useEffect(() => {
     console.log('currentUser', currentUser);
