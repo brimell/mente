@@ -30,16 +30,31 @@ export default function LoginView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
 
   const handleClick = () => {
-    router.push('/dashboard');
+    registerUser({ email, username, password });
+    router.push('/app');
   };
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
-
+        <TextField name="email" label="Email address" value={email} onChange={handleEmailChange} />
+        <TextField
+          name="username"
+          label="Display Name"
+          value={username}
+          onChange={handleUsernameChange}
+        />
         <TextField
           name="password"
           label="Password"
@@ -70,7 +85,7 @@ export default function LoginView() {
         color="inherit"
         onClick={handleClick}
       >
-        Login
+        Sign Up
       </LoadingButton>
     </>
   );
@@ -105,7 +120,13 @@ export default function LoginView() {
 
           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
             already have an account?
-            <Link component={RouterLink} to="/login" variant="subtitle2" underline="hover" style={{marginLeft: "1%"}}>
+            <Link
+              component={RouterLink}
+              to="/login"
+              variant="subtitle2"
+              underline="hover"
+              style={{ marginLeft: '1%' }}
+            >
               login
             </Link>
           </Typography>
