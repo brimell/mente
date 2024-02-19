@@ -10,7 +10,7 @@ import AppTasks from '../app-tasks';
 import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
 import AppCurrentVisits from '../app-current-visits';
-import AppWebsiteVisits from '../app-website-visits';
+import StatsGraph from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
@@ -38,7 +38,7 @@ export default function DashboardView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's sleep"
-            value={"7h 30m"}
+            value={'7h 30m'}
             icon={<Typography variant="h2">💤</Typography>}
           />
         </Grid>
@@ -46,7 +46,7 @@ export default function DashboardView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's time wasted"
-            value={"12h 34m"}
+            value={'12h 34m'}
             icon={<Typography variant="h2">⏳</Typography>}
           />
         </Grid>
@@ -54,7 +54,7 @@ export default function DashboardView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's physical activity"
-            value={"3h 30m"}
+            value={'3h 30m'}
             icon={<Typography variant="h2">🏋️</Typography>}
           />
         </Grid>
@@ -69,41 +69,37 @@ export default function DashboardView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
-          <AppWebsiteVisits
-            title="Website Visits"
-            subheader="(+43%) than last year"
+          <StatsGraph
+            title="Sleep, Mood, Physical Activity Graph"
+            subheader="subtitle"
             chart={{
               labels: [
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
+                'Sat',
+                'Sun',
+                'Mon',
+                'Tue',
+                'Wed',
+                'Thu',
+                'Fri',
               ],
               series: [
                 {
-                  name: 'Team A',
+                  name: 'Sleep',
                   type: 'column',
                   fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                  data: [7.5, 8, 7, 7.5, 8, 7, 8.5],
                 },
                 {
-                  name: 'Team B',
+                  name: 'Mood',
                   type: 'area',
                   fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                  data: [3, 4, 3.5, 3, 4, 3.5, 4],
                 },
                 {
-                  name: 'Team C',
+                  name: 'Physical Activity',
                   type: 'line',
                   fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                  data: [3, 2, .5, 1, 2, 1.5, 2],
                 },
               ],
             }}
@@ -115,10 +111,10 @@ export default function DashboardView() {
             title="Time Chart"
             chart={{
               series: [
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
+                { label: 'Productive', value: 4344 },
+                { label: 'Entertainment', value: 5435 },
+                { label: 'Uncategorised', value: 1443 },
+                { label: 'Physical Activity', value: 4443 },
               ],
             }}
           />

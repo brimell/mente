@@ -8,7 +8,7 @@ import Chart, { useChart } from 'src/components/chart';
 
 // ----------------------------------------------------------------------
 
-export default function AppWebsiteVisits({ title, subheader, chart, ...other }) {
+export default function StatsGraph({ title, subheader, chart, ...other }) {
   const { labels, colors, series, options } = chart;
 
   const chartOptions = useChart({
@@ -23,7 +23,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
     },
     labels,
     xaxis: {
-      type: 'datetime',
+      type: 'day',
     },
     tooltip: {
       shared: true,
@@ -58,7 +58,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
   );
 }
 
-AppWebsiteVisits.propTypes = {
+StatsGraph.propTypes = {
   chart: PropTypes.object,
   subheader: PropTypes.string,
   title: PropTypes.string,
