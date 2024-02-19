@@ -1,11 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
-import {
-  onAuthStateChanged,
-  updateCurrentUser,
-} from 'firebase/auth';
+import { onAuthStateChanged, updateCurrentUser } from 'firebase/auth';
 import { Firestore, collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../utils/firebaseInit';
 import * as authUtils from '../utils/auth';
+import * as dbUtils from '../utils/firestore';
 import axios from 'axios'; // Import Axios
 
 export const MainContext = createContext(null);
@@ -14,18 +12,23 @@ const MainContextProvider = ({ children }) => {
   const [moods, setMoods] = useState([]);
   const [currentUser, setCurrentUser] = useState();
   const [rescueTimeData, setRescueTimeData] = useState([]);
+  const [ouraData, setOuraData] = useState([]);
 
   // firebase auth functions
 
   const registerUser = async (email, password) => authUtils.registerUser(email, username, password);
-  const loginUser = async (email, password, setCurrentUser) => authUtils.loginUser(email, password, setCurrentUser);
+  const loginUser = async (email, password, setCurrentUser) =>
+    authUtils.loginUser(email, password, setCurrentUser);
   const logoutUser = async (setCurrentUser) => authUtils.logoutUser(setCurrentUser);
   const resetPassword = async (email) => authUtils.resetPassword(email);
   const setEmail = async (newEmail) => authUtils.setEmail(newEmail, updateCurrentUser);
-  const setDisplayName = async (newDisplayName) => authUtils.setDisplayName(newDisplayName, updateCurrentUser);
+  const setDisplayName = async (newDisplayName) =>
+    authUtils.setDisplayName(newDisplayName, updateCurrentUser);
   const setPhotoURL = async (newPhotoURL) => authUtils.setPhotoURL(newPhotoURL, updateCurrentUser);
 
-  
+  // firebase firestore functions
+
+  const addMoodToFirestore = async (mood) => dbUtils.addMoodToFirestore(mood, currentUser);
 
   // firebase useEffect
 
@@ -59,10 +62,7 @@ const MainContextProvider = ({ children }) => {
     };
   }, [db, auth]);
 
-
   // oura api functions
-
-
 
   return (
     <MainContext.Provider
@@ -77,6 +77,7 @@ const MainContextProvider = ({ children }) => {
         setEmail,
         setPhotoURL,
         registerUser,
+        addMoodToFirestore,
       }}
     >
       {children}

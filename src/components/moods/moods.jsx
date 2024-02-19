@@ -1,20 +1,15 @@
 import "./moods.scss";
 import React, { useState } from "react";
 
-function Moods() {
-	const [moodData, setMoodData] = useState([]);
-	const [selectedFeedback, setSelectedFeedback] = useState(""); // Set default checked value
-
-	const addMood = (mood) => {
-		setMoodData([...moodData, { mood, date: new Date().toISOString() }]);
-	};
+function Moods({handleMoodSubmit}) {
+	const [selected, setSelected] = useState(""); // Set default checked value
 
 	const handleInputChange = (e) => {
 		const { value } = e.target;
-		setSelectedFeedback(value);
+		setSelected(value);
 
 		console.log("Selected value:", e.target.value);
-		addMood(e.target.value);
+		handleMoodSubmit(e.target.value);
 	};
 
 	return (
@@ -25,7 +20,7 @@ function Moods() {
 						type="radio"
 						value="1"
 						name="feedback"
-						checked={selectedFeedback === "1"}
+						checked={selected === "1"}
 						onChange={handleInputChange}
 					/>
 					<div>
@@ -45,7 +40,7 @@ function Moods() {
 						type="radio"
 						value="2"
 						name="feedback"
-						checked={selectedFeedback === "2"}
+						checked={selected === "2"}
 						onChange={handleInputChange}
 					/>
 					<div>
@@ -65,7 +60,7 @@ function Moods() {
 						type="radio"
 						value="3"
 						name="feedback"
-						checked={selectedFeedback === "3"}
+						checked={selected === "3"}
 						onChange={handleInputChange}
 					/>
 					<div></div>
@@ -75,7 +70,7 @@ function Moods() {
 						type="radio"
 						value="4"
 						name="feedback"
-						checked={selectedFeedback === "4"}
+						checked={selected === "4"}
 						onChange={handleInputChange}
 					/>
 					<div>
@@ -95,7 +90,7 @@ function Moods() {
 						type="radio"
 						value="5"
 						name="feedback"
-						checked={selectedFeedback === "5"}
+						checked={selected === "5"}
 						onChange={handleInputChange}
 					/>
 					<div>
