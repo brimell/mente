@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import {
   onAuthStateChanged,
+  updateCurrentUser,
 } from 'firebase/auth';
 import { Firestore, collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../utils/firebaseInit';
@@ -20,9 +21,9 @@ const MainContextProvider = ({ children }) => {
   const loginUser = async (email, password, setCurrentUser) => authUtils.loginUser(email, password, setCurrentUser);
   const logoutUser = async (setCurrentUser) => authUtils.logoutUser(setCurrentUser);
   const resetPassword = async (email) => authUtils.resetPassword(email);
-  const setEmail = async (newEmail) => authUtils.setEmail(newEmail);
-  const setDisplayName = async (newDisplayName) => authUtils.setDisplayName(newDisplayName);
-  const setPhotoURL = async (newPhotoURL) => authUtils.setPhotoURL(newPhotoURL);
+  const setEmail = async (newEmail) => authUtils.setEmail(newEmail, updateCurrentUser);
+  const setDisplayName = async (newDisplayName) => authUtils.setDisplayName(newDisplayName, updateCurrentUser);
+  const setPhotoURL = async (newPhotoURL) => authUtils.setPhotoURL(newPhotoURL, updateCurrentUser);
 
   
 
@@ -61,7 +62,7 @@ const MainContextProvider = ({ children }) => {
 
   // oura api functions
 
-  
+
 
   return (
     <MainContext.Provider

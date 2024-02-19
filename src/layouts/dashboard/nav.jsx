@@ -14,7 +14,6 @@ import { RouterLink } from 'src/routes/components';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
-
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 
@@ -24,7 +23,7 @@ import { MainContext } from '../../contexts/MainContext';
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
-  const { currentUser } = useContext(MainContext)
+  const { currentUser } = useContext(MainContext);
 
   const upLg = useResponsive('up', 'lg');
 
@@ -34,30 +33,49 @@ export default function Nav({ openNav, onCloseNav }) {
     }
   }, [pathname]);
 
-  const renderAccount = (
+  const renderTop = (
     <Box
       sx={{
-        my: 3,
-        mx: 2.5,
+        my: 2,
+        mx: .5,
         py: 2,
         px: 2.5,
         display: 'flex',
         borderRadius: 1.5,
         alignItems: 'center',
-        bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+        justifyContent: 'space-between',
       }}
     >
-      <Avatar src={currentUser && currentUser.photoURL} alt="photoURL" />
-
-      <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{currentUser.displayName}</Typography>
-
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {currentUser.role}
-        </Typography>
-      </Box>
+      <Logo sx={{ mt: 3, ml: 4 }} />
+      <Typography variant="h4">10🔥</Typography>
     </Box>
   );
+
+  // const renderAccount = (
+  //   <Box
+  //     sx={{
+  //       my: 3,
+  //       mx: 2.5,
+  //       py: 2,
+  //       px: 2.5,
+  //       display: 'flex',
+  //       borderRadius: 1.5,
+  //       alignItems: 'center',
+  //       bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+  //     }}
+  //   >
+  //     <Avatar src={currentUser && currentUser.photoURL} alt="photoURL" />
+
+  //     <Box sx={{ ml: 2 }}>
+  //       <Typography variant="subtitle2">{currentUser.displayName}</Typography>
+
+  //       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+  //         {currentUser.email}
+  //       </Typography>
+
+  //     </Box>
+  //   </Box>
+  // );
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
@@ -78,9 +96,7 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4 }} />
-
-      {renderAccount}
+      {renderTop}
 
       {renderMenu}
 

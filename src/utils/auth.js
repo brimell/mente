@@ -57,7 +57,7 @@ export const resetPassword = async (email) => {
   }
 };
 
-export const setEmail = async (newEmail) => {
+export const setEmail = async (newEmail, updateCurrentUser) => {
   try {
     await updateEmail(auth.currentUser, newEmail);
     updateCurrentUser(auth, auth.currentUser);
@@ -68,7 +68,7 @@ export const setEmail = async (newEmail) => {
   }
 };
 
-export function setDisplayName(newDisplayName) {
+export function setDisplayName(newDisplayName, updateCurrentUser) {
   updateProfile(auth.currentUser, { displayName: newDisplayName })
     .then(() => {
       updateCurrentUser(auth, auth.currentUser);
@@ -80,7 +80,7 @@ export function setDisplayName(newDisplayName) {
     });
 }
 
-export function setPhotoURL(newPhotoURL) {
+export function setPhotoURL(newPhotoURL, updateCurrentUser) {
   updateProfile(auth.currentUser, { photoURL: newPhotoURL })
     .then(() => {
       updateCurrentUser(auth, auth.currentUser);
