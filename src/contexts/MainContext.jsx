@@ -58,6 +58,11 @@ const MainContextProvider = ({ children }) => {
     };
   }, [db, auth]);
 
+
+  // oura api functions
+
+  
+
   return (
     <MainContext.Provider
       value={{
