@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 function Moods() {
 	const [moodData, setMoodData] = useState([]);
-	const [selectedFeedback, setSelectedFeedback] = useState("4"); // Set default checked value
+	const [selectedFeedback, setSelectedFeedback] = useState(""); // Set default checked value
 
 	const addMood = (mood) => {
 		setMoodData([...moodData, { mood, date: new Date().toISOString() }]);
