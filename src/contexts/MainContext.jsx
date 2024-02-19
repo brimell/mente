@@ -6,7 +6,8 @@ import {
   sendPasswordResetEmail,
   signOut,
   updateProfile,
-  updateEmail
+  updateEmail,
+  updateCurrentUser,
 } from 'firebase/auth';
 import { Firestore, collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../utils/firebaseInit';
@@ -68,7 +69,8 @@ const MainContextProvider = ({ children }) => {
   const setEmail = async (newEmail) => {
     try {
       await updateEmail(auth.currentUser, newEmail);
-      console.log('Email updated to:', newEmail);
+        updateCurrentUser(auth, auth.currentUser);
+        console.log('Email updated to:', newEmail);
     } catch (error) {
       console.error('Error updating email:', error);
       throw error;
@@ -78,6 +80,7 @@ const MainContextProvider = ({ children }) => {
   function setDisplayName(newDisplayName) {
     updateProfile(auth.currentUser, { displayName: newDisplayName })
       .then(() => {
+        updateCurrentUser(auth, auth.currentUser);
         console.log('Display name updated to:', newDisplayName);
       })
       .catch((error) => {
@@ -89,6 +92,7 @@ const MainContextProvider = ({ children }) => {
   function setPhotoURL(newPhotoURL) {
     updateProfile(auth.currentUser, { photoURL: newPhotoURL })
       .then(() => {
+        updateCurrentUser(auth, auth.currentUser);
         console.log('Photo URL updated to:', newPhotoURL);
       })
       .catch((error) => {
