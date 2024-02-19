@@ -9,8 +9,8 @@ import Iconify from 'src/components/iconify';
 import AppTasks from '../app-tasks';
 import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
-import AppCurrentVisits from '../app-current-visits';
-import StatsGraph from '../app-website-visits';
+import TimeChart from '../time-chart';
+import StatsGraph from '../stats-graph';
 import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
@@ -107,7 +107,7 @@ export default function DashboardView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <AppCurrentVisits
+          <TimeChart
             title="Time Chart"
             chart={{
               series: [

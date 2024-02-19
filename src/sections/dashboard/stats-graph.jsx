@@ -5,6 +5,7 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 
 import Chart, { useChart } from 'src/components/chart';
+import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -29,9 +30,12 @@ export default function StatsGraph({ title, subheader, chart, ...other }) {
       shared: true,
       intersect: false,
       y: {
-        formatter: (value) => {
+        formatter: (value, { series, seriesIndex, dataPointIndex, w }) => {
           if (typeof value !== 'undefined') {
-            return `${value.toFixed(0)} visits`;
+            if (seriesIndex === 1) {
+              return `${value.toFixed(0)}/5`;
+            }
+            return `${value.toFixed(0)} hours`;
           }
           return value;
         },

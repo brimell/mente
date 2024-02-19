@@ -149,7 +149,7 @@ Nav.propTypes = {
 function NavItem({ item }) {
   const pathname = usePathname();
 
-  const active = item.path === (pathname == '/app' ? '/' : pathname.replace('/app', ''));
+  const active = item.path === pathname;
 
   return (
     <ListItemButton
