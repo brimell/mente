@@ -22,6 +22,8 @@ import { bgGradient } from 'src/theme/css';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 
+import { registerUser } from 'src/utils/auth';
+
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
@@ -41,7 +43,7 @@ export default function LoginView() {
   };
 
   const handleClick = () => {
-    registerUser({ email, username, password });
+    registerUser(email, username, password);
     router.push('/app');
   };
 
