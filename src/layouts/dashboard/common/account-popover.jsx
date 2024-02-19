@@ -10,30 +10,12 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import { account } from 'src/_mock/account';
-
 import { logoutUser } from 'src/utils/auth';
-
-// ----------------------------------------------------------------------
-
-const MENU_OPTIONS = [
-  {
-    label: 'Home',
-    icon: 'eva:home-fill',
-  },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-  },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
-  },
-];
-
-// ----------------------------------------------------------------------
+import SettingsModal from './settings-modal';
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const [openSettingsModal, setOpenSettingsModal] = useState(false);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -46,10 +28,30 @@ export default function AccountPopover() {
   const handleLogout = () => {
     handleClose();
     logoutUser();
-  }
+  };
+
+  const handleOpenSettingsModal = () => {
+    setOpen(null);
+    setOpenSettingsModal(true);
+  };
+
+  const handleCloseSettingsModal = () => {
+    setOpenSettingsModal(false);
+  };
+
+  const handleSaveSettings = (displayName) => {
+    // Logic to save settings (e.g., call API)
+    console.log('New display name:', displayName);
+    handleCloseSettingsModal();
+  };
 
   return (
     <>
+      <SettingsModal
+        open={openSettingsModal}
+        onClose={handleCloseSettingsModal}
+        onSave={handleSaveSettings}
+      />
       <IconButton
         onClick={handleOpen}
         sx={{
@@ -101,11 +103,8 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
-            {option.label}
-          </MenuItem>
-        ))}
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleOpenSettingsModal}>Settings</MenuItem>
 
         <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
 
