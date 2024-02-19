@@ -22,8 +22,6 @@ import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 import { MainContext } from '../../contexts/MainContext';
 
-// ----------------------------------------------------------------------
-
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
   const { currentUser } = useContext(MainContext)

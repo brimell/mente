@@ -9,14 +9,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import { account } from 'src/_mock/account';
 import SettingsModal from './settings-modal';
 import { MainContext } from '../../../contexts/MainContext';
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const [openSettingsModal, setOpenSettingsModal] = useState(false);
-  const { setDisplayName, logoutUser } = useContext(MainContext);
+  const { setDisplayName, logoutUser, currentUser } = useContext(MainContext);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -67,15 +66,15 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
+          src={currentUser.photoURL}
+          alt={currentUser.displayName}
           sx={{
             width: 36,
             height: 36,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName.charAt(0).toUpperCase()}
+          {currentUser.displayName.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
 
@@ -96,10 +95,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {currentUser.displayName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {currentUser.email}
           </Typography>
         </Box>
 
