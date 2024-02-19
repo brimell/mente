@@ -5,6 +5,7 @@ import {
 import { Firestore, collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../utils/firebaseInit';
 import * as authUtils from '../utils/auth';
+import axios from 'axios'; // Import Axios
 
 export const MainContext = createContext(null);
 
@@ -23,10 +24,9 @@ const MainContextProvider = ({ children }) => {
   const setDisplayName = async (newDisplayName) => authUtils.setDisplayName(newDisplayName);
   const setPhotoURL = async (newPhotoURL) => authUtils.setPhotoURL(newPhotoURL);
 
-  // rescue time functions
-
   
 
+  // firebase useEffect
 
   useEffect(() => {
     console.log('currentUser', currentUser);
