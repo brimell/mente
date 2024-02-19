@@ -30,36 +30,32 @@ export default function DashboardView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's mood"
-            total={714000}
-            color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+            value={3.5}
+            icon={<Typography variant="h2">🤔</Typography>}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's sleep"
-            total={1352831}
-            color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+            value={"7h 30m"}
+            icon={<Typography variant="h2">💤</Typography>}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's time wasted"
-            total={1723315}
-            color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            value={"12h 34m"}
+            icon={<Typography variant="h2">⏳</Typography>}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="this week's activity"
-            total={234}
-            color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            title="this week's physical activity"
+            value={"3h 30m"}
+            icon={<Typography variant="h2">🏋️</Typography>}
           />
         </Grid>
         <Grid xs={12} md={12} lg={6}>
