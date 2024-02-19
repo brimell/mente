@@ -1,16 +1,10 @@
 import React, { createContext, useEffect, useState } from 'react';
 import {
   onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signOut,
-  updateProfile,
-  updateEmail,
-  updateCurrentUser,
 } from 'firebase/auth';
 import { Firestore, collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../utils/firebaseInit';
+import * as authUtils from '../utils/auth';
 
 export const MainContext = createContext(null);
 
@@ -19,91 +13,19 @@ const MainContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [rescueTimeData, setRescueTimeData] = useState([]);
 
+  // firebase auth functions
+
+  const registerUser = async (email, password) => authUtils.registerUser(email, username, password);
+  const loginUser = async (email, password, setCurrentUser) => authUtils.loginUser(email, password, setCurrentUser);
+  const logoutUser = async (setCurrentUser) => authUtils.logoutUser(setCurrentUser);
+  const resetPassword = async (email) => authUtils.resetPassword(email);
+  const setEmail = async (newEmail) => authUtils.setEmail(newEmail);
+  const setDisplayName = async (newDisplayName) => authUtils.setDisplayName(newDisplayName);
+  const setPhotoURL = async (newPhotoURL) => authUtils.setPhotoURL(newPhotoURL);
+
+  // rescue time functions
+
   
-
-  const registerUser = async (email, username, password) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      user.updateProfile({ displayName: username });
-
-      console.log('User registered:', user);
-      return user;
-    } catch (error) {
-      console.error('Error registering user:', error);
-      throw error;
-    }
-  };
-
-  const loginUser = async (email, password) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setCurrentUser(userCredential.user);
-
-      console.log('User logged in:', user);
-      return user;
-    } catch (error) {
-      console.error('Error logging in:', error);
-      throw error;
-    }
-  };
-
-  const logoutUser = async () => {
-    try {
-      await signOut(auth);
-      setCurrentUser(null);
-      console.log('User logged out');
-    } catch (error) {
-      console.error('Error during logout:', error);
-      throw error;
-    }
-  };
-
-  const resetPassword = async (email) => {
-    try {
-      await sendPasswordResetEmail(auth, email);
-      console.log('Password reset email sent to:', email);
-    } catch (error) {
-      console.error('Error sending password reset email:', error);
-      throw error;
-    }
-  };
-
-  const setEmail = async (newEmail) => {
-    try {
-      await updateEmail(auth.currentUser, newEmail);
-        updateCurrentUser(auth, auth.currentUser);
-        console.log('Email updated to:', newEmail);
-    } catch (error) {
-      console.error('Error updating email:', error);
-      throw error;
-    }
-  };
-
-  function setDisplayName(newDisplayName) {
-    updateProfile(auth.currentUser, { displayName: newDisplayName })
-      .then(() => {
-        updateCurrentUser(auth, auth.currentUser);
-        console.log('Display name updated to:', newDisplayName);
-      })
-      .catch((error) => {
-        console.error('Error updating display name:', error);
-        throw error;
-      });
-  }
-
-  function setPhotoURL(newPhotoURL) {
-    updateProfile(auth.currentUser, { photoURL: newPhotoURL })
-      .then(() => {
-        updateCurrentUser(auth, auth.currentUser);
-        console.log('Photo URL updated to:', newPhotoURL);
-      })
-      .catch((error) => {
-        console.error('Error updating photo URL:', error);
-        throw error;
-      });
-  }
-
 
 
   useEffect(() => {
@@ -146,6 +68,7 @@ const MainContextProvider = ({ children }) => {
         logoutUser,
         resetPassword,
         setDisplayName,
+        setEmail,
         setPhotoURL,
         registerUser,
       }}
