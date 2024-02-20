@@ -122,7 +122,8 @@ export const getThisWeeksMoodAverage = async (userId) => {
 
   querySnapshot.forEach((doc) => {
     const data = doc.data();
-    totalMood += data.mood; // Assuming mood is a numeric value
+    console.log(data)
+    totalMood += parseInt(data.mood);
     count++;
   });
 
