@@ -20,37 +20,27 @@ import MoodRecorder from '../../../components/mood-recorder';
 import StressRecorder from '../../../components/stress-recorder';
 import RestedRecorder from '../../../components/rested-recorder';
 
-import { getThisWeeksMoodAverage } from '../../../utils/firestore';
 import { MainContext } from '../../../contexts/MainContext';
 
 export default function DashboardView() {
-  const { currentUser } = useContext(MainContext);
+  const { currentUser, averageMood } = useContext(MainContext);
 
-  const [averageMood, setAverageMood] = useState(0);
   const [averageSleep, setAverageSleep] = useState(0);
   const [averagePhysicalActivity, setAveragePhysicalActivity] = useState(0);
   const [averageStress, setAverageStress] = useState(0);
   const [averageRested, setAverageRested] = useState(0);
 
-  useEffect(() => {
-    if (currentUser) {
-      getThisWeeksMoodAverage(currentUser.uid).then(({ averageMood }) => {
-        setAverageMood(averageMood);
-      });
-    }
-  }, [currentUser]);
-
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, {currentUser.displayname} Welcome back 👋
+        hi {currentUser.displayName.toLowerCase()}, welcome back 👋
       </Typography>
 
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's mood"
-            value={averageMood.toFixed(1)}
+            value={averageMood}
             icon={<Typography variant="h2">🤔</Typography>}
           />
         </Grid>

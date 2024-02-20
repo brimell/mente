@@ -5,6 +5,7 @@ import { db, auth } from '../utils/firebaseInit';
 import * as authUtils from '../utils/auth';
 import * as dbUtils from '../utils/firestore';
 import axios from 'axios'; // Import Axios
+import { getThisWeeksMoodAverage } from '../utils/firestore';
 
 export const MainContext = createContext(null);
 
@@ -13,6 +14,7 @@ const MainContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [rescueTimeData, setRescueTimeData] = useState([]);
   const [ouraData, setOuraData] = useState([]);
+  const [averageMood, setAverageMood] = useState(0);
 
   // firebase auth functions
 
@@ -65,6 +67,17 @@ const MainContextProvider = ({ children }) => {
 
   // oura api functions
 
+
+  // app-view functions
+
+  useEffect(() => {
+    if (currentUser) {
+      getThisWeeksMoodAverage(currentUser.uid).then(({ averageMood }) => {
+        setAverageMood(averageMood.toFixed(1));
+      });
+    }
+  }, [currentUser]);
+
   return (
     <MainContext.Provider
       value={{
@@ -80,6 +93,7 @@ const MainContextProvider = ({ children }) => {
         registerUser,
         addMoodToFirestore,
         getLastMoodSubmission,
+        averageMood
       }}
     >
       {children}
