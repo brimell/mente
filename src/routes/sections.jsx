@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { Skeleton } from '@mui/material';
 
 import DashboardLayout from '../layouts/dashboard';
 import HeroPage from 'src/pages/hero';
@@ -13,12 +14,21 @@ const UserPage = lazy(() => import('src/pages/user'));
 const ProductsPage = lazy(() => import('src/pages/products'));
 const Page404 = lazy(() => import('src/pages/page-not-found'));
 
+// Custom loading skeleton
+const LoadingSkeleton = () => (
+  <div>
+    <Skeleton variant="text" width={210} height={60} />
+    <Skeleton variant="circular" width={40} height={40} />
+    <Skeleton variant="rectangular" width={210} height={118} />
+  </div>
+);
+
 export default function AppRouter() {
   const { currentUser } = useContext(MainContext);
 
   if (currentUser === undefined) {
-    // If currentUser is undefined, show a loading screen
-    return <div>Loading...</div>;
+    // If currentUser is undefined, show a skeleton instead of a simple loading text
+    return <LoadingSkeleton />;
   }
 
   return (
@@ -30,7 +40,7 @@ export default function AppRouter() {
         path="app/*"
         element={
           <DashboardLayout>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <Routes>
                 <Route index element={<AppPage />} />
                 <Route path="user" element={<UserPage />} />
