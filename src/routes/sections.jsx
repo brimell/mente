@@ -46,9 +46,10 @@ export default function AppRouter() {
             <Suspense fallback={<LoadingSkeleton />}>
               <Routes>
                 <Route index element={<AppPage />} />
-                <Route path="user" element={<UserPage />} />
-                <Route path="products" element={<ProductsPage />} />
-                <Route path="blog" element={<BlogPage />} />
+                <Route path="mood" element={<UserPage />} />
+                <Route path="sleep" element={<ProductsPage />} />
+                <Route path="activity" element={<BlogPage />} />
+                <Route path="analysis" element={<BlogPage />} />
                 <Route path="*" element={<Navigate to="/404" replace />} />
               </Routes>
             </Suspense>

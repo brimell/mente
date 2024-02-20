@@ -175,7 +175,6 @@ function NavItem({ item }) {
         borderRadius: 0.75,
         typography: 'body2',
         color: 'text.secondary',
-        textTransform: 'capitalize',
         fontWeight: 'fontWeightMedium',
         ...(active && {
           color: 'primary.main',
