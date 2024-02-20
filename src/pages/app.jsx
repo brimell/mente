@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { DashboardView } from '../sections/dashboard/view';
+import { OverviewView } from '../sections/overview/view';
 
 // ----------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ export default function AppPage() {
         <title>mente | overview</title>
       </Helmet>
 
-      <DashboardView />
+      <OverviewView />
     </>
   );
 }
