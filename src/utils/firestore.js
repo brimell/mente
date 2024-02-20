@@ -1,7 +1,7 @@
 import { db } from '../utils/firebaseInit';
 import { addDoc, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 
-export const addMoodToFirestore = async (mood, currentUser) => {
+export const addMoodToFirestore = async (mood, currentUser, onSuccess, onError) => {
   try {
     const docRef = await addDoc(collection(db, 'moods'), {
       mood: mood,
@@ -9,8 +9,10 @@ export const addMoodToFirestore = async (mood, currentUser) => {
       user: currentUser.uid,
     });
     console.log('Document written with ID: ', docRef.id);
+    if (onSuccess) onSuccess();
   } catch (e) {
     console.error('Error adding document: ', e);
+    if (onError) onError();
   }
 };
 
