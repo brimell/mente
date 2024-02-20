@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Box } from '@mui/material';
@@ -20,6 +20,7 @@ import Scrollbar from 'src/components/scrollbar';
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 import { MainContext } from '../../contexts/MainContext';
+import { calculateMoodStreaks } from '../../utils/firestore';
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
@@ -33,23 +34,37 @@ export default function Nav({ openNav, onCloseNav }) {
     }
   }, [pathname]);
 
-  const renderTop = (
-    <Box
-      sx={{
-        my: 2,
-        mx: .5,
-        py: 2,
-        px: 2.5,
-        display: 'flex',
-        borderRadius: 1.5,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      <Logo sx={{ mt: 3, ml: 4 }} />
-      <Typography variant="h4">10🔥</Typography>
-    </Box>
-  );
+  const RenderTop = () => {
+    const { currentUser } = useContext(MainContext);
+    const [moodStreak, setMoodStreak] = useState('...');
+
+    useEffect(() => {
+      if (currentUser) {
+        calculateMoodStreaks(currentUser.uid).then((streak) => {
+          console.log(`Current streak: ${streak} days`);
+          setMoodStreak(streak);
+        });
+      }
+    }, [currentUser]);
+    return (
+      <Box
+        sx={{
+          my: 2,
+          mx: 0.5,
+          py: 2,
+          px: 2.5,
+          display: 'flex',
+          borderRadius: 1.5,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Logo sx={{ mt: 3, ml: 4 }} />
+        {/* streak */}
+        <Typography variant="h4">{moodStreak}🔥</Typography>
+      </Box>
+    );
+  };
 
   // const renderAccount = (
   //   <Box
@@ -96,7 +111,7 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-      {renderTop}
+      <RenderTop />
 
       {renderMenu}
 

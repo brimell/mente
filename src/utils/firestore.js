@@ -93,3 +93,35 @@ export const getWeeklyMoodData = async (userId) => {
     return { averageMood: null, weeklyMoods: [] };
   }
 };
+
+export const calculateMoodStreaks = async (userId) => {
+  const q = query(
+    collection(db, 'moods'),
+    where('user', '==', userId),
+    orderBy('timestamp', 'desc')
+  );
+
+  const querySnapshot = await getDocs(q);
+  let streak = 0;
+  let lastDate = null;
+
+  querySnapshot.forEach((doc) => {
+    const submissionDate = doc.data().timestamp.toDate();
+    const submissionDay = new Date(submissionDate).setHours(0, 0, 0, 0);
+
+    if (lastDate === null) {
+      lastDate = submissionDay;
+      streak = 1;
+    } else {
+      const diffDays = (lastDate - submissionDay) / (1000 * 60 * 60 * 24);
+      if (diffDays === 1) {
+        streak++;
+      } else if (diffDays > 1) {
+        return streak; // End loop if there's a gap of more than one day
+      }
+      lastDate = submissionDay;
+    }
+  });
+
+  return streak;
+};
