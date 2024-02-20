@@ -32,7 +32,7 @@ export default function DashboardView() {
 
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: 5 }}>
+      <Typography variant="h3" sx={{ mb: 5 }}>
         hi {currentUser.displayName.toLowerCase()}, welcome back 👋
       </Typography>
 
