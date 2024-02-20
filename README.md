@@ -1,6 +1,6 @@
-# mood (a life track platform)
+# mente (a life track platform)
 
-Welcome to mood, your all-in-one platform for tracking and analyzing various aspects of your life! mood integrates seamlessly with popular services and devices to provide comprehensive insights into your daily activities, habits, and well-being.
+Welcome to mente, your all-in-one platform for tracking and analyzing various aspects of your life! mente integrates seamlessly with popular services and devices to provide comprehensive insights into your daily activities, habits, and well-being.
 
 ## Features
 

@@ -8,7 +8,7 @@ export default function AppPage() {
   return (
     <>
       <Helmet>
-        <title>mood | dashboard</title>
+        <title>mente | overview</title>
       </Helmet>
 
       <DashboardView />

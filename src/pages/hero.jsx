@@ -8,7 +8,7 @@ export default function HeroPage() {
   return (
     <>
       <Helmet>
-        <title>mood</title>
+        <title>mente</title>
       </Helmet>
 
       <HeroView />

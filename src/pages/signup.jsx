@@ -8,7 +8,7 @@ export default function HeroPage() {
   return (
     <>
       <Helmet>
-        <title>mood | signup</title>
+        <title>mente | signup</title>
       </Helmet>
 
       <SignupView />
