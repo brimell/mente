@@ -39,6 +39,11 @@ const navConfig = [
     path: '/app/settings',
     icon: <FontAwesomeIcon icon={faGear} size="lg" />,
   },
+  {
+    title: 'typography',
+    path: '/app/typography',
+    icon: <FontAwesomeIcon icon={faGear} size="lg" />,
+  },
 ];
 
 export default navConfig;
