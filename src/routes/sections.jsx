@@ -33,7 +33,10 @@ export default function AppRouter() {
 
   return (
     <Routes>
-      <Route path="/" element={currentUser === null ? <HeroPage /> : <Navigate to="/app" replace />} />
+      <Route
+        path="/"
+        element={currentUser === null ? <HeroPage /> : <Navigate to="/app" replace />}
+      />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route
@@ -46,6 +49,7 @@ export default function AppRouter() {
                 <Route path="user" element={<UserPage />} />
                 <Route path="products" element={<ProductsPage />} />
                 <Route path="blog" element={<BlogPage />} />
+                <Route path="*" element={<Navigate to="/404" replace />} />
               </Routes>
             </Suspense>
           </DashboardLayout>
