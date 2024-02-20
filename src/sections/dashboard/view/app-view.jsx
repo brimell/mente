@@ -43,7 +43,7 @@ export default function DashboardView() {
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back 👋
+        Hi, {currentUser.displayname} Welcome back 👋
       </Typography>
 
       <Grid container spacing={3}>
