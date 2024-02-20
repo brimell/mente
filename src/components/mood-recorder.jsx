@@ -1,56 +1,44 @@
+// MoodRecorder.js
 import React, { useContext, useState, useEffect } from 'react';
 import { Box, Card, Typography, Snackbar } from '@mui/material';
-import localForage from 'localforage';
 import MuiAlert from '@mui/material/Alert';
-
 import Moods from 'src/components/moods';
 import { MainContext } from '../contexts/MainContext';
+import { addMoodToFirestore, getLastMoodSubmission } from 'src/utils/firestore'; // Adjust the import path as needed
 
-// Define a function component for the alert
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 export default function MoodRecorder() {
-  const { addMoodToFirestore } = useContext(MainContext);
+  const { currentUser } = useContext(MainContext);
   const [canSubmit, setCanSubmit] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [selected, setSelected] = useState("");
 
   useEffect(() => {
-    checkLastSubmitted();
-  }, []);
-
-  const checkLastSubmitted = async () => {
-    const lastSubmitted = await localForage.getItem('lastSubmitted');
-    if (lastSubmitted) {
-      const now = new Date();
-      const lastSubmittedDate = new Date(lastSubmitted);
-      const hoursDiff = (now - lastSubmittedDate) / (1000 * 60 * 60);
-      if (hoursDiff < 1) {
-        // Not yet an hour since last submission
-        setCanSubmit(false);
-      } else {
-        setCanSubmit(true);
+    const checkLastSubmitted = async () => {
+      const result = await getLastMoodSubmission(currentUser);
+      if (result && result.lastSubmittedDate) {
+        const now = new Date();
+        const hoursDiff = (now - result.lastSubmittedDate) / (1000 * 60 * 60);
+        if (hoursDiff < 1) {
+          setCanSubmit(false);
+          setSelected(result.mood);
+        } else {
+          setCanSubmit(true);
+        }
       }
-    }
-  };
+    };
+
+    checkLastSubmitted();
+  }, [currentUser]);
 
   const handleMoodSubmit = async (mood) => {
-    const now = new Date();
-    const lastSubmitted = await localForage.getItem('lastSubmitted');
-    if (lastSubmitted) {
-      const lastSubmittedDate = new Date(lastSubmitted);
-      const hoursDiff = (now - lastSubmittedDate) / (1000 * 60 * 60);
-      if (hoursDiff < 1) {
-        // Show snackbar if it's been less than an hour
-        setSnackbarOpen(true);
-        return; // Prevent further execution
-      }
-    }
-    // Proceed with submission
-    await localForage.setItem('lastSubmitted', now.toString());
-    addMoodToFirestore(mood);
-    setCanSubmit(true); // Optionally reset this state
+    await addMoodToFirestore(mood, currentUser);
+    setSelected(mood);
+    setCanSubmit(false);
+    setTimeout(() => setCanSubmit(true), 3600000); // 1 hour
   };
 
   const handleCloseSnackbar = (event, reason) => {
@@ -85,7 +73,7 @@ export default function MoodRecorder() {
           record your mood!
         </Typography>
         <Box sx={{ p: 5 }}>
-          <Moods handleMoodSubmit={handleMoodSubmit} />
+          <Moods handleMoodSubmit={canSubmit ? handleMoodSubmit : () => setSnackbarOpen(true)} selected={selected} />
         </Box>
       </Card>
     </>

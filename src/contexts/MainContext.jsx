@@ -29,6 +29,7 @@ const MainContextProvider = ({ children }) => {
   // firebase firestore functions
 
   const addMoodToFirestore = async (mood) => dbUtils.addMoodToFirestore(mood, currentUser);
+  const getLastMoodSubmission = async (currentUser) => dbUtils.addMoodToFirestore(currentUser);
 
   // firebase useEffect
 
@@ -78,6 +79,7 @@ const MainContextProvider = ({ children }) => {
         setPhotoURL,
         registerUser,
         addMoodToFirestore,
+        getLastMoodSubmission,
       }}
     >
       {children}

@@ -1,12 +1,10 @@
 import "./moods.scss";
 import React, { useState } from "react";
 
-function Moods({handleMoodSubmit}) {
-	const [selected, setSelected] = useState(""); // Set default checked value
+function Moods({handleMoodSubmit, selected}) {
 
 	const handleInputChange = (e) => {
 		const { value } = e.target;
-		setSelected(value);
 
 		console.log("Selected value:", e.target.value);
 		handleMoodSubmit(e.target.value);
