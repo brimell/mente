@@ -9,8 +9,14 @@ import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/Iconify';
 
-export default function IntegrationCard({ integration }) {
+export default function IntegrationCard({ integration, enabled }) {
+  function handleConnect() {
+    console.log('connect', integration.name);
+  }
 
+  function handleDisconnect() {
+    console.log('disconnect', integration.name);
+  }
 
   const renderLogo = (
     <Avatar
@@ -84,13 +90,19 @@ export default function IntegrationCard({ integration }) {
 
   const renderButtons = (
     <Stack direction="row" spacing={1}>
-      <Button variant="contained" size="medium">
-        Connect
-      </Button>
+      {enabled ? (
+        <Button variant="contained" size="medium" onClick={handleDisconnect}>
+          disconnect
+        </Button>
+      ) : (
+        <Button variant="contained" size="medium" onClick={handleConnect}>
+          connect
+        </Button>
+      )}
     </Stack>
   );
 
-  const renderStatusIcon = status ? (
+  const renderStatusIcon = enabled ? (
     <Iconify
       icon="eva:checkmark-circle-2-outline"
       sx={{ color: 'success.main', width: 24, height: 24 }}
@@ -99,7 +111,7 @@ export default function IntegrationCard({ integration }) {
     <Iconify icon="eva:close-circle-outline" sx={{ color: 'error.main', width: 24, height: 24 }} />
   );
 
-  const renderActionButton = status ? (
+  const renderActionButton = enabled ? (
     <Button variant="contained" color="error" sx={{ mt: 2 }}>
       Disconnect
     </Button>

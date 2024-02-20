@@ -1,9 +1,51 @@
-import { db, auth } from '../utils/firebaseInit';
-import { addDoc, collection, query, where, orderBy, limit, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
+import { db, auth } from './firebaseInit';
+import {
+  addDoc,
+  collection,
+  query,
+  where,
+  orderBy,
+  limit,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+  DocumentData,
+  DocumentReference,
+  deleteDoc,
+  updateDoc,
+} from 'firebase/firestore';
+import { User } from 'firebase/auth'; // Import the 'User' type from the 'firebase/auth' module
 
 // mood stuff
 
-export const addMoodToFirestore = async (mood, currentUser, onSuccess, onError) => {
+interface MoodData {
+  mood: number;
+  timestamp: Date;
+  user: string;
+}
+
+interface MoodResult {
+  lastSubmittedDate: Date | undefined;
+  mood: number | undefined;
+}
+
+interface MoodAverageResult {
+  averageMood: number | null;
+  weeklyMoods: number[];
+}
+
+interface MoodStreakResult {
+  averageMood: number;
+  count: number;
+}
+
+export const addMoodToFirestore = async (
+  mood: number,
+  currentUser: User,
+  onSuccess?: () => void,
+  onError?: () => void
+): Promise<void> => {
   try {
     const docRef = await addDoc(collection(db, 'moods'), {
       mood: mood,
@@ -18,7 +60,9 @@ export const addMoodToFirestore = async (mood, currentUser, onSuccess, onError) 
   }
 };
 
-export const getLastMoodSubmission = async (currentUser) => {
+export const getLastMoodSubmission = async (
+  currentUser: User | null
+): Promise<MoodResult | null> => {
   if (!currentUser) return null;
   const q = query(
     collection(db, 'moods'),
@@ -32,7 +76,10 @@ export const getLastMoodSubmission = async (currentUser) => {
   return { lastSubmittedDate, mood: data?.mood };
 };
 
-export const updateMoodInFirestore = async (docId, moodData) => {
+export const updateMoodInFirestore = async (
+  docId: string,
+  moodData: Partial<MoodData>
+): Promise<void> => {
   const docRef = doc(db, 'moods', docId);
   try {
     await updateDoc(docRef, moodData);
@@ -42,7 +89,7 @@ export const updateMoodInFirestore = async (docId, moodData) => {
   }
 };
 
-export const deleteMoodFromFirestore = async (docId) => {
+export const deleteMoodFromFirestore = async (docId: string): Promise<void> => {
   const docRef = doc(db, 'moods', docId);
   try {
     await deleteDoc(docRef);
@@ -51,7 +98,11 @@ export const deleteMoodFromFirestore = async (docId) => {
     console.error('Error deleting document: ', e);
   }
 };
-export const getMoodsInRange = async (userId, startDate, endDate) => {
+export const getMoodsInRange = async (
+  userId: string,
+  startDate: Date,
+  endDate: Date
+): Promise<(MoodData & DocumentData)[]> => {
   const q = query(
     collection(db, 'moods'),
     where('user', '==', userId),
@@ -68,7 +119,7 @@ export const getMoodsInRange = async (userId, startDate, endDate) => {
   }
 };
 
-export const getWeeklyMoodData = async (userId) => {
+export const getWeeklyMoodData = async (userId: string): Promise<MoodAverageResult> => {
   const endOfWeek = new Date();
   const startOfWeek = new Date();
   startOfWeek.setDate(endOfWeek.getDate() - endOfWeek.getDay()); // Adjust to the start of the week (Sunday)
@@ -105,7 +156,7 @@ const getStartOfWeek = (d = new Date()) => {
   return new Date(date.setDate(diff)).setHours(0, 0, 0, 0); // Return the start of the week
 };
 
-export const getThisWeeksMoodAverage = async (userId) => {
+export const getThisWeeksMoodAverage = async (userId: string): Promise<MoodStreakResult> => {
   const startOfWeek = getStartOfWeek();
   const now = new Date().setHours(23, 59, 59, 999); // End of the current day
 
@@ -135,7 +186,7 @@ export const getThisWeeksMoodAverage = async (userId) => {
   return { averageMood, count };
 };
 
-export const calculateMoodStreaks = async (userId) => {
+export const calculateMoodStreaks = async (userId: string): Promise<number> => {
   const q = query(
     collection(db, 'moods'),
     where('user', '==', userId),
@@ -144,7 +195,7 @@ export const calculateMoodStreaks = async (userId) => {
 
   const querySnapshot = await getDocs(q);
   let streak = 0;
-  let lastDate = null;
+  let lastDate: number | null = null;
 
   querySnapshot.forEach((doc) => {
     const submissionDate = doc.data().timestamp.toDate();
@@ -180,7 +231,22 @@ export const fetchUserEnabledIntegrations = async () => {
   }
 };
 
-export const updateUserEnabledIntegrations = async (userId, enabledIntegrations) => {
-  const userIntegrationsDocRef = doc(db, "userIntegrations", userId);
+export const updateUserEnabledIntegrations = async (enabledIntegrations: string[]) => {
+  const userIntegrationsDocRef = doc(db, "userIntegrations", auth.currentUser.uid);
   await setDoc(userIntegrationsDocRef, { enabledIntegrations }, { merge: true });
+};
+
+export const fetchIntegrationStatus = async (integrationId: string): Promise<boolean> => {
+  const docRef: DocumentReference<DocumentData> = doc(db, "integrations", integrationId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    return data.enabled ?? false; // Use nullish coalescing to default to false if undefined
+  }
+  return false; // Return false if the document does not exist
+};
+
+export const updateIntegrationStatus = async (integrationId: string, enabled: boolean): Promise<void> => {
+  const docRef: DocumentReference<DocumentData> = doc(db, "integrations", integrationId);
+  await setDoc(docRef, { enabled }, { merge: true });
 };
