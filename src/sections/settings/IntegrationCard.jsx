@@ -8,10 +8,12 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/Iconify';
+import { OuraConnect } from '../../utils/integrations/oura';
 
 export default function IntegrationCard({ integration, enabled }) {
   function handleConnect() {
     console.log('connect', integration.name);
+    OuraConnect();
   }
 
   function handleDisconnect() {
