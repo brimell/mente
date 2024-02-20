@@ -12,6 +12,7 @@ const AppPage = lazy(() => import('src/pages/app'));
 const BlogPage = lazy(() => import('src/pages/blog'));
 const UserPage = lazy(() => import('src/pages/user'));
 const ProductsPage = lazy(() => import('src/pages/products'));
+const SettingsPage = lazy(() => import('src/pages/settings'));
 const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // Custom loading skeleton
@@ -50,6 +51,7 @@ export default function AppRouter() {
                 <Route path="sleep" element={<ProductsPage />} />
                 <Route path="activity" element={<BlogPage />} />
                 <Route path="analysis" element={<BlogPage />} />
+                <Route path="settings" element={<SettingsPage />} />
                 <Route path="*" element={<Navigate to="/404" replace />} />
               </Routes>
             </Suspense>
