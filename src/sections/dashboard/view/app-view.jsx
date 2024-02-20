@@ -1,3 +1,4 @@
+import { useState, useEffect, useContext } from 'react';
 import { faker } from '@faker-js/faker';
 
 import Container from '@mui/material/Container';
@@ -19,7 +20,26 @@ import MoodRecorder from '../../../components/mood-recorder';
 import StressRecorder from '../../../components/stress-recorder';
 import RestedRecorder from '../../../components/rested-recorder';
 
+import { getThisWeeksMoodAverage } from '../../../utils/firestore';
+import { MainContext } from '../../../contexts/MainContext';
+
 export default function DashboardView() {
+  const { currentUser } = useContext(MainContext);
+
+  const [averageMood, setAverageMood] = useState(0);
+  const [averageSleep, setAverageSleep] = useState(0);
+  const [averagePhysicalActivity, setAveragePhysicalActivity] = useState(0);
+  const [averageStress, setAverageStress] = useState(0);
+  const [averageRested, setAverageRested] = useState(0);
+
+  useEffect(() => {
+    if (currentUser) {
+      getThisWeeksMoodAverage(currentUser.uid).then(({ averageMood }) => {
+        setAverageMood(averageMood);
+      });
+    }
+  }, [currentUser]);
+
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
@@ -30,7 +50,7 @@ export default function DashboardView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's mood"
-            value={3.5}
+            value={averageMood.toFixed(1)}
             icon={<Typography variant="h2">🤔</Typography>}
           />
         </Grid>
@@ -73,15 +93,7 @@ export default function DashboardView() {
             title="Sleep, Mood, Physical Activity Graph"
             subheader="subtitle"
             chart={{
-              labels: [
-                'Sat',
-                'Sun',
-                'Mon',
-                'Tue',
-                'Wed',
-                'Thu',
-                'Fri',
-              ],
+              labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
               series: [
                 {
                   name: 'Sleep',
@@ -99,7 +111,7 @@ export default function DashboardView() {
                   name: 'Physical Activity',
                   type: 'line',
                   fill: 'solid',
-                  data: [3, 2, .5, 1, 2, 1.5, 2],
+                  data: [3, 2, 0.5, 1, 2, 1.5, 2],
                 },
               ],
             }}

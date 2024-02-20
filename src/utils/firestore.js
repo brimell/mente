@@ -94,6 +94,44 @@ export const getWeeklyMoodData = async (userId) => {
   }
 };
 
+// Utility function to get the start of the current week (assuming week starts on Sunday)
+const getStartOfWeek = (d = new Date()) => {
+  const date = new Date(d);
+  const day = date.getDay(); // Get current day of the week, Sun = 0, Mon = 1, ...
+  const diff = date.getDate() - day; // Calculate difference to the start of the week
+
+  return new Date(date.setDate(diff)).setHours(0, 0, 0, 0); // Return the start of the week
+};
+
+export const getThisWeeksMoodAverage = async (userId) => {
+  const startOfWeek = getStartOfWeek();
+  const now = new Date().setHours(23, 59, 59, 999); // End of the current day
+
+  const moodRef = collection(db, 'moods');
+  const q = query(
+    moodRef,
+    where('user', '==', userId),
+    where('timestamp', '>=', new Date(startOfWeek)),
+    where('timestamp', '<=', new Date(now)),
+    orderBy('timestamp')
+  );
+
+  const querySnapshot = await getDocs(q);
+  let totalMood = 0;
+  let count = 0;
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    totalMood += data.mood; // Assuming mood is a numeric value
+    count++;
+  });
+
+  const averageMood = count > 0 ? totalMood / count : 0;
+
+  // Return the average mood for the week and the count of submissions
+  return { averageMood, count };
+};
+
 export const calculateMoodStreaks = async (userId) => {
   const q = query(
     collection(db, 'moods'),
