@@ -65,3 +65,31 @@ export const getMoodsInRange = async (userId, startDate, endDate) => {
     return [];
   }
 };
+
+// export const getWeeklyMoodData = async (userId) => {
+//   const endOfWeek = new Date();
+//   const startOfWeek = new Date();
+//   startOfWeek.setDate(endOfWeek.getDate() - endOfWeek.getDay()); // Adjust to the start of the week (Sunday)
+//   startOfWeek.setHours(0, 0, 0, 0); // Set to midnight
+//   endOfWeek.setHours(23, 59, 59, 999); // Set to the end of the day
+
+//   const q = query(
+//     collection(db, 'moods'),
+//     where('user', '==', userId),
+//     where('timestamp', '>=', startOfWeek),
+//     where('timestamp', '<=', endOfWeek),
+//     orderBy('timestamp', 'asc')
+//   );
+
+//   try {
+//     const querySnapshot = await getDocs(q);
+//     const weeklyMoods = querySnapshot.docs.map((doc) => doc.data().mood);
+//     const averageMood = weeklyMoods.reduce((acc, mood) => acc + mood, 0) / weeklyMoods.length;
+
+//     // Return both the average mood and the raw data for graphing or further analysis
+//     return { averageMood, weeklyMoods };
+//   } catch (e) {
+//     console.error('Error fetching weekly mood data: ', e);
+//     return { averageMood: null, weeklyMoods: [] };
+//   }
+// };

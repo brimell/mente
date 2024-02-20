@@ -1,10 +1,10 @@
 // MoodRecorder.js
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Card, Typography, Snackbar, Alert } from '@mui/material';
 import Moods from 'src/components/moods';
 import { MainContext } from '../contexts/MainContext';
 import { addMoodToFirestore, getLastMoodSubmission } from 'src/utils/firestore';
-import useNotification from 'src/hooks/useNotification'; // Make sure this path is correct
+import useNotification from "../hooks/useNotification"; // Make sure this path is correct
 
 export default function MoodRecorder() {
   const { currentUser } = useContext(MainContext);
