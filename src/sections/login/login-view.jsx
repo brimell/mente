@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 
 import { Box } from '@mui/material';
 import Link from '@mui/material/Link';
@@ -19,6 +19,8 @@ import { bgGradient } from 'src/theme/css';
 
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
+
+import { MainContext } from 'src/contexts/MainContext';
 
 // ----------------------------------------------------------------------
 
