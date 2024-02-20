@@ -1,15 +1,28 @@
-// MoodRecorder.js
 import React, { useContext, useEffect, useState } from 'react';
 import { Box, Card, Typography, Snackbar, Alert } from '@mui/material';
-import Moods from 'src/components/moods';
+import Moods from '../components/moods';
 import { MainContext } from '../contexts/MainContext';
-import { addMoodToFirestore, getLastMoodSubmission } from 'src/utils/firestore';
-import useNotification from '../hooks/useNotification'; // Make sure this path is correct
+import { addMoodToFirestore, getLastMoodSubmission } from '../utils/firestore';
+import useNotification from '../hooks/useNotification';
 
 export default function MoodRecorder() {
   const { currentUser } = useContext(MainContext);
   const { open, message, severity, triggerNotification, handleClose } = useNotification();
   const [selected, setSelected] = useState('');
+  const [canSubmit, setCanSubmit] = useState(true);
+
+  // const checkIfMoodSubmittedInPastHour = async (currentUser) => {
+  //   if (!currentUser) return { allowed: true };
+
+  //   const result = await getLastMoodSubmission(currentUser);
+  //   if (result && result.lastSubmittedDate) {
+  //     const now = new Date();
+  //     const hoursDiff = (now - result.lastSubmittedDate) / (1000 * 60 * 60);
+  //     return { allowed: hoursDiff >= 1, lastMood: result.mood };
+  //   }
+
+  //   return { allowed: true };
+  // };
 
   useEffect(() => {
     const checkLastSubmitted = async () => {
@@ -20,13 +33,10 @@ export default function MoodRecorder() {
         const hoursDiff = (now - result.lastSubmittedDate) / (1000 * 60 * 60);
         if (hoursDiff < 1) {
           setSelected(result.mood);
-          // Optionally, trigger a notification about the cooldown
-          triggerNotification(
-            'You have recently submitted a mood. Please wait to submit another.',
-            'info'
-          );
+          setCanSubmit(false);
         } else {
-          setSelected(''); // Reset selected if it's been more than an hour
+          setSelected('');
+          setCanSubmit(true);
         }
       }
     };
@@ -35,12 +45,28 @@ export default function MoodRecorder() {
   }, [currentUser]);
 
   const handleMoodSubmit = async (mood) => {
+    const result = await getLastMoodSubmission(currentUser);
+    const now = new Date();
+    if (result && result.lastSubmittedDate) {
+      const hoursDiff = (now - result.lastSubmittedDate) / (1000 * 60 * 60);
+      if (hoursDiff < 1) {
+        triggerNotification(
+          'You have recently submitted a mood. Please wait to submit another.',
+          'info'
+        );
+        return; // Prevent further execution
+      }
+    }
+
     await addMoodToFirestore(
       mood,
       currentUser,
       () => {
         triggerNotification('Mood set successfully!', 'success');
         setSelected(mood); // Update the selected mood
+        setCanSubmit(false); // Update canSubmit to prevent multiple submissions
+        // Optionally reset canSubmit after 1 hour
+        setTimeout(() => setCanSubmit(true), 3600000); // 1 hour
       },
       () => {
         triggerNotification('Failed to set mood. Try again.', 'error');
@@ -73,7 +99,10 @@ export default function MoodRecorder() {
           {selected ? 'Current mood' : 'Record your mood!'}
         </Typography>
         <Box sx={{ p: 5 }}>
-          <Moods handleMoodSubmit={handleMoodSubmit} selected={selected} />
+          <Moods
+            handleMoodSubmit={handleMoodSubmit}
+            selected={selected}
+          />
         </Box>
       </Card>
     </>
