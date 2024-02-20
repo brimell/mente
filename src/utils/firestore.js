@@ -1,5 +1,7 @@
-import { db } from '../utils/firebaseInit';
-import { addDoc, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
+import { db, auth } from '../utils/firebaseInit';
+import { addDoc, collection, query, where, orderBy, limit, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
+
+// mood stuff
 
 export const addMoodToFirestore = async (mood, currentUser, onSuccess, onError) => {
   try {
@@ -122,7 +124,7 @@ export const getThisWeeksMoodAverage = async (userId) => {
 
   querySnapshot.forEach((doc) => {
     const data = doc.data();
-    console.log(data)
+    console.log(data);
     totalMood += parseInt(data.mood);
     count++;
   });
@@ -163,4 +165,22 @@ export const calculateMoodStreaks = async (userId) => {
   });
 
   return streak;
+};
+
+// integration stuff
+
+export const fetchUserEnabledIntegrations = async () => {
+  const userIntegrationsDocRef = doc(db, "userIntegrations", auth.currentUser.uid);
+  const docSnap = await getDoc(userIntegrationsDocRef);
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return docSnap.data().enabledIntegrations;
+  } else {
+    return []; // Return an empty array if no data exists
+  }
+};
+
+export const updateUserEnabledIntegrations = async (userId, enabledIntegrations) => {
+  const userIntegrationsDocRef = doc(db, "userIntegrations", userId);
+  await setDoc(userIntegrationsDocRef, { enabledIntegrations }, { merge: true });
 };

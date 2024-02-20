@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -7,11 +7,11 @@ import { alpha } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import SvgColor from 'src/components/svg-color';
-
-// ----------------------------------------------------------------------
+import Iconify from 'src/components/Iconify';
 
 export default function IntegrationCard({ integration }) {
+
+
   const renderLogo = (
     <Avatar
       alt={integration.name}
@@ -82,20 +82,31 @@ export default function IntegrationCard({ integration }) {
     </Typography>
   );
 
-  const renderShape = (
-    <SvgColor
-      color="paper"
-      src="/assets/icons/shape-avatar.svg"
-      sx={{
-        width: 80,
-        height: 36,
-        zIndex: 9,
-        bottom: -15,
-        position: 'absolute',
-        color: 'background.paper',
-        display: 'none',
-      }}
+  const renderButtons = (
+    <Stack direction="row" spacing={1}>
+      <Button variant="contained" size="medium">
+        Connect
+      </Button>
+    </Stack>
+  );
+
+  const renderStatusIcon = status ? (
+    <Iconify
+      icon="eva:checkmark-circle-2-outline"
+      sx={{ color: 'success.main', width: 24, height: 24 }}
     />
+  ) : (
+    <Iconify icon="eva:close-circle-outline" sx={{ color: 'error.main', width: 24, height: 24 }} />
+  );
+
+  const renderActionButton = status ? (
+    <Button variant="contained" color="error" sx={{ mt: 2 }}>
+      Disconnect
+    </Button>
+  ) : (
+    <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+      Integrate
+    </Button>
   );
 
   return (
@@ -120,8 +131,6 @@ export default function IntegrationCard({ integration }) {
             },
           }}
         >
-          {renderShape}
-
           {renderLogo}
 
           {renderCover}
@@ -138,6 +147,8 @@ export default function IntegrationCard({ integration }) {
           {renderDescription}
 
           {renderTitle}
+
+          {renderButtons}
         </Box>
       </Card>
     </Grid>
