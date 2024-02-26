@@ -20,7 +20,7 @@ exports.exchangeToken = functions.https.onRequest(async (req, res) => {
 
   const clientId = process.env.OURA_CLIENT_ID;
   const clientSecret = process.env.OURA_CLIENT_SECRET;
-  const redirectUri = "https://eu-central1-mood-1.cloudfunctions.net/exchangeToken";
+  const redirectUri = 'https://eu-central1-mood-1.cloudfunctions.net/exchangeToken';
 
   try {
     const response = await axios.post('https://api.ouraring.com/oauth/token', {

@@ -21,6 +21,8 @@ import StressRecorder from '../../../components/stress-recorder';
 import RestedRecorder from '../../../components/rested-recorder';
 
 import { MainContext } from '../../../contexts/MainContext';
+import MorningPreparationButton from '../MorningPreparationButton';
+import EveningReflectionButton from '../EveningReflectionButton';
 
 export default function DashboardView() {
   const { currentUser, averageMood } = useContext(MainContext);
@@ -69,13 +71,10 @@ export default function DashboardView() {
           />
         </Grid>
         <Grid xs={12} md={12} lg={6}>
-          <MoodRecorder />
+          <MorningPreparationButton />
         </Grid>
-        <Grid xs={12} md={12} lg={3}>
-          <StressRecorder />
-        </Grid>
-        <Grid xs={12} md={12} lg={3}>
-          <RestedRecorder />
+        <Grid xs={12} md={12} lg={6}>
+          <EveningReflectionButton />
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
