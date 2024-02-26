@@ -25,6 +25,8 @@ export function palette(mode = 'light') {
     return {
       light,
       dark,
+      darker: '#595e4d',
+      lighter: '#b3b399',
       main: mode === 'light' ? light : dark,
       contrastText: '#FFFFFF',
     };
