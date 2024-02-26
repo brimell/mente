@@ -1,9 +1,5 @@
 import { alpha } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
-
-// SETUP COLORS
-
 export const grey = {
   0: '#FFFFFF',
   100: '#F9FAFB',
@@ -17,94 +13,102 @@ export const grey = {
   900: '#161C24',
 };
 
-export const primary = {
-  lighter: '#D0ECFE',
-  light: '#73BAFB',
-  main: '#1877F2',
-  dark: '#0C44AE',
-  darker: '#042174',
-  contrastText: '#FFFFFF',
-};
-
-export const secondary = {
-  lighter: '#EFD6FF',
-  light: '#C684FF',
-  main: '#8E33FF',
-  dark: '#5119B7',
-  darker: '#27097A',
-  contrastText: '#FFFFFF',
-};
-
-export const info = {
-  lighter: '#CAFDF5',
-  light: '#61F3F3',
-  main: '#00B8D9',
-  dark: '#006C9C',
-  darker: '#003768',
-  contrastText: '#FFFFFF',
-};
-
-export const success = {
-  lighter: '#C8FAD6',
-  light: '#5BE49B',
-  main: '#00A76F',
-  dark: '#007867',
-  darker: '#004B50',
-  contrastText: '#FFFFFF',
-};
-
-export const warning = {
-  lighter: '#FFF5CC',
-  light: '#FFD666',
-  main: '#FFAB00',
-  dark: '#B76E00',
-  darker: '#7A4100',
-  contrastText: grey[800],
-};
-
-export const error = {
-  lighter: '#FFE9D5',
-  light: '#FFAC82',
-  main: '#FF5630',
-  dark: '#B71D18',
-  darker: '#7A0916',
-  contrastText: '#FFFFFF',
-};
-
 export const common = {
   black: '#000000',
   white: '#FFFFFF',
 };
 
-export const action = {
-  hover: alpha(grey[500], 0.08),
-  selected: alpha(grey[500], 0.16),
-  disabled: alpha(grey[500], 0.8),
-  disabledBackground: alpha(grey[500], 0.24),
-  focus: alpha(grey[500], 0.24),
-  hoverOpacity: 0.08,
-  disabledOpacity: 0.48,
-};
-
-const base = {
-  primary,
-  secondary,
-  info,
-  success,
-  warning,
-  error,
-  grey,
-  common,
-  divider: alpha(grey[500], 0.2),
-  action,
-};
-
-// ----------------------------------------------------------------------
-
 export function palette(mode = 'light') {
+  const primary = () => {
+    const light = '#1976D2';
+    const dark = '#0D47A1';
+    return {
+      light,
+      dark,
+      main: mode === 'light' ? light : dark,
+      contrastText: '#FFFFFF',
+    };
+  };
+
+  const secondary = () => {
+    const light = '#8E33FF';
+    const dark = '#5119B7';
+
+    return {
+      light,
+      dark,
+      main: mode === 'light' ? light : dark,
+      contrastText: '#FFFFFF',
+    };
+  };
+
+  const info = () => {
+    const light = '#2196F3';
+    const dark = '#1976D2';
+
+    return {
+      light,
+      dark,
+      main: mode === 'light' ? light : dark,
+      contrastText: '#FFFFFF',
+    };
+  };
+
+  const success = () => {
+    const light = '#4CAF50';
+    const dark = '#388E3C';
+
+    return {
+      light,
+      dark,
+      main: mode === 'light' ? light : dark,
+      contrastText: '#FFFFFF',
+    };
+  };
+
+  const warning = () => {
+    const light = '#FFAB00';
+    const dark = '#B76E00';
+
+    return {
+      light,
+      dark,
+      main: mode === 'light' ? light : dark,
+      contrastText: grey[800],
+    };
+  };
+
+  const error = () => {
+    const light = '#FF5630';
+    const dark = '#B71D18';
+
+    return {
+      light,
+      dark,
+      main: mode === 'light' ? light : dark,
+      contrastText: '#FFFFFF',
+    };
+  };
+
+  const action = {
+    hover: alpha(grey[500], 0.08),
+    selected: alpha(grey[500], 0.16),
+    disabled: alpha(grey[500], 0.8),
+    disabledBackground: alpha(grey[500], 0.24),
+    focus: alpha(grey[500], 0.24),
+    hoverOpacity: 0.08,
+    disabledOpacity: 0.48,
+  };
   return {
-    ...base,
     mode,
+    primary: primary(),
+    secondary: secondary(),
+    info: info(),
+    success: success(),
+    warning: warning(),
+    error: error(),
+    divider: alpha(grey[500], 0.2),
+    action: { ...action },
     text: {
       primary: mode === 'dark' ? grey[300] : grey[800],
       secondary: mode === 'dark' ? grey[400] : grey[600],
@@ -114,10 +118,6 @@ export function palette(mode = 'light') {
       default: mode === 'dark' ? grey[900] : grey[100],
       paper: mode === 'dark' ? grey[800] : '#FFFFFF',
       neutral: mode === 'dark' ? grey[700] : grey[200],
-    },
-    action: {
-      ...base.action,
-      active: grey[600],
     },
   };
 }

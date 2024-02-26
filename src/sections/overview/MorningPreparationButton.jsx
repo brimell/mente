@@ -8,7 +8,7 @@ import { Box } from '@mui/system';
 
 // Since we are now using a Card, the styling can directly apply to the Card component
 const ReflectionCard = styled(Card)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.primary.light,
   '&:hover': {
     backgroundColor: theme.palette.primary.dark,
   },

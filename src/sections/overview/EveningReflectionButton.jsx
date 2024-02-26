@@ -6,10 +6,10 @@ import Button from '@mui/material/Button';
 import { Box } from '@mui/system';
 
 const ERButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.primary.dark,
   color: theme.palette.primary.contrastText,
   '&:hover': {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.light,
   },
 }));
 
