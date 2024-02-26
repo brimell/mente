@@ -20,8 +20,8 @@ export const common = {
 
 export function palette(mode = 'light') {
   const primary = () => {
-    const light = '#1976D2';
-    const dark = '#0D47A1';
+    const light = '#A5A58D';
+    const dark = '#6B705C';
     return {
       light,
       dark,
@@ -31,8 +31,8 @@ export function palette(mode = 'light') {
   };
 
   const secondary = () => {
-    const light = '#8E33FF';
-    const dark = '#5119B7';
+    const light = '#cb997e';
+    const dark = '#9D6F56';
 
     return {
       light,
@@ -115,8 +115,8 @@ export function palette(mode = 'light') {
       disabled: mode === 'dark' ? grey[600] : grey[500],
     },
     background: {
-      default: mode === 'dark' ? grey[900] : grey[100],
-      paper: mode === 'dark' ? grey[800] : '#FFFFFF',
+      default: mode === 'light' ? '#f0efeb' : '#DDBEA9',
+      paper: mode === 'light' ? '#F8F6F2' : grey[800],
       neutral: mode === 'dark' ? grey[700] : grey[200],
     },
   };
