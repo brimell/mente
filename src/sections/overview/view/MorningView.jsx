@@ -21,7 +21,28 @@ const questions = [
     type: 'multipleChoice',
     options: ['Happy', 'Sad', 'Angry', 'Excited'],
   },
-  { label: "What's your name?", field: 'name', type: 'text' },
+  {
+    label: 'How stressful was your day?',
+    field: 'stress',
+    type: 'multipleChoice',
+    options: ['Happy', 'Sad', 'Angry', 'Excited'],
+  },
+  {
+    label: 'How productive did you feel today?',
+    field: 'productivity',
+    type: 'multipleChoice',
+    options: ['Happy', 'Sad', 'Angry', 'Excited'],
+  },
+  {
+    label: "How would you describe how you're feeling today?",
+    field: 'emotions',
+    type: 'multipleSelect',
+    options: {
+      Happy: ['Brave', 'Satisfied', 'Proud', 'Loved', 'Excited', 'Calm'],
+      Mid: ['Tired', 'Bored', 'Consfused', 'Distracted'],
+      Sad: ['Angry', 'Embarrassed', 'Let down', 'Sad'],
+    },
+  },
   { label: 'How old are you?', field: 'age', type: 'text' },
   { label: "What's your favorite color?", field: 'color', type: 'text' },
 ];
@@ -65,7 +86,7 @@ function MorningView() {
         );
       case 'multipleChoice':
         return (
-          <FormControl component="fieldset" fullWidth>
+          <FormControl component="fieldset">
             <RadioGroup
               aria-label={question.field}
               name={question.field}
@@ -85,9 +106,15 @@ function MorningView() {
 
   return (
     <Container
-      sx={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center' }}
+      sx={{
+        display: 'flex',
+        height: '100vh',
+        alignItems: { xs: 'center', md: 'flex-start' }, // Center on xs, start on md and up
+        justifyContent: 'center',
+        pt: { md: 8 }, // Adds a top padding on md and larger screens
+      }}
     >
-      <Box sx={{ textAlign: 'center' }}>
+      <Box sx={{ width: '100%', textAlign: 'center', mt: { xs: 'auto', md: 0 } }}>
         <animated.div
           style={{ ...transitions, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
         >
@@ -98,7 +125,13 @@ function MorningView() {
           <IconButton
             color="primary"
             onClick={handleNext}
-            sx={{ mt: 2, borderRadius: '50%', width: 56, height: 56, alignSelf: 'center' }}
+            sx={{
+              mt: 2,
+              borderRadius: '50%',
+              width: 56,
+              height: 56,
+              alignSelf: 'center',
+            }}
           >
             {currentQuestion === questions.length - 1 ? <SendIcon /> : <ChevronRightIcon />}
           </IconButton>
