@@ -5,8 +5,8 @@ import {
   FormControl,
   FormControlLabel,
   IconButton,
-  Radio,
-  RadioGroup,
+  Button,
+  Grid,
   TextField,
   Typography,
   FormGroup,
@@ -81,6 +81,12 @@ function MorningView() {
     });
   };
 
+  const handleBack = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
+  };
+
   // Handle option change without affecting the fade state
   const handleChange = (event) => {
     setAnswers({
@@ -104,6 +110,13 @@ function MorningView() {
     });
   };
 
+  const handleOptionClick = (field, option) => {
+    setAnswers({
+      ...answers,
+      [field]: option,
+    });
+  };
+
   const renderQuestionInput = (question) => {
     if (question.field === 'mood') {
       return <MoodRecorder />;
@@ -122,18 +135,21 @@ function MorningView() {
         );
       case 'multipleChoice':
         return (
-          <FormControl component="fieldset">
-            <RadioGroup
-              aria-label={question.field}
-              name={question.field}
-              value={answers[question.field] || ''}
-              onChange={handleChange}
-            >
-              {question.options.map((option, index) => (
-                <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
-              ))}
-            </RadioGroup>
-          </FormControl>
+          <Grid container spacing={2} maxWidth="500px">
+            {question.options.map((option, index) => (
+              <Grid item xs={6} key={index}>
+                <Button
+                  fullWidth
+                  variant={answers[question.field] === option ? 'contained' : 'outlined'}
+                  color="primary"
+                  onClick={() => handleOptionClick(question.field, option)}
+                  sx={{ textTransform: 'none', justifyContent: 'center', height: '100%' }}
+                >
+                  {option}
+                </Button>
+              </Grid>
+            ))}
+          </Grid>
         );
       case 'multipleSelect':
         const categoryKeys = Object.keys(question.options);
