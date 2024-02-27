@@ -9,11 +9,13 @@ import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/Iconify';
 import { OuraConnect } from '../../utils/integrations/oura';
+import { RescueTimeConnect } from '../../utils/integrations/rescuetime';
 
 export default function IntegrationCard({ integration, enabled }) {
   function handleConnect() {
     console.log('connect', integration.name);
-    OuraConnect();
+    if (integration.name === 'Oura') OuraConnect();
+    if (integration.name === 'RescueTime') RescueTimeConnect();
   }
 
   function handleDisconnect() {

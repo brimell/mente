@@ -1,13 +1,25 @@
-const rateLimit = require('express-rate-limit');
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-require('dotenv').config();
-const { auth } = require('./firebaseInit');
-const axios = require('axios');
+import rateLimit from 'express-rate-limit';
+import express from 'express';
+import cors from 'cors';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { config } from 'dotenv';
+import axios from 'axios';
+import https from 'https';
+import fs from 'fs';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+config(); // Load .env file contents into process.env
 
 const app = express();
-const server = require('http').Server(app);
+
+// HTTPS server setup
+const httpsOptions = {
+  key: fs.readFileSync(path.join(__dirname, 'privkey.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'fullchain.pem')),
+};
+const server = https.createServer(httpsOptions, app);
 
 app.use(
   rateLimit({
@@ -20,8 +32,7 @@ app.use(
 
 app.use(cors());
 
-app.use(express.static(path.resolve(__dirname, '../dist')));
-
+app.use(express.static('../dist'));
 // firebase auth functions
 
 app.post('/register', async (req, res) => {
