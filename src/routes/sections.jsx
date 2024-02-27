@@ -1,6 +1,7 @@
-import React, { lazy, Suspense, useContext } from 'react';
+import { lazy, Suspense, useContext, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Skeleton } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 import DashboardLayout from '../layouts/dashboard';
 import HeroPage from '@pages/hero';
@@ -26,8 +27,22 @@ const LoadingSkeleton = () => (
   </div>
 );
 
+// Utility function to parse query string into an object
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
 export default function AppRouter() {
-  const { currentUser } = useContext(MainContext);
+  const { currentUser, setCode } = useContext(MainContext);
+  const query = useQuery();
+  const location = useLocation();
+
+  useEffect(() => {
+    const code = query.get('code');
+    if (code) {
+      setCode(code);
+    }
+  }, [location, query]);
 
   if (currentUser === undefined) {
     // If currentUser is undefined, show a skeleton instead of a simple loading text

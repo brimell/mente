@@ -15,6 +15,7 @@ const MainContextProvider = ({ children }) => {
   const [rescueTimeData, setRescueTimeData] = useState([]);
   const [ouraData, setOuraData] = useState([]);
   const [averageMood, setAverageMood] = useState(0);
+  const [code, setCode] = useState();
 
   // firebase auth functions
 
@@ -67,8 +68,6 @@ const MainContextProvider = ({ children }) => {
 
   // oura api functions
 
-  
-
   // app-view functions
 
   useEffect(() => {
@@ -94,7 +93,9 @@ const MainContextProvider = ({ children }) => {
         registerUser,
         addMoodToFirestore,
         getLastMoodSubmission,
-        averageMood
+        averageMood,
+        code,
+        setCode,
       }}
     >
       {children}
