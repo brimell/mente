@@ -36,3 +36,4 @@ yarn-debug.log*
 yarn-error.log*
 
 *.pem
+*firebase-adminsdk*.json
