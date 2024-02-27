@@ -1,16 +1,29 @@
-import { useState, useContext } from 'react';
-
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Unstable_Grid2';
+import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import { Box, Button, TextField, Typography } from '@mui/material';
-
-import { MainContext } from '../../../contexts/MainContext';
+import {
+  Box,
+  Container,
+  FormControl,
+  FormControlLabel,
+  IconButton,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from '@mui/material';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import SendIcon from '@mui/icons-material/Send';
 
 const questions = [
-  { label: "What's your name?", field: 'name' },
-  { label: 'How old are you?', field: 'age' },
-  { label: "What's your favorite color?", field: 'color' },
+  {
+    label: 'How did you feel today?',
+    field: 'mood',
+    type: 'multipleChoice',
+    options: ['Happy', 'Sad', 'Angry', 'Excited'],
+  },
+  { label: "What's your name?", field: 'name', type: 'text' },
+  { label: 'How old are you?', field: 'age', type: 'text' },
+  { label: "What's your favorite color?", field: 'color', type: 'text' },
 ];
 
 function MorningView() {
@@ -26,7 +39,7 @@ function MorningView() {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // Here you can handle the form submission
+      // Handle form submission here
       console.log(answers);
     }
   };
@@ -38,21 +51,57 @@ function MorningView() {
     });
   };
 
-  return (
-    <Container maxWidth="sm">
-      <Box sx={{ p: 2 }}>
-        <animated.div style={transitions}>
-          <Typography variant="h6">{questions[currentQuestion].label}</Typography>
+  const renderQuestionInput = (question) => {
+    switch (question.type) {
+      case 'text':
+        return (
           <TextField
             fullWidth
             variant="outlined"
             margin="normal"
-            value={answers[questions[currentQuestion].field] || ''}
+            value={answers[question.field] || ''}
             onChange={handleChange}
           />
-          <Button variant="contained" onClick={handleNext}>
-            {currentQuestion === questions.length - 1 ? 'Submit' : 'Next'}
-          </Button>
+        );
+      case 'multipleChoice':
+        return (
+          <FormControl component="fieldset" fullWidth>
+            <RadioGroup
+              aria-label={question.field}
+              name={question.field}
+              value={answers[question.field] || ''}
+              onChange={handleChange}
+            >
+              {question.options.map((option, index) => (
+                <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
+              ))}
+            </RadioGroup>
+          </FormControl>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Container
+      sx={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center' }}
+    >
+      <Box sx={{ textAlign: 'center' }}>
+        <animated.div
+          style={{ ...transitions, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            {questions[currentQuestion].label}
+          </Typography>
+          {renderQuestionInput(questions[currentQuestion])}
+          <IconButton
+            color="primary"
+            onClick={handleNext}
+            sx={{ mt: 2, borderRadius: '50%', width: 56, height: 56, alignSelf: 'center' }}
+          >
+            {currentQuestion === questions.length - 1 ? <SendIcon /> : <ChevronRightIcon />}
+          </IconButton>
         </animated.div>
       </Box>
     </Container>

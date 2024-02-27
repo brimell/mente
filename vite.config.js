@@ -14,6 +14,9 @@ export default defineConfig({
       },
     }),
   ],
+  optimizeDeps: {
+    include: ['@emotion/react', '@emotion/styled'],
+  },
   resolve: {
     alias: [
       {
