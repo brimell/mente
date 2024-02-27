@@ -53,7 +53,7 @@ const questions = [
   { label: 'What happened today?', field: 'descrption', type: 'text' },
 ];
 
-function MorningView() {
+function EveningView() {
   const theme = useTheme().palette.mode;
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -270,4 +270,4 @@ function MorningView() {
   );
 }
 
-export default MorningView;
+export default EveningView;
