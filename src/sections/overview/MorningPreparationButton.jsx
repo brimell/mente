@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const ReflectionCard = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
@@ -16,10 +17,17 @@ const ReflectionCard = styled(Card)(({ theme }) => ({
 }));
 
 export default function MorningReflectionCard() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    // Add logic to navigate to /app/morning
+    navigate('/app/morning');
+  }
+
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <ReflectionCard sx={{ width: "100%" }}>
-        <CardActionArea>
+        <CardActionArea onClick={handleClick}>
           <CardContent>
             {/* Adjust flexDirection based on screen size */}
             <Box sx={{

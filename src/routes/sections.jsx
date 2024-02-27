@@ -9,6 +9,7 @@ import SignUpPage from 'src/pages/signup';
 import { MainContext } from '../contexts/MainContext';
 
 const AppPage = lazy(() => import('src/pages/app'));
+const MorningPage = lazy(() => import('src/pages/morning'));
 const BlogPage = lazy(() => import('src/pages/blog'));
 const UserPage = lazy(() => import('src/pages/user'));
 const ProductsPage = lazy(() => import('src/pages/products'));
@@ -48,6 +49,7 @@ export default function AppRouter() {
             <Suspense fallback={<LoadingSkeleton />}>
               <Routes>
                 <Route index element={<AppPage />} />
+                <Route path="morning" element={<MorningPage />} />
                 <Route path="mood" element={<UserPage />} />
                 <Route path="sleep" element={<ProductsPage />} />
                 <Route path="activity" element={<BlogPage />} />
