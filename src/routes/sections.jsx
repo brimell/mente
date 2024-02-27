@@ -3,19 +3,19 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Skeleton } from '@mui/material';
 
 import DashboardLayout from '../layouts/dashboard';
-import HeroPage from 'src/pages/hero';
-import LoginPage from 'src/pages/login';
-import SignUpPage from 'src/pages/signup';
+import HeroPage from '@pages/hero';
+import LoginPage from '@pages/login';
+import SignUpPage from '@pages/signup';
 import { MainContext } from '../contexts/MainContext';
 
-const AppPage = lazy(() => import('src/pages/app'));
-const MorningPage = lazy(() => import('src/pages/morning'));
-const BlogPage = lazy(() => import('src/pages/blog'));
-const UserPage = lazy(() => import('src/pages/user'));
-const ProductsPage = lazy(() => import('src/pages/products'));
-const SettingsPage = lazy(() => import('src/pages/settings'));
-const TypographyPage = lazy(() => import('src/pages/typography'));
-const Page404 = lazy(() => import('src/pages/page-not-found'));
+const AppPage = lazy(() => import('@pages/app'));
+const MorningPage = lazy(() => import('@pages/morning'));
+const BlogPage = lazy(() => import('@pages/blog'));
+const UserPage = lazy(() => import('@pages/user'));
+const ProductsPage = lazy(() => import('@pages/products'));
+const SettingsPage = lazy(() => import('@pages/settings'));
+const TypographyPage = lazy(() => import('@pages/typography'));
+const Page404 = lazy(() => import('@pages/page-not-found'));
 
 // Custom loading skeleton
 const LoadingSkeleton = () => (

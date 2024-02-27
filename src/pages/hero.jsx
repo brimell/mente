@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { HeroView } from 'src/sections/hero/view';
+import { HeroView } from '@sections/hero/view';
 
 // ----------------------------------------------------------------------
 

@@ -1,10 +1,10 @@
-import 'src/global.css';
+import '@/global.css';
 
-import AppRouter from 'src/routes/sections';
-import ThemeProvider from 'src/theme';
+import AppRouter from '@routes/sections';
+import ThemeProvider from '@theme';
 import MainContextProvider from './contexts/MainContext';
 
-import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
+import { useScrollToTop } from '@hooks/use-scroll-to-top';
 
 // ----------------------------------------------------------------------
 

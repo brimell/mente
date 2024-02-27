@@ -15,12 +15,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { Link as RouterLink } from 'react-router-dom';
 
-import { useRouter } from 'src/routes/hooks';
+import { useRouter } from '@routes/hooks';
 
-import { bgGradient } from 'src/theme/css';
+import { bgGradient } from '@theme/css';
 
-import Logo from 'src/components/logo';
-import Iconify from 'src/components/iconify';
+import Logo from '@components/logo';
+import Iconify from '@components/iconify';
 import { MainContext } from '../../contexts/MainContext';
 
 export default function LoginView() {

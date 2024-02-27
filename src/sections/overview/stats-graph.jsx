@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 
-import Chart, { useChart } from 'src/components/chart';
+import Chart, { useChart } from '@components/chart';
 
 export default function StatsGraph({ title, subheader, chart, ...other }) {
   const { labels, colors, series, options } = chart;

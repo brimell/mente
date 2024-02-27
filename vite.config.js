@@ -18,21 +18,29 @@ export default defineConfig({
     include: ['@emotion/react', '@emotion/styled'],
   },
   resolve: {
-    alias: [
-      {
-        find: /^~(.+)/,
-        replacement: path.join(process.cwd(), 'node_modules/$1'),
-      },
-      {
-        find: /^src(.+)/,
-        replacement: path.join(process.cwd(), 'src/$1'),
-      },
-    ],
+    alias: {
+      '@': '/src',
+      '@components': '/src/components',
+      '@utils': '/src/utils',
+      '@hooks': '/src/hooks',
+      '@contexts': '/src/contexts',
+      '@sections': '/src/sections',
+      '@theme': '/src/theme',
+      '@layouts': '/src/layouts',
+      '@routes': '/src/routes',
+      '@types': '/src/@types',
+      '@pages': '/src/pages',
+    },
   },
   server: {
     port: 3030,
   },
   preview: {
     port: 3030,
+  },
+  build: {
+    minify: 'terser', // Use terser for minification
+    sourcemap: false, // Toggle source maps
+    chunkSizeWarningLimit: 500, // Increase limit to 500kb before warning about chunk size
   },
 });
