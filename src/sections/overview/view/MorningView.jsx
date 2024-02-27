@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Box,
   Container,
@@ -10,9 +9,14 @@ import {
   RadioGroup,
   TextField,
   Typography,
+  FormGroup,
+  Checkbox,
+  FormLabel,
+  useTheme,
 } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import SendIcon from '@mui/icons-material/Send';
+import { gsap } from 'gsap';
 
 const questions = [
   {
@@ -48,27 +52,54 @@ const questions = [
 ];
 
 function MorningView() {
+  const theme = useTheme().palette.mode;
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
-  const transitions = useSpring({
-    to: { opacity: 1, transform: 'translateX(0)' },
-    from: { opacity: 0, transform: 'translateX(-100%)' },
-    reset: true,
-  });
+  const questionRef = useRef();
+
+  useEffect(() => {
+    // Initially fade in
+    gsap.to(questionRef.current, { opacity: 1, duration: 0.5 });
+
+    // Cleanup function to fade out before unmounting
+    return () => {
+      gsap.to(questionRef.current, { opacity: 0, duration: 0.5 });
+    };
+  }, [currentQuestion]); // Depend on currentQuestion to re-run animation on change
 
   const handleNext = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      // Handle form submission here
-      console.log(answers);
-    }
+    // Fade out, then change question
+    gsap.to(questionRef.current, {
+      opacity: 0,
+      duration: 0.5,
+      onComplete: () => {
+        setCurrentQuestion((prev) => (prev < questions.length - 1 ? prev + 1 : prev));
+        // Ensure element is visible for the next question
+        gsap.to(questionRef.current, { opacity: 1, duration: 0.5 });
+      },
+    });
   };
 
+  // Handle option change without affecting the fade state
   const handleChange = (event) => {
     setAnswers({
       ...answers,
-      [questions[currentQuestion].field]: event.target.value,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleMultipleSelectChange = (event) => {
+    const { name, value } = event.target;
+    const newSelection = answers[name] ? [...answers[name]] : [];
+    if (newSelection.includes(value)) {
+      const selectionIndex = newSelection.indexOf(value);
+      newSelection.splice(selectionIndex, 1);
+    } else {
+      newSelection.push(value);
+    }
+    setAnswers({
+      ...answers,
+      [name]: newSelection,
     });
   };
 
@@ -99,6 +130,38 @@ function MorningView() {
             </RadioGroup>
           </FormControl>
         );
+      case 'multipleSelect':
+        const categoryKeys = Object.keys(question.options);
+        return (
+          <FormControl component="fieldset">
+            {categoryKeys.length > 1 &&
+              categoryKeys.map((category, index) => (
+                <React.Fragment key={index}>
+                  <FormLabel component="legend" sx={{ mt: 2, mb: 1, fontWeight: 'bold' }}>
+                    {category}
+                  </FormLabel>
+                  <FormGroup>
+                    {question.options[category].map((option, idx) => (
+                      <FormControlLabel
+                        key={idx}
+                        control={
+                          <Checkbox
+                            checked={
+                              answers[question.field] && answers[question.field].includes(option)
+                            }
+                            onChange={handleMultipleSelectChange}
+                            name={question.field}
+                            value={option}
+                          />
+                        }
+                        label={option}
+                      />
+                    ))}
+                  </FormGroup>
+                </React.Fragment>
+              ))}
+          </FormControl>
+        );
       default:
         return null;
     }
@@ -109,21 +172,26 @@ function MorningView() {
       sx={{
         display: 'flex',
         height: '100vh',
-        alignItems: { xs: 'center', md: 'flex-start' }, // Center on xs, start on md and up
+        alignItems: { xs: 'center', md: 'flex-start' },
         justifyContent: 'center',
-        pt: { md: 8 }, // Adds a top padding on md and larger screens
+        pt: { md: 8 },
       }}
     >
       <Box sx={{ width: '100%', textAlign: 'center', mt: { xs: 'auto', md: 0 } }}>
-        <animated.div
-          style={{ ...transitions, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        <Box
+          ref={questionRef}
+          style={{ opacity: 0 }}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
         >
           <Typography variant="h6" sx={{ mb: 2 }}>
             {questions[currentQuestion].label}
           </Typography>
           {renderQuestionInput(questions[currentQuestion])}
           <IconButton
-            color="primary"
             onClick={handleNext}
             sx={{
               mt: 2,
@@ -131,11 +199,16 @@ function MorningView() {
               width: 56,
               height: 56,
               alignSelf: 'center',
+              color: 'primary.contrastText',
+              backgroundColor: 'primary.main',
+              ':hover': {
+                backgroundColor: theme === 'light' ? 'primary.lighter' : 'primary.darker',
+              },
             }}
           >
             {currentQuestion === questions.length - 1 ? <SendIcon /> : <ChevronRightIcon />}
           </IconButton>
-        </animated.div>
+        </Box>
       </Box>
     </Container>
   );

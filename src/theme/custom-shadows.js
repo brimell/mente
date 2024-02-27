@@ -5,7 +5,6 @@ import { grey, palette, common } from './palette';
 const { info, error, primary, success, warning, secondary } = palette();
 
 export function customShadows() {
-  console.log(info)
   const transparent = alpha(grey[500], 0.16);
 
   return {
