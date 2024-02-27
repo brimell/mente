@@ -97,7 +97,6 @@ server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
 
-
 // oura ring api functions
 
 // Step 1: Authorization request (user interaction)
@@ -116,7 +115,8 @@ const tokenRequestBody = {
   redirect_uri: 'https://example.com/callback',
 };
 
-axios.post(tokenEndpoint, tokenRequestBody)
+axios
+  .post(tokenEndpoint, tokenRequestBody)
   .then((response) => {
     const accessToken = response.data.access_token;
 
@@ -131,3 +131,38 @@ axios.post(tokenEndpoint, tokenRequestBody)
   .catch((error) => {
     console.error('Error:', error.message);
   });
+
+// rescue time api functions
+
+
+const clientId = process.env.RESCUE_TIME_CLIENT_ID;
+const clientSecret = process.env.RESCUE_TIME_CLIENT_SECRET;
+const redirectUri = process.env.NODE_ENV === 'production' ? 'https://mente.web.app/' : 'https://localhost:3030';
+
+app.post('/api/exchange-code', async (req, res) => {
+  const { code } = req.body;
+  try {
+    const tokenResponse = await fetch('https://www.rescuetime.com/oauth/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client_id: clientId,
+        client_secret: clientSecret,
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: redirectUri,
+      }),
+    });
+    const tokenData = await tokenResponse.json();
+    const accessToken = tokenData.access_token;
+
+    // Optionally, fetch user data with the access token
+    const userDataResponse = await fetch('https://www.rescuetime.com/api/oauth/data?access_token=' + accessToken + '&perspective=interval&restrict_kind=productivity&interval=hour&restrict_begin=2018-01-01&restrict_end=2018-01-31&format=json');
+    const userData = await userDataResponse.json();
+
+    res.json({ userData });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
