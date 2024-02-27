@@ -17,6 +17,7 @@ import {
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import SendIcon from '@mui/icons-material/Send';
 import { gsap } from 'gsap';
+import MoodRecorder from '../../../components/MoodRecorder';
 
 const questions = [
   {
@@ -104,6 +105,10 @@ function MorningView() {
   };
 
   const renderQuestionInput = (question) => {
+    if (question.field === 'mood') {
+      return <MoodRecorder />;
+    }
+
     switch (question.type) {
       case 'text':
         return (

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Box, Card, Typography, Snackbar, Alert } from '@mui/material';
-import Moods from '../components/moods';
+import Moods from './moods';
 import { MainContext } from '../contexts/MainContext';
 import { addMoodToFirestore, getLastMoodSubmission } from '../utils/firestore';
 import useNotification from '../hooks/useNotification';
@@ -95,9 +95,9 @@ export default function MoodRecorder() {
           alignItems: 'center',
         }}
       >
-        <Typography variant="h6" sx={{ mb: 5 }} style={{ margin: '0' }}>
+        {/* <Typography variant="h6" sx={{ mb: 5 }} style={{ margin: '0' }}>
           {selected ? 'Current mood' : 'Record your mood!'}
-        </Typography>
+        </Typography> */}
         <Box sx={{ p: 5 }}>
           <Moods
             handleMoodSubmit={handleMoodSubmit}

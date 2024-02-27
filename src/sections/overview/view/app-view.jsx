@@ -16,7 +16,7 @@ import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
-import MoodRecorder from '../../../components/mood-recorder';
+import MoodRecorder from '../../../components/MoodRecorder';
 import StressRecorder from '../../../components/stress-recorder';
 import RestedRecorder from '../../../components/rested-recorder';
 
