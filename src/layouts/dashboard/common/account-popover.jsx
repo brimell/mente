@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import SettingsModal from './settings-modal';
-import { MainContext } from '../../../contexts/MainContext';
+import { MainContext } from '@contexts/MainContext';
 
 import { logoutUser, setDisplayName } from '@utils/auth';
 
@@ -18,6 +18,10 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const [openSettingsModal, setOpenSettingsModal] = useState(false);
   const { currentUser } = useContext(MainContext);
+
+  if (!currentUser) {
+    return null;
+  }
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
