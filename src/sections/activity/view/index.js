@@ -1,1 +1,1 @@
-export { default as TypographyView } from './TypographyView';
+export { default as ActivityView } from './ActivityView';

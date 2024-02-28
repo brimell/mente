@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-export default function TypographyView() {
+export default function ActivityView() {
   return (
     <Container>
       <Stack

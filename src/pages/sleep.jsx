@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { OverviewView } from '../sections/overview/view';
+import { SleepView } from '../sections/sleep/view';
 
 export default function SleepPage() {
   return (
@@ -9,7 +9,7 @@ export default function SleepPage() {
         <title>mente | sleep</title>
       </Helmet>
 
-      <OverviewView />
+      <SleepView />
     </>
   );
 }
