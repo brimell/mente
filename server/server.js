@@ -108,16 +108,6 @@ server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
 
-// Oura Ring API
-
-// Environment variables for Oura client credentials
-const OURA_CLIENT_ID = process.env.OURA_CLIENT_ID;
-const OURA_CLIENT_SECRET = process.env.OURA_CLIENT_SECRET;
-const REDIRECT_URI =
-  process.env.NODE_ENV === 'production'
-    ? 'https://mente.web.app/app/settings'
-    : 'https://localhost:3000/app/settings';
-
 // Oura Ring API OAuth Token Exchange Endpoint
 const tokenEndpoint = 'https://api.ouraring.com/oauth/token';
 
