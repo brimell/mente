@@ -1,4 +1,6 @@
-const integrationsConfig = [
+import { Integration } from '@types/integrationTypes';
+
+const integrationsConfig: Integration[] = [
   {
     name: 'Oura',
     description: 'Connect your Oura account to see your sleep data in the app.',

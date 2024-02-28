@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { MainContext } from '@contexts/MainContext';
+
 import { Box, Button } from '@mui/material';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
@@ -10,16 +11,20 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import localforage from 'localforage';
 
+// @ts-ignore
 import Iconify from '@components/Iconify';
 import { OuraConnect } from '@utils/integrations/oura';
 import { RescueTimeConnect } from '@utils/integrations/rescuetime';
+import React from 'react';
 
-export default function IntegrationCard({ integration, enabled }) {
-  const { code } = useContext(MainContext);
+
+
+export default async function IntegrationCard({ integration, enabled }: { integration: any, enabled: boolean }) {
+  const { code, setOuraAccessToken } = useContext(MainContext);
 
   if (code) {
     // continue with the integration
-    const pendingIntegration = localforage.getItem('pendingIntegration');
+    const pendingIntegration = await localforage.getItem('pendingIntegration') as string;
     if (code && pendingIntegration) {
       console.log('Continuing with integration:', pendingIntegration);
 
@@ -40,7 +45,7 @@ export default function IntegrationCard({ integration, enabled }) {
   }
 
   // Utility function for making POST requests to your server
-  async function sendCodeToIntegrationEndpoint(integrationName, code) {
+  async function sendCodeToIntegrationEndpoint(integrationName: string, code: string) {
     try {
       const response = await fetch(`/api/integrations/${integrationName}/exchange-code`, {
         method: 'POST',
@@ -69,13 +74,13 @@ export default function IntegrationCard({ integration, enabled }) {
   }
 
   // Finalize Oura Integration
-  function OuraFinalize(code) {
+  function OuraFinalize(code: string) {
     console.log('Finalizing Oura Integration with code:', code);
     sendCodeToIntegrationEndpoint('oura', code);
   }
 
   // Finalize RescueTime Integration
-  function RescueTimeFinalize(code) {
+  function RescueTimeFinalize(code: string) {
     console.log('Finalizing RescueTime Integration with code:', code);
     sendCodeToIntegrationEndpoint('rescuetime', code);
   }
@@ -98,14 +103,10 @@ export default function IntegrationCard({ integration, enabled }) {
       src={integration.logo}
       sx={{
         zIndex: 9,
-        width: 32,
-        height: 32,
         position: 'absolute',
         left: (theme) => theme.spacing(3),
         bottom: (theme) => theme.spacing(-2),
-        zIndex: 9,
         top: 24,
-        left: 24,
         width: 40,
         height: 40,
       }}
@@ -118,7 +119,6 @@ export default function IntegrationCard({ integration, enabled }) {
       variant="subtitle2"
       underline="hover"
       sx={{
-        height: 44,
         overflow: 'hidden',
         WebkitLineClamp: 2,
         display: '-webkit-box',
@@ -155,7 +155,6 @@ export default function IntegrationCard({ integration, enabled }) {
         mb: 2,
         color: 'text.disabled',
         opacity: 0.48,
-        color: 'common.white',
       }}
     >
       {integration.description}
@@ -201,7 +200,6 @@ export default function IntegrationCard({ integration, enabled }) {
         <Box
           sx={{
             position: 'relative',
-            pt: 'calc(100% * 3 / 4)',
             pt: 'calc(100% * 4 / 3)',
             '&:after': {
               top: 0,
@@ -210,10 +208,6 @@ export default function IntegrationCard({ integration, enabled }) {
               height: '100%',
               position: 'absolute',
               bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-            },
-            pt: {
-              xs: 'calc(100% * 4 / 3)',
-              sm: 'calc(100% * 3 / 4.66)',
             },
           }}
         >

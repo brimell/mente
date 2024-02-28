@@ -16,6 +16,7 @@ const MainContextProvider = ({ children }) => {
   const [ouraData, setOuraData] = useState([]);
   const [averageMood, setAverageMood] = useState(0);
   const [code, setCode] = useState();
+  const [ouraAccessToken, setOuraAccessToken] = useState();
 
   // firebase auth functions
 
@@ -96,6 +97,8 @@ const MainContextProvider = ({ children }) => {
         averageMood,
         code,
         setCode,
+        ouraAccessToken,
+        setOuraAccessToken,
       }}
     >
       {children}
