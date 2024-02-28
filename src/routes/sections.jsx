@@ -35,7 +35,6 @@ const useQuery = () => {
 export default function AppRouter() {
   const { currentUser, setCode } = useContext(MainContext);
   const query = useQuery();
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,7 +43,7 @@ export default function AppRouter() {
       setCode(code);
       navigate('app/settings')
     }
-  }, [location, query]);
+  }, []);
 
   if (currentUser === undefined) {
     // If currentUser is undefined, show a skeleton instead of a simple loading text

@@ -132,10 +132,15 @@ app.post('/api/integrations/oura/exchange-code', async (req, res) => {
     params.append('client_secret', process.env.OURA_CLIENT_SECRET);
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
-    params.append('redirect_uri', process.env.NODE_ENV === 'production' ? "https://mente.web.app/app/settings" : "https://localhost:3000/app/settings");
+    params.append(
+      'redirect_uri',
+      process.env.NODE_ENV === 'production'
+        ? 'https://mente.web.app/app/settings'
+        : 'https://localhost:3000/app/settings'
+    );
 
     const response = await axios.post(tokenEndpoint, params.toString(), {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     });
 
     // Extract the access token from the response
@@ -145,10 +150,11 @@ app.post('/api/integrations/oura/exchange-code', async (req, res) => {
     res.json({ accessToken });
   } catch (error) {
     console.error('Oura Token Exchange Error:', error.response ? error.response.data : error);
-    res.status(error.response ? error.response.status : 500).json({ error: 'Failed to exchange code for token with Oura API.' });
+    res
+      .status(error.response ? error.response.status : 500)
+      .json({ error: 'Failed to exchange code for token with Oura API.' });
   }
 });
-
 
 // RescueTime API OAuth Token Exchange Endpoint
 app.post('/api/integrations/rescuetime/exchange-code', async (req, res) => {
@@ -160,18 +166,12 @@ app.post('/api/integrations/rescuetime/exchange-code', async (req, res) => {
       client_secret: process.env.RESCUE_TIME_CLIENT_SECRET,
       grant_type: 'authorization_code',
       code: code,
-      // redirect_uri: "https://mente.web.app/app/settings",
-      redirect_uri: 'https://localhost:3000/app/settings',
+      // redirect_uri: "https://mente.web.app",
+      redirect_uri: 'https://localhost:3030',
     });
 
-    // Optionally, use the access token to fetch user data
     const accessToken = response.data.access_token;
-    const userDataResponse = await axios.get(
-      `https://www.rescuetime.com/api/oauth/data?access_token=${accessToken}&perspective=interval&restrict_kind=productivity&interval=hour&restrict_begin=2018-01-01&restrict_end=2018-01-31&format=json`
-    );
-    const userData = userDataResponse.data;
-
-    res.json({ accessToken, userData });
+    res.json({ accessToken });
   } catch (error) {
     console.error('RescueTime Token Exchange Error:', error);
     res.status(500).json({ error: 'Failed to exchange code for token with RescueTime API.' });

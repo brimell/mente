@@ -1,6 +1,6 @@
 const clientId = '_Ul6bqdGp1B1_EhEem50Kxzdq245HLKKn5k04CflpY0';
-const redirectUri =
-  process.env.NODE_ENV === 'production' ? 'https://mente.web.app/' : 'https://localhost:3030/';
+// const redirectUri ='https://mente.web.app/'
+const redirectUri ='https://localhost:3030'
 const scope = 'time_data category_data productivity_data';
 
 export const RescueTimeConnect = () => {

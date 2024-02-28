@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { MainContext } from '@contexts/MainContext';
 
 import { Box, Button } from '@mui/material';
@@ -27,28 +27,30 @@ interface IntegrationCardProps {
 export default function IntegrationCard({ integration, enabled }: IntegrationCardProps) {
   const { code, setOuraAccessToken } = useContext(MainContext) as MainContextProps;
 
-  if (code) {
-    // continue with the integration
-    localforage.getItem('pendingIntegration').then((pendingIntegration) => {
-      if (code && pendingIntegration) {
-        console.log('Continuing with integration:', pendingIntegration);
+  useEffect(() => {
+    if (code) {
+      // continue with the integration
+      localforage.getItem('pendingIntegration').then((pendingIntegration) => {
+        if (code && pendingIntegration) {
+          console.log('Continuing with integration:', pendingIntegration);
 
-        switch (pendingIntegration) {
-          case 'Oura':
-            console.log('Finalizing Oura Integration with code:', code);
-            OuraFinalize(code);
-            break;
-          case 'RescueTime':
-            console.log('Finalizing RescueTime Integration with code:', code);
-            RescueTimeFinalize(code);
-            break;
+          switch (pendingIntegration) {
+            case 'Oura':
+              console.log('Finalizing Oura Integration with code:', code);
+              OuraFinalize(code);
+              break;
+            case 'RescueTime':
+              console.log('Finalizing RescueTime Integration with code:', code);
+              RescueTimeFinalize(code);
+              break;
+          }
+
+          // Clean up after continuing with the integration
+          localforage.removeItem('pendingIntegration');
         }
-
-        // Clean up after continuing with the integration
-        localforage.removeItem('pendingIntegration');
-      }
-    });
-  }
+      });
+    }
+  }, [code]);
 
   // Utility function for making POST requests to your server
   async function sendCodeToIntegrationEndpoint(integrationName: string, code: string) {
@@ -207,7 +209,7 @@ export default function IntegrationCard({ integration, enabled }: IntegrationCar
               height: '100%',
               position: 'absolute',
               bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-            }
+            },
           }}
         >
           {renderLogo}
