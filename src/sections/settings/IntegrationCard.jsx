@@ -19,7 +19,7 @@ export default function IntegrationCard({ integration, enabled }) {
 
   if (code) {
     // continue with the integration
-    const pendingIntegration = localStorage.getItem('pendingIntegration');
+    const pendingIntegration = localforage.getItem('pendingIntegration');
     if (code && pendingIntegration) {
       console.log('Continuing with integration:', pendingIntegration);
 
@@ -35,7 +35,7 @@ export default function IntegrationCard({ integration, enabled }) {
       }
 
       // Clean up after continuing with the integration
-      localStorage.removeItem('pendingIntegration');
+      localforage.removeItem('pendingIntegration');
     }
   }
 
@@ -82,7 +82,7 @@ export default function IntegrationCard({ integration, enabled }) {
 
   function handleConnect() {
     console.log('connect', integration.name);
-    localStorage.setItem('pendingIntegration', integration.name);
+    localforage.setItem('pendingIntegration', integration.name);
 
     if (integration.name === 'Oura') OuraConnect();
     if (integration.name === 'RescueTime') RescueTimeConnect();
