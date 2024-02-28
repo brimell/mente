@@ -16,8 +16,66 @@ import { RescueTimeConnect } from '@utils/integrations/rescuetime';
 export default function IntegrationCard({ integration, enabled }) {
   const { code } = useContext(MainContext);
 
+  if (code) {
+    // continue with the integration
+    const pendingIntegration = localStorage.getItem('pendingIntegration');
+    if (code && pendingIntegration) {
+      console.log('Continuing with integration:', pendingIntegration);
+
+      switch (pendingIntegration) {
+        case 'Oura':
+          console.log('Finalizing Oura Integration with code:', code);
+          OuraFinalize(code);
+          break;
+        case 'RescueTime':
+          console.log('Finalizing RescueTime Integration with code:', code);
+          RescueTimeFinalize(code);
+          break;
+      }
+
+      // Clean up after continuing with the integration
+      localStorage.removeItem('pendingIntegration');
+    }
+  }
+
+  // Utility function for making POST requests to your server
+  async function sendCodeToIntegrationEndpoint(integrationName, code) {
+    try {
+      const response = await fetch(`/api/integrations/${integrationName}/finalize`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to finalize integration');
+      }
+      const data = await response.json();
+      console.log(`${integrationName} integration successful:`, data);
+      // Update UI or state as needed based on successful integration
+    } catch (error) {
+      console.error(`Error finalizing ${integrationName} integration:`, error);
+      // Handle errors, update UI accordingly
+    }
+  }
+
+  // Finalize Oura Integration
+  function OuraFinalize(code) {
+    console.log('Finalizing Oura Integration with code:', code);
+    sendCodeToIntegrationEndpoint('oura', code);
+  }
+
+  // Finalize RescueTime Integration
+  function RescueTimeFinalize(code) {
+    console.log('Finalizing RescueTime Integration with code:', code);
+    sendCodeToIntegrationEndpoint('rescuetime', code);
+  }
+
   function handleConnect() {
     console.log('connect', integration.name);
+    localStorage.setItem('pendingIntegration', integration.name);
+
     if (integration.name === 'Oura') OuraConnect();
     if (integration.name === 'RescueTime') RescueTimeConnect();
   }

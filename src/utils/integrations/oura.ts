@@ -2,10 +2,10 @@ export async function OuraConnect() {
   // Construct the authorization URL for Oura's OAuth2 flow
   const clientId = 'H6PFTDZMALWQSXSY';
 
-//   const redirectUri = encodeURIComponent('https://mente.web.app/app/settings');
+  // const redirectUri = encodeURIComponent('https://mente.web.app/app/settings');
   const redirectUri = encodeURIComponent('http://localhost:3030/app/settings');
 
-  const scope = encodeURIComponent("personal daily sleep activity readiness");
+  const scope = encodeURIComponent('personal daily sleep activity readiness');
 
   const state = generateState();
   const responseType = 'code';
@@ -17,6 +17,5 @@ export async function OuraConnect() {
 }
 
 function generateState(): string {
-    return [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
-  }
-  
+  return [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
+}

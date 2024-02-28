@@ -1,7 +1,7 @@
 import { lazy, Suspense, useContext, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Skeleton } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Navigate } from 'react-router-dom';
 
 import DashboardLayout from '../layouts/dashboard';
 import HeroPage from '@pages/hero';
@@ -36,12 +36,13 @@ export default function AppRouter() {
   const { currentUser, setCode } = useContext(MainContext);
   const query = useQuery();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const code = query.get('code');
     if (code) {
       setCode(code);
-      location('app/settings')
+      navigate('app/settings')
     }
   }, [location, query]);
 
