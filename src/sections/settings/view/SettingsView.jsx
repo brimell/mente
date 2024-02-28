@@ -36,13 +36,15 @@ export default function SettingsView() {
           Integrations
         </Typography>
         <Grid container spacing={3}>
-          {integrationsConfig.map((integration) => (
-            <IntegrationCard
-              key={integration.name}
-              integration={integration}
-              enabled={isIntegrationEnabled(integration.name)}
-            />
-          ))}
+          {integrationsConfig.map((integration) => {
+            return (
+              <IntegrationCard
+                key={integration.name}
+                integration={integration}
+                enabled={isIntegrationEnabled(integration.name)}
+              />
+            );
+          })}
         </Grid>
         <Typography variant="h6" sx={{ mb: 5 }}>
           Profile

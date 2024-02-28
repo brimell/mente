@@ -12,10 +12,12 @@ import IconButton from '@mui/material/IconButton';
 import SettingsModal from './settings-modal';
 import { MainContext } from '../../../contexts/MainContext';
 
+import { logoutUser, setDisplayName } from '@utils/auth';
+
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const [openSettingsModal, setOpenSettingsModal] = useState(false);
-  const { setDisplayName, logoutUser, currentUser } = useContext(MainContext);
+  const { currentUser } = useContext(MainContext);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);

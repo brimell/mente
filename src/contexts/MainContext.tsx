@@ -3,6 +3,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '@utils/firebaseInit';
 import { getThisWeeksMoodAverage } from '../utils/firestore';
+import localforage from 'localforage';
 
 interface Mood {
   id: string;
@@ -21,6 +22,12 @@ export interface MainContextProps {
   setOuraAccessToken: React.Dispatch<React.SetStateAction<any>>; // Adjust type accordingly
 }
 
+async function getUserFromStorage(): Promise<User | null> {
+  const user = await localforage.getItem('currentUser') as string | null;
+  if (user) return JSON.parse(user) as User; // Cast user to User type
+  return null;
+}
+
 export const MainContext = createContext<MainContextProps | null>(null);
 
 const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -29,6 +36,12 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [averageMood, setAverageMood] = useState<number>(0);
   const [code, setCode] = useState<any>();
   const [ouraAccessToken, setOuraAccessToken] = useState<any>();
+
+  useEffect(() => {
+    getUserFromStorage().then((user) => {
+      setCurrentUser(user);
+    });
+  }, []);
 
   // firebase useEffect
 
@@ -51,6 +64,7 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       console.log('User state changed', user);
       setCurrentUser(user); // Update current user state
+      localforage.setItem('currentUser', JSON.stringify(user));
     });
 
     fetchMoods();

@@ -21,7 +21,7 @@ import { bgGradient } from '@theme/css';
 
 import Logo from '@components/logo';
 import Iconify from '@components/iconify';
-import { MainContext } from '../../contexts/MainContext';
+import { registerUser } from '@utils/auth';
 
 export default function LoginView() {
   const theme = useTheme();
@@ -31,7 +31,6 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const { registerUser } = useContext(MainContext);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);

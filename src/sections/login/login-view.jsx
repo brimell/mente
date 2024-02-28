@@ -20,9 +20,7 @@ import { bgGradient } from '@theme/css';
 import Logo from '@components/logo';
 import Iconify from '@components/iconify';
 
-import { MainContext } from '@contexts/MainContext';
-
-// ----------------------------------------------------------------------
+import { loginUser } from '@utils/auth';
 
 export default function LoginView() {
   const theme = useTheme();
@@ -31,7 +29,6 @@ export default function LoginView() {
 
 
   const [showPassword, setShowPassword] = useState(false);
-  const { loginUser } = useContext(MainContext);
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
