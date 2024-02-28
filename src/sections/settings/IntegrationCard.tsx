@@ -196,7 +196,10 @@ export default function IntegrationCard({ integration, enabled }: IntegrationCar
         <Box
           sx={{
             position: 'relative',
-            pt: 'calc(100% * 4 / 3)',
+            pt: {
+              xs: 'calc(100% * 4 / 3)',
+              sm: 'calc(100% * 3 / 4.66)',
+            },
             '&:after': {
               top: 0,
               content: "''",
@@ -204,7 +207,7 @@ export default function IntegrationCard({ integration, enabled }: IntegrationCar
               height: '100%',
               position: 'absolute',
               bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-            },
+            }
           }}
         >
           {renderLogo}
