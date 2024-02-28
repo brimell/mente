@@ -112,7 +112,13 @@ export const getMoodsInRange = async (
   );
   try {
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      mood: doc.data().mood,
+      timestamp: doc.data().timestamp,
+      user: doc.data().user,
+      ...doc.data()
+    }));
   } catch (e) {
     console.error('Error fetching documents: ', e);
     return [];
@@ -221,19 +227,22 @@ export const calculateMoodStreaks = async (userId: string): Promise<number> => {
 // integration stuff
 
 export const fetchUserEnabledIntegrations = async () => {
-  const userIntegrationsDocRef = doc(db, "userIntegrations", auth.currentUser.uid);
-  const docSnap = await getDoc(userIntegrationsDocRef);
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-    return docSnap.data().enabledIntegrations;
-  } else {
-    return []; // Return an empty array if no data exists
+  if (auth.currentUser) {
+    const userIntegrationsDocRef = doc(db, "userIntegrations", auth.currentUser.uid);
+    const docSnap = await getDoc(userIntegrationsDocRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      return docSnap.data().enabledIntegrations;
+    }
   }
+  return []; // Return an empty array if no data exists or 'auth.currentUser' is null
 };
 
 export const updateUserEnabledIntegrations = async (enabledIntegrations: string[]) => {
-  const userIntegrationsDocRef = doc(db, "userIntegrations", auth.currentUser.uid);
-  await setDoc(userIntegrationsDocRef, { enabledIntegrations }, { merge: true });
+  if (auth.currentUser) {
+    const userIntegrationsDocRef = doc(db, "userIntegrations", auth.currentUser.uid);
+    await setDoc(userIntegrationsDocRef, { enabledIntegrations }, { merge: true });
+  }
 };
 
 export const fetchIntegrationStatus = async (integrationId: string): Promise<boolean> => {
