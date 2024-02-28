@@ -24,29 +24,30 @@ interface IntegrationCardProps {
   enabled: boolean;
 }
 
-export default async function IntegrationCard({ integration, enabled }: IntegrationCardProps) {
+export default function IntegrationCard({ integration, enabled }: IntegrationCardProps) {
   const { code, setOuraAccessToken } = useContext(MainContext) as MainContextProps;
 
   if (code) {
     // continue with the integration
-    const pendingIntegration = (await localforage.getItem('pendingIntegration')) as string;
-    if (code && pendingIntegration) {
-      console.log('Continuing with integration:', pendingIntegration);
+    localforage.getItem('pendingIntegration').then((pendingIntegration) => {
+      if (code && pendingIntegration) {
+        console.log('Continuing with integration:', pendingIntegration);
 
-      switch (pendingIntegration) {
-        case 'Oura':
-          console.log('Finalizing Oura Integration with code:', code);
-          OuraFinalize(code);
-          break;
-        case 'RescueTime':
-          console.log('Finalizing RescueTime Integration with code:', code);
-          RescueTimeFinalize(code);
-          break;
+        switch (pendingIntegration) {
+          case 'Oura':
+            console.log('Finalizing Oura Integration with code:', code);
+            OuraFinalize(code);
+            break;
+          case 'RescueTime':
+            console.log('Finalizing RescueTime Integration with code:', code);
+            RescueTimeFinalize(code);
+            break;
+        }
+
+        // Clean up after continuing with the integration
+        localforage.removeItem('pendingIntegration');
       }
-
-      // Clean up after continuing with the integration
-      localforage.removeItem('pendingIntegration');
-    }
+    });
   }
 
   // Utility function for making POST requests to your server

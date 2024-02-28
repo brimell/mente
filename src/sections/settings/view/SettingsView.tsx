@@ -8,9 +8,11 @@ import Typography from '@mui/material/Typography';
 
 import integrationsConfig from '../integrations';
 import IntegrationCard from '../IntegrationCard';
+import { Integration } from '@/store/integrationTypes';
+import React from 'react';
 
 export default function SettingsView() {
-  const [enabledIntegrations, setEnabledIntegrations] = useState([]);
+  const [enabledIntegrations, setEnabledIntegrations] = useState<string[]>([]);
 
   useEffect(() => {
     const initializeEnabledIntegrations = async () => {
@@ -22,7 +24,7 @@ export default function SettingsView() {
   }, []);
 
   // Check if an integration is enabled
-  const isIntegrationEnabled = (integrationName) => {
+  const isIntegrationEnabled = (integrationName: string) => {
     return enabledIntegrations.includes(integrationName);
   };
 
@@ -36,15 +38,13 @@ export default function SettingsView() {
           Integrations
         </Typography>
         <Grid container spacing={3}>
-          {integrationsConfig.map((integration) => {
-            return (
-              <IntegrationCard
-                key={integration.name}
-                integration={integration}
-                enabled={isIntegrationEnabled(integration.name)}
-              />
-            );
-          })}
+          {integrationsConfig.map((integration: Integration) => (
+            <IntegrationCard
+              key={integration.name}
+              integration={integration}
+              enabled={isIntegrationEnabled(integration.name)}
+            />
+          ))}
         </Grid>
         <Typography variant="h6" sx={{ mb: 5 }}>
           Profile
