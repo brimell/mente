@@ -28,7 +28,7 @@ export default defineConfig({
       '@theme': '/src/theme',
       '@layouts': '/src/layouts',
       '@routes': '/src/routes',
-      '@types': '/src/types',
+      '@store': '/src/store',
       '@pages': '/src/pages',
     },
   },

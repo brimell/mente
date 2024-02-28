@@ -1,4 +1,4 @@
-import { Integration } from '@types/integrationTypes';
+import { Integration } from '@store/integrationTypes';
 
 const integrationsConfig: Integration[] = [
   {

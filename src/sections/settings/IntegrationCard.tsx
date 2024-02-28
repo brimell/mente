@@ -17,15 +17,14 @@ import Iconify from '@components/Iconify';
 import { OuraConnect } from '@utils/integrations/oura';
 import { RescueTimeConnect } from '@utils/integrations/rescuetime';
 import React from 'react';
+import { Integration } from '@/store/integrationTypes';
 
-export default async function IntegrationCard({
-  integration,
-  enabled,
-}: {
-  integration: any;
+interface IntegrationCardProps {
+  integration: Integration;
   enabled: boolean;
-}) {
+}
 
+export default async function IntegrationCard({ integration, enabled }: IntegrationCardProps) {
   const { code, setOuraAccessToken } = useContext(MainContext) as MainContextProps;
 
   if (code) {

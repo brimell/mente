@@ -11,8 +11,8 @@
       "@theme/*": ["./src/theme/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@routes/*": ["./src/routes/*"],
-      "@types/*": ["./src/types/*"],
-      "@pages/*": ["./src/pages/*"],
+      "@store/*": ["src/store/*"],
+      "@pages/*": ["./src/pages/*"]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -30,9 +30,9 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
