@@ -41,7 +41,7 @@ export default function IntegrationCard({ integration, enabled }) {
   // Utility function for making POST requests to your server
   async function sendCodeToIntegrationEndpoint(integrationName, code) {
     try {
-      const response = await fetch(`/api/integrations/${integrationName}/finalize`, {
+      const response = await fetch(`/api/integrations/${integrationName}/exchange-code`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

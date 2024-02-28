@@ -111,7 +111,7 @@ server.listen(PORT, () => {
 
 
 // Oura Ring API OAuth Token Exchange Endpoint
-app.post('/api/oura/exchange-code', async (req, res) => {
+app.post('/api/integrations/oura/exchange-code', async (req, res) => {
   const { code } = req.body;
 
   try {
@@ -139,16 +139,17 @@ app.post('/api/oura/exchange-code', async (req, res) => {
 });
 
 // RescueTime API OAuth Token Exchange Endpoint
-app.post('/api/rescuetime/exchange-code', async (req, res) => {
+app.post('/api/integrations/rescuetime/exchange-code', async (req, res) => {
   const { code } = req.body;
 
   try {
     const response = await axios.post('https://www.rescuetime.com/oauth/token', {
-      client_id: RESCUE_TIME_CLIENT_ID,
-      client_secret: RESCUE_TIME_CLIENT_SECRET,
+      client_id: process.env.RESCUE_TIME_CLIENT_ID,
+      client_secret: process.env.RESCUE_TIME_CLIENT_SECRET,
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: REDIRECT_URI,
+      // redirect_uri: "https://mente.web.app/app/settings",
+      redirect_uri: "http://localhost:3030/app/settings",
     });
 
     // Optionally, use the access token to fetch user data
