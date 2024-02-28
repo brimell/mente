@@ -53,7 +53,14 @@ export default function IntegrationCard({ integration, enabled }) {
       }
       const data = await response.json();
       console.log(`${integrationName} integration successful:`, data);
-      // Update UI or state as needed based on successful integration
+
+      // Update state with the access token
+      setOuraAccessToken(data.accessToken);
+
+      // Also, save the access token to localForage (asynchronous localStorage)
+      await localforage.setItem(`${integrationName}AccessToken`, data.accessToken);
+
+      console.log(`${integrationName} access token saved locally.`);
     } catch (error) {
       console.error(`Error finalizing ${integrationName} integration:`, error);
       // Handle errors, update UI accordingly
