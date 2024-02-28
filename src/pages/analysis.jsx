@@ -2,11 +2,11 @@ import { Helmet } from 'react-helmet-async';
 
 import { OverviewView } from '../sections/overview/view';
 
-export default function AppPage() {
+export default function AnalysisPage() {
   return (
     <>
       <Helmet>
-        <title>mente | overview</title>
+        <title>mente | analysis</title>
       </Helmet>
 
       <OverviewView />

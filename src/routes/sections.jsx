@@ -14,6 +14,10 @@ const MorningPage = lazy(() => import('@pages/morning'));
 const BlogPage = lazy(() => import('@pages/blog'));
 const UserPage = lazy(() => import('@pages/user'));
 const ProductsPage = lazy(() => import('@pages/products'));
+const MoodPage = lazy(() => import('@pages/mood'));
+const SleepPage = lazy(() => import('@pages/sleep'));
+const ActivityPage = lazy(() => import('@pages/activity'));
+const AnalysisPage = lazy(() => import('@pages/analysis'));
 const SettingsPage = lazy(() => import('@pages/settings'));
 const TypographyPage = lazy(() => import('@pages/typography'));
 const Page404 = lazy(() => import('@pages/page-not-found'));
@@ -66,12 +70,17 @@ export default function AppRouter() {
               <Routes>
                 <Route index element={<AppPage />} />
                 <Route path="morning" element={<MorningPage />} />
-                <Route path="mood" element={<UserPage />} />
-                <Route path="sleep" element={<ProductsPage />} />
-                <Route path="activity" element={<BlogPage />} />
-                <Route path="analysis" element={<BlogPage />} />
+                <Route path="mood" element={<MoodPage />} />
+                <Route path="sleep" element={<SleepPage />} />
+                <Route path="activity" element={<ActivityPage />} />
+                <Route path="analysis" element={<AnalysisPage />} />
                 <Route path="settings" element={<SettingsPage />} />
                 <Route path="typography" element={<TypographyPage />} />
+
+                {/* template (to get rid of) */}
+                <Route path="user" element={<UserPage />} />
+                <Route path="blog" element={<BlogPage />} />
+                <Route path="products" element={<ProductsPage />} />
                 <Route path="*" element={<Navigate to="/404" replace />} />
               </Routes>
             </Suspense>
