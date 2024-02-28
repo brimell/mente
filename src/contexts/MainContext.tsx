@@ -1,39 +1,34 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, updateCurrentUser } from 'firebase/auth';
+import { onAuthStateChanged, User } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '@utils/firebaseInit';
-import * as authUtils from '../utils/auth';
-import * as dbUtils from '../utils/firestore';
-import axios from 'axios'; // Import Axios
 import { getThisWeeksMoodAverage } from '../utils/firestore';
 
-export const MainContext = createContext(null);
+interface Mood {
+  id: string;
+  date: string;
+  mood: string;
+}
 
-const MainContextProvider = ({ children }) => {
-  const [moods, setMoods] = useState([]);
-  const [currentUser, setCurrentUser] = useState();
-  const [rescueTimeData, setRescueTimeData] = useState([]);
-  const [ouraData, setOuraData] = useState([]);
-  const [averageMood, setAverageMood] = useState(0);
-  const [code, setCode] = useState();
-  const [ouraAccessToken, setOuraAccessToken] = useState();
+export interface MainContextProps {
+  db: any; // Adjust type accordingly
+  moods: Mood[];
+  currentUser: User | null;
+  averageMood: number;
+  code?: any; // Adjust type accordingly
+  setCode: React.Dispatch<React.SetStateAction<any>>; // Adjust type accordingly
+  ouraAccessToken?: any; // Adjust type accordingly
+  setOuraAccessToken: React.Dispatch<React.SetStateAction<any>>; // Adjust type accordingly
+}
 
-  // firebase auth functions
+export const MainContext = createContext<MainContextProps | null>(null);
 
-  const registerUser = async (email, password) => authUtils.registerUser(email, username, password);
-  const loginUser = async (email, password, setCurrentUser) =>
-    authUtils.loginUser(email, password, setCurrentUser);
-  const logoutUser = async (setCurrentUser) => authUtils.logoutUser(setCurrentUser);
-  const resetPassword = async (email) => authUtils.resetPassword(email);
-  const setEmail = async (newEmail) => authUtils.setEmail(newEmail, updateCurrentUser);
-  const setDisplayName = async (newDisplayName) =>
-    authUtils.setDisplayName(newDisplayName, updateCurrentUser);
-  const setPhotoURL = async (newPhotoURL) => authUtils.setPhotoURL(newPhotoURL, updateCurrentUser);
-
-  // firebase firestore functions
-
-  const addMoodToFirestore = async (mood) => dbUtils.addMoodToFirestore(mood, currentUser);
-  const getLastMoodSubmission = async (currentUser) => dbUtils.addMoodToFirestore(currentUser);
+const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [moods, setMoods] = useState<Mood[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [averageMood, setAverageMood] = useState<number>(0);
+  const [code, setCode] = useState<any>();
+  const [ouraAccessToken, setOuraAccessToken] = useState<any>();
 
   // firebase useEffect
 
@@ -42,7 +37,7 @@ const MainContextProvider = ({ children }) => {
     const fetchMoods = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'moods'));
-        const fetchedMoods = [];
+        const fetchedMoods: Mood[] = [];
         querySnapshot.forEach((doc) => {
           const { id, date, mood } = doc.data(); // Destructure the data object
           fetchedMoods.push({ id, date, mood }); // Include the missing properties
@@ -67,14 +62,12 @@ const MainContextProvider = ({ children }) => {
     };
   }, [db, auth]);
 
-  // oura api functions
-
   // app-view functions
 
   useEffect(() => {
     if (currentUser) {
       getThisWeeksMoodAverage(currentUser.uid).then(({ averageMood }) => {
-        setAverageMood(averageMood.toFixed(1));
+        setAverageMood(Number(averageMood.toFixed(1)));
       });
     }
   }, [currentUser]);
@@ -85,15 +78,6 @@ const MainContextProvider = ({ children }) => {
         db,
         moods,
         currentUser,
-        loginUser,
-        logoutUser,
-        resetPassword,
-        setDisplayName,
-        setEmail,
-        setPhotoURL,
-        registerUser,
-        addMoodToFirestore,
-        getLastMoodSubmission,
         averageMood,
         code,
         setCode,

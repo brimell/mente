@@ -10,6 +10,7 @@ import { alpha } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import localforage from 'localforage';
+import { MainContextProps } from '@contexts/MainContext';
 
 // @ts-ignore
 import Iconify from '@components/Iconify';
@@ -17,14 +18,19 @@ import { OuraConnect } from '@utils/integrations/oura';
 import { RescueTimeConnect } from '@utils/integrations/rescuetime';
 import React from 'react';
 
+export default async function IntegrationCard({
+  integration,
+  enabled,
+}: {
+  integration: any;
+  enabled: boolean;
+}) {
 
-
-export default async function IntegrationCard({ integration, enabled }: { integration: any, enabled: boolean }) {
-  const { code, setOuraAccessToken } = useContext(MainContext);
+  const { code, setOuraAccessToken } = useContext(MainContext) as MainContextProps;
 
   if (code) {
     // continue with the integration
-    const pendingIntegration = await localforage.getItem('pendingIntegration') as string;
+    const pendingIntegration = (await localforage.getItem('pendingIntegration')) as string;
     if (code && pendingIntegration) {
       console.log('Continuing with integration:', pendingIntegration);
 
@@ -182,16 +188,6 @@ export default async function IntegrationCard({ integration, enabled }: { integr
     />
   ) : (
     <Iconify icon="eva:close-circle-outline" sx={{ color: 'error.main', width: 24, height: 24 }} />
-  );
-
-  const renderActionButton = enabled ? (
-    <Button variant="contained" color="error" sx={{ mt: 2 }}>
-      Disconnect
-    </Button>
-  ) : (
-    <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-      Integrate
-    </Button>
   );
 
   return (
