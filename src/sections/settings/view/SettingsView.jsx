@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchUserEnabledIntegrations } from '../../../utils/firestore';
+import { fetchUserEnabledIntegrations } from '@utils/firestore';
 
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';

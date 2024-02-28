@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { MainContext } from '@contexts/MainContext';
 import { Box, Button } from '@mui/material';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
@@ -8,10 +10,12 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '@components/Iconify';
-import { OuraConnect } from '../../utils/integrations/oura';
-import { RescueTimeConnect } from '../../utils/integrations/rescuetime';
+import { OuraConnect } from '@utils/integrations/oura';
+import { RescueTimeConnect } from '@utils/integrations/rescuetime';
 
 export default function IntegrationCard({ integration, enabled }) {
+  const { code } = useContext(MainContext);
+
   function handleConnect() {
     console.log('connect', integration.name);
     if (integration.name === 'Oura') OuraConnect();
