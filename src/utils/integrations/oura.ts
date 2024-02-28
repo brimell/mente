@@ -3,7 +3,7 @@ export async function OuraConnect() {
   const clientId = 'H6PFTDZMALWQSXSY';
 
   // const redirectUri = encodeURIComponent('https://mente.web.app/app/settings');
-  const redirectUri = encodeURIComponent('http://localhost:3030/app/settings');
+  const redirectUri = encodeURIComponent('https://localhost:3000/app/settings');
 
   const scope = encodeURIComponent('personal daily sleep activity readiness');
 

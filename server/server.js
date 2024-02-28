@@ -7,7 +7,6 @@ import { config } from 'dotenv';
 import axios from 'axios';
 import https from 'https';
 import fs from 'fs';
-import bodyParser from 'body-parser';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -32,7 +31,7 @@ app.use(
 );
 
 app.use(cors());
-
+app.use(express.json());
 app.use(express.static('../dist'));
 // firebase auth functions
 
@@ -109,34 +108,47 @@ server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
 
+// Oura Ring API
+
+// Environment variables for Oura client credentials
+const OURA_CLIENT_ID = process.env.OURA_CLIENT_ID;
+const OURA_CLIENT_SECRET = process.env.OURA_CLIENT_SECRET;
+const REDIRECT_URI =
+  process.env.NODE_ENV === 'production'
+    ? 'https://mente.web.app/app/settings'
+    : 'https://localhost:3000/app/settings';
 
 // Oura Ring API OAuth Token Exchange Endpoint
+const tokenEndpoint = 'https://api.ouraring.com/oauth/token';
+
 app.post('/api/integrations/oura/exchange-code', async (req, res) => {
+  if (!req.body) return res.status(400).json({ error: 'Missing body' });
+  if (!req.body.code) return res.status(400).json({ error: 'Missing code' });
   const { code } = req.body;
 
   try {
-    const response = await axios.post('https://api.ouraring.com/oauth/token', {
-      client_id: process.env.OURA_CLIENT_ID,
-      client_secret: process.env.OURA_CLIENT_SECRET,
-      grant_type: 'authorization_code',
-      code: code,
-      // redirect_uri: "https://mente.web.app/app/settings",
-      redirect_uri: "http://localhost:3030/app/settings",
+    const params = new URLSearchParams();
+    params.append('client_id', process.env.OURA_CLIENT_ID);
+    params.append('client_secret', process.env.OURA_CLIENT_SECRET);
+    params.append('grant_type', 'authorization_code');
+    params.append('code', code);
+    params.append('redirect_uri', process.env.NODE_ENV === 'production' ? "https://mente.web.app/app/settings" : "https://localhost:3000/app/settings");
+
+    const response = await axios.post(tokenEndpoint, params.toString(), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     });
 
-    // Use the obtained access token to fetch user info or whatever needed
+    // Extract the access token from the response
     const accessToken = response.data.access_token;
-    const userInfoResponse = await axios.get(
-      `https://api.ouraring.com/v1/userinfo?access_token=${accessToken}`
-    );
-    const userInfo = userInfoResponse.data;
 
-    res.json({ accessToken, userInfo });
+    // Return only the access token in the response
+    res.json({ accessToken });
   } catch (error) {
-    console.error('Oura Token Exchange Error:', error);
-    res.status(500).json({ error: 'Failed to exchange code for token with Oura API.' });
+    console.error('Oura Token Exchange Error:', error.response ? error.response.data : error);
+    res.status(error.response ? error.response.status : 500).json({ error: 'Failed to exchange code for token with Oura API.' });
   }
 });
+
 
 // RescueTime API OAuth Token Exchange Endpoint
 app.post('/api/integrations/rescuetime/exchange-code', async (req, res) => {
@@ -149,7 +161,7 @@ app.post('/api/integrations/rescuetime/exchange-code', async (req, res) => {
       grant_type: 'authorization_code',
       code: code,
       // redirect_uri: "https://mente.web.app/app/settings",
-      redirect_uri: "http://localhost:3030/app/settings",
+      redirect_uri: 'https://localhost:3000/app/settings',
     });
 
     // Optionally, use the access token to fetch user data
