@@ -95,8 +95,6 @@ export async function getDailySpo2Data(ouraAccessToken: string, start: string, e
   }
 }
 
-// Repeat this pattern for each of the other endpoints defined in the `Client` class
-
 export async function getDailyStressData(ouraAccessToken: string, start: string, end: string): Promise<any> {
   try {
     const url = `${api_route}/integrations/oura/daily-stress?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
