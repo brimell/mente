@@ -181,7 +181,6 @@ export const getThisWeeksMoodAverage = async (userId: string): Promise<MoodStrea
 
   querySnapshot.forEach((doc) => {
     const data = doc.data();
-    console.log(data);
     totalMood += parseInt(data.mood);
     count++;
   });

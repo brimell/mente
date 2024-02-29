@@ -25,12 +25,19 @@ import MorningPreparationButton from '../MorningPreparationButton';
 import EveningReflectionButton from '../EveningReflectionButton';
 
 export default function DashboardView() {
-  const { currentUser, averageMood } = useContext(MainContext);
+  const { currentUser, averageMood, sleepData } = useContext(MainContext);
 
   const [averageSleep, setAverageSleep] = useState(0);
   const [averagePhysicalActivity, setAveragePhysicalActivity] = useState(0);
   const [averageStress, setAverageStress] = useState(0);
   const [averageRested, setAverageRested] = useState(0);
+
+  useEffect(() => {
+    if (sleepData) {
+      const totalSleep = sleepData.reduce((acc, curr) => acc + curr.duration, 0);
+      setAverageSleep(totalSleep / sleepData.length);
+    }
+  });
 
   return (
     <Container maxWidth="xl">
@@ -50,7 +57,7 @@ export default function DashboardView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's sleep"
-            value={'7h 30m'}
+            value={averageSleep ? averageSleep.toFixed(1) + 'h' : 'loading...'}
             icon={<Typography variant="h2">💤</Typography>}
           />
         </Grid>

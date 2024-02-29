@@ -4,6 +4,8 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '@utils/firebaseInit';
 import { getThisWeeksMoodAverage } from '../utils/firestore';
 import localforage from 'localforage';
+import { SleepData } from '@store/integrationTypes';
+import { fetchData } from '@utils/integrations/oura';
 
 interface Mood {
   id: string;
@@ -20,6 +22,7 @@ export interface MainContextProps {
   setCode: React.Dispatch<React.SetStateAction<any>>;
   ouraAccessToken: string | null;
   setOuraAccessToken: React.Dispatch<React.SetStateAction<any>>;
+  sleepData: SleepData[] | null;
 }
 
 async function getUserFromStorage(): Promise<User | null> {
@@ -36,6 +39,9 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [averageMood, setAverageMood] = useState<number>(0);
   const [code, setCode] = useState<string | null>(null);
   const [ouraAccessToken, setOuraAccessToken] = useState<string | null>(null);
+  const [sleepData, setSleepData] = useState<SleepData[] | null>(null);
+
+  // initial useEffect
 
   useEffect(() => {
     getUserFromStorage().then((user) => {
@@ -43,7 +49,10 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     localforage.getItem('ouraAccessToken').then((accessToken) => {
-      setOuraAccessToken(accessToken as string);
+      if (accessToken) {
+        setOuraAccessToken(accessToken as string);
+        fetchOuraSleepData(accessToken as string);
+      }
     });
   }, []);
 
@@ -90,6 +99,28 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [currentUser]);
 
+  const fetchOuraSleepData = async (ouraAccessToken: string) => {
+    try {
+      console.log(`Fetching Oura sleep data with access token: ${ouraAccessToken}`);
+
+      // start from 7 days ago
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      // Format the date as YYYY-MM-DD
+      const start = sevenDaysAgo.toISOString().split('T')[0];
+
+      // end at today
+      const today = new Date();
+      // Format the date as YYYY-MM-DD
+      const end = today.toISOString().split('T')[0];
+
+      const sleepResponse = await fetchData(ouraAccessToken, 'sleep', start, end);
+      if (sleepResponse && !(sleepResponse === undefined)) setSleepData(sleepResponse);
+    } catch (error) {
+      console.error('Error fetching Oura sleep data:', error);
+    }
+  };
+
   return (
     <MainContext.Provider
       value={{
@@ -101,6 +132,7 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setCode,
         ouraAccessToken,
         setOuraAccessToken,
+        sleepData
       }}
     >
       {children}

@@ -1,5 +1,4 @@
 import { api_route } from '@/utils/vars';
-import { SleepData } from '@store/integrationTypes';
 
 export async function OuraConnect() {
   // Construct the authorization URL for Oura's OAuth2 flow
@@ -22,6 +21,8 @@ export async function OuraConnect() {
 function generateState(): string {
   return [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
 }
+
+
 
 export async function fetchData(ouraAccessToken: string, dataType: string, start?: string, end?: string): Promise<any> {
   let url = `${api_route}/integrations/oura/`;
