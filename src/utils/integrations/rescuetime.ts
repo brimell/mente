@@ -1,3 +1,5 @@
+import { api_route } from '../vars';
+
 const clientId = '_Ul6bqdGp1B1_EhEem50Kxzdq245HLKKn5k04CflpY0';
 // const redirectUri ='https://mente.web.app/'
 const redirectUri ='https://localhost:3030'
@@ -8,7 +10,7 @@ export const RescueTimeConnect = () => {
 
   const code = new URLSearchParams(window.location.search).get('code');
   if (code) {
-    fetch('/api/exchange-code', {
+    fetch(`${api_route}/exchange-code`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code }),

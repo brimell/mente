@@ -45,7 +45,7 @@ export default function AppRouter() {
     const code = query.get('code');
     if (code) {
       setCode(code);
-      navigate('app/settings')
+      navigate('app/settings');
     }
   }, []);
 

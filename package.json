@@ -16,7 +16,9 @@
     "re:build": "yarn rm:all && yarn install && yarn build",
     "re:build-npm": "npm run rm:all && npm install && npm run build",
     "dev:host": "vite --host",
-    "deploy": "npm run build && firebase deploy --only hosting"
+    "deploy": "npm run build && firebase deploy --only hosting",
+    "deploy:functions": "firebase deploy --only functions",
+    "sendtoserver": "scp -r dist bill@188.166.136.161:~/dist && scp -r server bill@188.166.136.161:~/server"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",

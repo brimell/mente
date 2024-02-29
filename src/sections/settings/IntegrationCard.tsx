@@ -18,6 +18,7 @@ import { OuraConnect } from '@utils/integrations/oura';
 import { RescueTimeConnect } from '@utils/integrations/rescuetime';
 import React from 'react';
 import { Integration } from '@/store/integrationTypes';
+import { api_route } from '@/utils/vars';
 
 interface IntegrationCardProps {
   integration: Integration;
@@ -55,7 +56,7 @@ export default function IntegrationCard({ integration, enabled }: IntegrationCar
   // Utility function for making POST requests to your server
   async function sendCodeToIntegrationEndpoint(integrationName: string, code: string) {
     try {
-      const response = await fetch(`/api/integrations/${integrationName}/exchange-code`, {
+      const response = await fetch(`${api_route}/integrations/${integrationName}/exchange-code`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
