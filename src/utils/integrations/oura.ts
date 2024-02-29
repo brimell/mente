@@ -1,5 +1,5 @@
 import { api_route } from '@/utils/vars';
-import { SleepData } from '@/store/integrationTypes';
+import { SleepData } from '@store/integrationTypes';
 
 export async function OuraConnect() {
   // Construct the authorization URL for Oura's OAuth2 flow
@@ -23,14 +23,14 @@ function generateState(): string {
   return [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
 }
 
-export async function getSleepData(
+export async function getDailySleepData(
   ouraAccessToken: string,
   start: string,
   end: string
 ): Promise<SleepData[]> {
   try {
     // Construct the URL with query parameters
-    const url = `${api_route}/integrations/oura/sleep-data?accessToken=${encodeURIComponent(
+    const url = `${api_route}/integrations/oura/daily-sleep?accessToken=${encodeURIComponent(
       ouraAccessToken
     )}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
 
@@ -47,5 +47,67 @@ export async function getSleepData(
   } catch (error) {
     console.error('Error:', error);
     throw error; // Throw the error to handle it outside of this function
+  }
+}
+
+export async function getDailyActivityData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/daily-activity?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function getDailyReadinessData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/daily-readiness?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function getDailySpo2Data(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/daily-spo2?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+// Repeat this pattern for each of the other endpoints defined in the `Client` class
+
+export async function getDailyStressData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/daily-stress?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
   }
 }

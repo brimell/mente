@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Grid, Typography, Card, CardContent } from '@mui/material';
 import { MainContext } from '@contexts/MainContext';
 import { getSleepData } from '@utils/integrations/oura';
-import { SleepData } from '@/store/integrationTypes';
+import { SleepData } from '@store/integrationTypes';
 
 export default function SleepView() {
   const [sleepData, setSleepData] = useState<SleepData[] | null>(null);
