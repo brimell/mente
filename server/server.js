@@ -32,13 +32,23 @@ app.use(
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('../dist'));
 
+// Define API routes
 app.use('/api', api);
 
+// Serve static files from the 'dist' directory
+app.use(express.static(path.resolve(__dirname, '../dist')));
+
+// Catch-all route for non-API routes
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+  // Skip serving 'index.html' for '/api' requests
+  if (req.originalUrl.startsWith('/api')) {
+    res.status(404).send('Not found');
+  } else {
+    res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+  }
 });
+
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

@@ -84,6 +84,7 @@ ouraRouter.get('/sleep-data', async (req, res) => {
 });
 
 ouraRouter.post('/test', async (req, res) => {  
+  console.log('hello world')
   console.log('req.body', req.body);
   res.json({ message: 'Success' });
 }
