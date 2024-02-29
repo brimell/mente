@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Grid, Typography, Card, CardContent } from '@mui/material';
 import { MainContext } from '@contexts/MainContext';
-import { getPersonalInfo, getSleepData } from '@utils/integrations/oura';
+import axios from 'axios';
+import { api_route } from '@/utils/vars';
 
 export default function SleepView() {
   const [sleepData, setSleepData] = useState<[]>([]);
@@ -31,9 +32,7 @@ export default function SleepView() {
 
   useEffect(() => {
     if (ouraAccessToken) {
-      getPersonalInfo(ouraAccessToken).then((data) => {
-        console.log(data);
-      });
+      axios.get(`${api_route}/integrations/oura/sleep`, {body: {ouraAccessToken}})
       fetchOuraData(ouraAccessToken);
     }
   }, [ouraAccessToken]); // Empty dependency array means this effect runs once on component mount
@@ -51,8 +50,8 @@ export default function SleepView() {
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card>
                 <CardContent>
-                  {/* <Typography variant="h6">Date: {sleepEntry.date}</Typography>
-                  <Typography>Duration: {sleepEntry.duration}</Typography> */}
+                  <Typography variant="h6">Date: {sleepEntry.date}</Typography>
+                  <Typography>Duration: {sleepEntry.duration}</Typography>
                   {/* Add more sleep data details here */}
                 </CardContent>
               </Card>
