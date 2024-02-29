@@ -46,10 +46,6 @@ To start using LifeTrack, follow these steps:
 
 We welcome contributions from the community to enhance and improve LifeTrack! If you have ideas for new features, bug fixes, or other improvements, please feel free to submit a pull request or open an issue on our GitHub repository.
 
-## Feedback and Support
-
-Have questions, feedback, or need support? Get in touch with us at [contact@lifetrack.com](mailto:contact@lifetrack.com). We're here to help you make the most out of your life tracking journey!
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
