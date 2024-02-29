@@ -59,8 +59,7 @@ ouraRouter.get('/personal-info', async (req, res) => {
 
 // Route for fetching sleep data
 ouraRouter.get('/sleep-data', async (req, res) => {
-  const { accessToken, start, end } = req.body;
-  console.log('accessToken', accessToken);
+  const { accessToken, start, end } = req.query;
 
   if (!accessToken) {
     return res.status(401).json({ error: 'No access token provided' });
@@ -75,7 +74,6 @@ ouraRouter.get('/sleep-data', async (req, res) => {
         },
       }
     );
-    console.log('response.data', response.data);
     res.json(response.data);
   } catch (error) {
     console.error('Error:', error);

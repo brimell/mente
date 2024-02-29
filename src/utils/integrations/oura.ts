@@ -1,4 +1,4 @@
-import { api_route } from "@/utils/vars";
+import { api_route } from '@/utils/vars';
 
 export async function OuraConnect() {
   // Construct the authorization URL for Oura's OAuth2 flow
@@ -24,15 +24,26 @@ function generateState(): string {
 
 export async function getSleepData(ouraAccessToken: string, start: string, end: string) {
   try {
-    const response = await fetch(`${api_route}/integrations/oura/sleep-data`, {
-      method: 'POST',
+    // Construct the URL with query parameters
+    const url = `${api_route}/integrations/oura/sleep-data?accessToken=${encodeURIComponent(
+      ouraAccessToken
+    )}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+
+    // Make the GET request
+    const response = await fetch(url, {
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ouraAccessToken, start, end }),
     });
+
+    // Parse the response JSON
     const data = await response.json();
-    console.log(data); // Process your data here
+
+    // Process the data
+    console.log(data);
+
     return data;
   } catch (error) {
-    return console.error('Error:', error);
+    console.error('Error:', error);
+    throw error; // Throw the error to handle it outside of this function
   }
 }

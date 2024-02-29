@@ -8,6 +8,8 @@ export default function SleepView() {
   const [sleepData, setSleepData] = useState<[]>([]);
   const { ouraAccessToken } = useContext(MainContext) || {};
 
+  // axios.get('https://localhost:3000/api/integrations/oura/sleep-data')
+
   const fetchOuraSleepData = async (ouraAccessToken: string) => {
     try {
       console.log(`Fetching Oura sleep data with access token: ${ouraAccessToken}`);
