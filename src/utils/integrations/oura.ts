@@ -22,16 +22,17 @@ function generateState(): string {
   return [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
 }
 
-export function getSleepData(ouraAccessToken: string, start: string, end: string) {
-  return fetch(`${api_route}/integrations/oura/sleep-data`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ouraAccessToken, start, end }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data); // Process your data here
-      return data;
-    })
-    .catch((error) => console.error('Error:', error));
+export async function getSleepData(ouraAccessToken: string, start: string, end: string) {
+  try {
+    const response = await fetch(`${api_route}/integrations/oura/sleep-data`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ouraAccessToken, start, end }),
+    });
+    const data = await response.json();
+    console.log(data); // Process your data here
+    return data;
+  } catch (error) {
+    return console.error('Error:', error);
+  }
 }
