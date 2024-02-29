@@ -2,13 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Grid, Typography, Card, CardContent } from '@mui/material';
 import { MainContext } from '@contexts/MainContext';
 import { getSleepData } from '@utils/integrations/oura';
-import axios from 'axios';
+import { SleepData } from '@/store/integrationTypes';
 
 export default function SleepView() {
-  const [sleepData, setSleepData] = useState<[]>([]);
+  const [sleepData, setSleepData] = useState<SleepData[] | null>(null);
   const { ouraAccessToken } = useContext(MainContext) || {};
-
-  // axios.get('https://localhost:3000/api/integrations/oura/sleep-data')
 
   const fetchOuraSleepData = async (ouraAccessToken: string) => {
     try {
@@ -26,7 +24,7 @@ export default function SleepView() {
       const end = today.toISOString().split('T')[0];
 
       const sleepResponse = await getSleepData(ouraAccessToken, start, end);
-      if (sleepResponse && !(sleepResponse === undefined)) setSleepData(sleepResponse as any);
+      if (sleepResponse && !(sleepResponse === undefined)) setSleepData(sleepResponse);
     } catch (error) {
       console.error('Error fetching Oura sleep data:', error);
     }
@@ -46,13 +44,12 @@ export default function SleepView() {
       </Typography>
       <Grid container spacing={2}>
         {sleepData &&
-          // @ts-ignore
           sleepData.map((sleepEntry, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card>
                 <CardContent>
-                  <Typography variant="h6">Date: {sleepEntry.date}</Typography>
-                  <Typography>Duration: {sleepEntry.duration}</Typography>
+                  <Typography variant="h6">Date: {sleepEntry.day}</Typography>
+                  <Typography>Duration: {sleepEntry.contributors.total_sleep}</Typography>
                   {/* Add more sleep data details here */}
                 </CardContent>
               </Card>

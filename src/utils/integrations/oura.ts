@@ -1,4 +1,5 @@
 import { api_route } from '@/utils/vars';
+import { SleepData } from '@/store/integrationTypes';
 
 export async function OuraConnect() {
   // Construct the authorization URL for Oura's OAuth2 flow
@@ -22,7 +23,11 @@ function generateState(): string {
   return [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
 }
 
-export async function getSleepData(ouraAccessToken: string, start: string, end: string) {
+export async function getSleepData(
+  ouraAccessToken: string,
+  start: string,
+  end: string
+): Promise<SleepData[]> {
   try {
     // Construct the URL with query parameters
     const url = `${api_route}/integrations/oura/sleep-data?accessToken=${encodeURIComponent(
@@ -36,10 +41,7 @@ export async function getSleepData(ouraAccessToken: string, start: string, end: 
     });
 
     // Parse the response JSON
-    const data = await response.json();
-
-    // Process the data
-    console.log(data);
+    const data = await response.json()
 
     return data;
   } catch (error) {
