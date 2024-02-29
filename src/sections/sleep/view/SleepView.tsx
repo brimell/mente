@@ -49,7 +49,7 @@ export default function SleepView() {
               <Card>
                 <CardContent>
                   <Typography variant="h6">Date: {sleepEntry.day}</Typography>
-                  <Typography>Duration: {sleepEntry.total_sleep_duration}</Typography>
+                  <Typography>Duration: {(sleepEntry.total_sleep_duration / (60 ** 2)).toFixed(1)}</Typography>
                   {/* Add more sleep data details here */}
                 </CardContent>
               </Card>
