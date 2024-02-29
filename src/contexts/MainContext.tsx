@@ -12,18 +12,18 @@ interface Mood {
 }
 
 export interface MainContextProps {
-  db: any; // Adjust type accordingly
+  db: any;
   moods: Mood[];
   currentUser: User | null;
   averageMood: number;
-  code?: any; // Adjust type accordingly
-  setCode: React.Dispatch<React.SetStateAction<any>>; // Adjust type accordingly
-  ouraAccessToken?: any; // Adjust type accordingly
-  setOuraAccessToken: React.Dispatch<React.SetStateAction<any>>; // Adjust type accordingly
+  code: string | null;
+  setCode: React.Dispatch<React.SetStateAction<any>>;
+  ouraAccessToken: string | null;
+  setOuraAccessToken: React.Dispatch<React.SetStateAction<any>>;
 }
 
 async function getUserFromStorage(): Promise<User | null> {
-  const user = await localforage.getItem('currentUser') as string | null;
+  const user = (await localforage.getItem('currentUser')) as string | null;
   if (user) return JSON.parse(user) as User; // Cast user to User type
   return null;
 }
@@ -34,12 +34,16 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [moods, setMoods] = useState<Mood[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [averageMood, setAverageMood] = useState<number>(0);
-  const [code, setCode] = useState<any>();
-  const [ouraAccessToken, setOuraAccessToken] = useState<any>();
+  const [code, setCode] = useState<string | null>(null);
+  const [ouraAccessToken, setOuraAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
     getUserFromStorage().then((user) => {
       setCurrentUser(user);
+    });
+
+    localforage.getItem('ouraAccessToken').then((accessToken) => {
+      setOuraAccessToken(accessToken as string);
     });
   }, []);
 
