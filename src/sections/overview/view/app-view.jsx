@@ -34,7 +34,10 @@ export default function DashboardView() {
 
   useEffect(() => {
     if (sleepData) {
-      const totalSleep = sleepData.reduce((acc, curr) => acc + curr.duration, 0);
+      const totalSleep = sleepData.reduce(
+        (acc, curr) => acc + curr.total_sleep_duration / 60 ** 2,
+        0
+      );
       setAverageSleep(totalSleep / sleepData.length);
     }
   });

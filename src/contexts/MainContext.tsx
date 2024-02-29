@@ -56,6 +56,7 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, []);
 
+  console.log(sleepData)
   // firebase useEffect
 
   useEffect(() => {

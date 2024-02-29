@@ -83,6 +83,7 @@ export async function fetchData(ouraAccessToken: string, dataType: string, start
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await response.json();
+    console.log('Fetched data for:', dataType, data);
     return data;
   } catch (error) {
     console.error('Error fetching data for:', dataType, error);
