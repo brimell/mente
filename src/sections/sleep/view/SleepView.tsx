@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Grid, Typography, Card, CardContent } from '@mui/material';
 import { MainContext } from '@contexts/MainContext';
-import { getSleepData } from '@utils/integrations/oura';
+import { fetchData } from '@utils/integrations/oura';
 import { SleepData } from '@store/integrationTypes';
 
 export default function SleepView() {
@@ -23,7 +23,7 @@ export default function SleepView() {
       // Format the date as YYYY-MM-DD
       const end = today.toISOString().split('T')[0];
 
-      const sleepResponse = await getSleepData(ouraAccessToken, start, end);
+      const sleepResponse = await fetchData(ouraAccessToken, 'sleep-time', start, end);
       if (sleepResponse && !(sleepResponse === undefined)) setSleepData(sleepResponse);
     } catch (error) {
       console.error('Error fetching Oura sleep data:', error);

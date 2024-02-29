@@ -60,6 +60,9 @@ export async function fetchData(ouraAccessToken: string, dataType: string, start
     case 'session':
       url += `session?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start as string)}&end=${encodeURIComponent(end as string)}`;
       break;
+    case 'sleep':
+      url += `sleep?accessToken=${encodeURIComponent(ouraAccessToken)}&start_date=${encodeURIComponent(start as string)}&end_date=${encodeURIComponent(end as string)}`;
+      break;
     case 'sleep-time':
       url += `sleep-time?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start as string)}&end=${encodeURIComponent(end as string)}`;
       break;
