@@ -111,3 +111,137 @@ export async function getDailyStressData(ouraAccessToken: string, start: string,
     throw error;
   }
 }
+export async function getEnhancedTagData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/enhanced-tag?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function getHeartRateData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/heartrate?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function getPersonalInfoData(ouraAccessToken: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/personal-info?accessToken=${encodeURIComponent(ouraAccessToken)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function getRestModePeriodData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/rest-mode-period?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function getRingConfigurationData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/ring-configuration?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function getSessionData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/session?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function getSleepTimeData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/sleep-time?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function getTagData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/tag?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function getWorkoutData(ouraAccessToken: string, start: string, end: string): Promise<any> {
+  try {
+    const url = `${api_route}/integrations/oura/workout?accessToken=${encodeURIComponent(ouraAccessToken)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
