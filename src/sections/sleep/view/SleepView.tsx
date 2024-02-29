@@ -49,7 +49,7 @@ export default function SleepView() {
               <Card>
                 <CardContent>
                   <Typography variant="h6">Date: {sleepEntry.day}</Typography>
-                  <Typography>Duration: {sleepEntry.contributors.total_sleep}</Typography>
+                  <Typography>Duration: {sleepEntry.total_sleep_duration}</Typography>
                   {/* Add more sleep data details here */}
                 </CardContent>
               </Card>
