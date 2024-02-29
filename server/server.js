@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
 import https from 'https';
 import fs from 'fs';
-import { ouraRoutes, rescuetimeRoutes } from './routes';
+import api from './api/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -34,8 +34,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('../dist'));
 
-app.use('/api', ouraRoutes);
-app.use('/api', rescuetimeRoutes);
+app.use('/api', api);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));

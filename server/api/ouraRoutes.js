@@ -1,16 +1,16 @@
 import express from 'express';
 import axios from 'axios';
-const router = express.Router();
+const ouraRouter = express.Router();
 
-router.post('/api/integrations/oura/exchange-code', async (req, res) => {
+ouraRouter.post('/exchange-code', async (req, res) => {
   if (!req.body) return res.status(400).json({ error: 'Missing body' });
   if (!req.body.code) return res.status(400).json({ error: 'Missing code' });
   const { code } = req.body;
 
   try {
     const params = new URLSearchParams();
-    params.append('client_id', process.env.OURA_CLIENT_ID as string);
-    params.append('client_secret', process.env.OURA_CLIENT_SECRET as string);
+    params.append('client_id', process.env.OURA_CLIENT_ID);
+    params.append('client_secret', process.env.OURA_CLIENT_SECRET);
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
     params.append(
@@ -38,7 +38,7 @@ router.post('/api/integrations/oura/exchange-code', async (req, res) => {
 });
 
 // Route for fetching personal info
-router.get('/personal-info', async (req, res) => {
+ouraRouter.get('/personal-info', async (req, res) => {
   const accessToken = req.headers.authorization?.split(' ')[1];
   if (!accessToken) {
     return res.status(401).json({ error: 'No access token provided' });
@@ -58,7 +58,7 @@ router.get('/personal-info', async (req, res) => {
 });
 
 // Route for fetching sleep data
-router.get('/sleep-data', async (req, res) => {
+ouraRouter.get('/sleep-data', async (req, res) => {
   const accessToken = req.headers.authorization?.split(' ')[1];
   const { start, end } = req.query;
 
@@ -82,4 +82,4 @@ router.get('/sleep-data', async (req, res) => {
   }
 });
 
-export default router;
+export default ouraRouter;
