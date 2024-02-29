@@ -59,8 +59,8 @@ ouraRouter.get('/personal-info', async (req, res) => {
 
 // Route for fetching sleep data
 ouraRouter.get('/sleep-data', async (req, res) => {
-  const accessToken = req.headers.authorization?.split(' ')[1];
-  const { start, end } = req.query;
+  const { accessToken, start, end } = req.body;
+  console.log('accessToken', accessToken);
 
   if (!accessToken) {
     return res.status(401).json({ error: 'No access token provided' });
@@ -75,11 +75,18 @@ ouraRouter.get('/sleep-data', async (req, res) => {
         },
       }
     );
+    console.log('response.data', response.data);
     res.json(response.data);
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Failed to fetch sleep data' });
   }
 });
+
+ouraRouter.post('/test', async (req, res) => {  
+  console.log('req.body', req.body);
+  res.json({ message: 'Success' });
+}
+);
 
 export default ouraRouter;
