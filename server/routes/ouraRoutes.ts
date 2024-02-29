@@ -9,8 +9,8 @@ router.post('/api/integrations/oura/exchange-code', async (req, res) => {
 
   try {
     const params = new URLSearchParams();
-    params.append('client_id', process.env.OURA_CLIENT_ID);
-    params.append('client_secret', process.env.OURA_CLIENT_SECRET);
+    params.append('client_id', process.env.OURA_CLIENT_ID as string);
+    params.append('client_secret', process.env.OURA_CLIENT_SECRET as string);
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
     params.append(

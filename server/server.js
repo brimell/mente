@@ -4,7 +4,6 @@ import cors from 'cors';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
-import axios from 'axios';
 import https from 'https';
 import fs from 'fs';
 import { ouraRoutes, rescuetimeRoutes } from './routes';
