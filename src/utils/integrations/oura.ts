@@ -1,3 +1,5 @@
+import { api_route } from "@/utils/vars";
+
 export async function OuraConnect() {
   // Construct the authorization URL for Oura's OAuth2 flow
   const clientId = 'H6PFTDZMALWQSXSY';
@@ -18,4 +20,18 @@ export async function OuraConnect() {
 
 function generateState(): string {
   return [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
+}
+
+export function getSleepData(ouraAccessToken: string, start: string, end: string) {
+  return fetch(`${api_route}/integrations/oura/sleep-data`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ouraAccessToken, start, end }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data); // Process your data here
+      return data;
+    })
+    .catch((error) => console.error('Error:', error));
 }

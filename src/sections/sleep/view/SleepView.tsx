@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Grid, Typography, Card, CardContent } from '@mui/material';
 import { MainContext } from '@contexts/MainContext';
-import axios from 'axios';
-import { api_route } from '@/utils/vars';
+import { getSleepData } from '@utils/integrations/oura';
 
 export default function SleepView() {
   const [sleepData, setSleepData] = useState<[]>([]);
   const { ouraAccessToken } = useContext(MainContext) || {};
 
-  const fetchOuraData = async (ouraAccessToken: string) => {
+  const fetchOuraSleepData = async (ouraAccessToken: string) => {
     try {
       console.log(`Fetching Oura sleep data with access token: ${ouraAccessToken}`);
 
@@ -32,8 +31,7 @@ export default function SleepView() {
 
   useEffect(() => {
     if (ouraAccessToken) {
-      axios.get(`${api_route}/integrations/oura/sleep`, {body: {ouraAccessToken}})
-      fetchOuraData(ouraAccessToken);
+      fetchOuraSleepData(ouraAccessToken);
     }
   }, [ouraAccessToken]); // Empty dependency array means this effect runs once on component mount
 
