@@ -16,9 +16,6 @@ import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
-import MoodRecorder from '../../../components/MoodRecorder';
-import StressRecorder from '../../../components/stress-recorder';
-import RestedRecorder from '../../../components/rested-recorder';
 
 import { MainContext } from '../../../contexts/MainContext';
 import MorningPreparationButton from '../MorningPreparationButton';
@@ -28,9 +25,6 @@ export default function DashboardView() {
   const { currentUser, sleepData, moods } = useContext(MainContext);
 
   const [averageSleep, setAverageSleep] = useState(0);
-  const [averagePhysicalActivity, setAveragePhysicalActivity] = useState(0);
-  const [averageStress, setAverageStress] = useState(0);
-  const [averageRested, setAverageRested] = useState(0);
 
   useEffect(() => {
     if (sleepData) {
@@ -89,8 +83,8 @@ export default function DashboardView() {
 
         <Grid xs={12} md={6} lg={8}>
           <StatsGraph
-            title="Sleep, Mood, Physical Activity Graph"
-            subheader="subtitle"
+            title="compare your stats!"
+            subheader="sleep, mood, physical activity"
             chart={{
               labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
               series: [
@@ -104,7 +98,7 @@ export default function DashboardView() {
                   name: 'Mood',
                   type: 'area',
                   fill: 'gradient',
-                  data: moods && moods.map((mood) => mood.parseInt()),
+                  data: moods ? moods.map((mood) => mood.mood) : [],
                 },
                 {
                   name: 'Physical Activity',
@@ -119,7 +113,7 @@ export default function DashboardView() {
 
         <Grid xs={12} md={6} lg={4}>
           <TimeChart
-            title="Time Chart"
+            title="time chart"
             chart={{
               series: [
                 { label: 'Productive', value: 4344 },
