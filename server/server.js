@@ -4,6 +4,7 @@ import cors from 'cors';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
+import http from 'http';
 import https from 'https';
 import fs from 'fs';
 import api from './api/index.js';
@@ -14,12 +15,18 @@ config(); // Load .env file contents into process.env
 
 const app = express();
 
-// HTTPS server setup
-const httpsOptions = {
-  key: fs.readFileSync(path.join(__dirname, 'privkey.pem')),
-  cert: fs.readFileSync(path.join(__dirname, 'fullchain.pem')),
-};
-const server = https.createServer(httpsOptions, app);
+// Check if the key and cert files exist
+const keyPath = path.join(__dirname, 'privkey.pem');
+const certPath = path.join(__dirname, 'fullchain.pem');
+const isHttps = fs.existsSync(keyPath) && fs.existsSync(certPath);
+
+// Create either HTTP or HTTPS server based on key and cert existence
+const server = isHttps
+  ? https.createServer({
+      key: fs.readFileSync(keyPath),
+      cert: fs.readFileSync(certPath)
+    }, app)
+  : http.createServer(app);
 
 app.use(
   rateLimit({
@@ -48,7 +55,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../dist/index.html'));
   }
 });
-
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
