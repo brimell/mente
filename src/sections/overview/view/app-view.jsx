@@ -25,7 +25,7 @@ import MorningPreparationButton from '../MorningPreparationButton';
 import EveningReflectionButton from '../EveningReflectionButton';
 
 export default function DashboardView() {
-  const { currentUser, averageMood, sleepData } = useContext(MainContext);
+  const { currentUser, sleepData, moods } = useContext(MainContext);
 
   const [averageSleep, setAverageSleep] = useState(0);
   const [averagePhysicalActivity, setAveragePhysicalActivity] = useState(0);
@@ -52,7 +52,7 @@ export default function DashboardView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's mood"
-            value={averageMood}
+            value={moods ? moods.reduce((acc, curr) => acc + curr, 0) / moods.length : 'loading...'}
             icon={<Typography variant="h2">🤔</Typography>}
           />
         </Grid>
@@ -98,13 +98,13 @@ export default function DashboardView() {
                   name: 'Sleep',
                   type: 'column',
                   fill: 'solid',
-                  data: [7.5, 8, 7, 7.5, 8, 7, 8.5],
+                  data: sleepData && sleepData.map((data) => (data.total_sleep_duration / 60 ** 2).toFixed(1)),
                 },
                 {
                   name: 'Mood',
                   type: 'area',
                   fill: 'gradient',
-                  data: [3, 4, 3.5, 3, 4, 3.5, 4],
+                  data: moods && moods.map((mood) => mood.parseInt()),
                 },
                 {
                   name: 'Physical Activity',

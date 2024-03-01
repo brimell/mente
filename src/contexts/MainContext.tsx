@@ -17,7 +17,6 @@ export interface MainContextProps {
   db: any;
   moods: Mood[];
   currentUser: User | null;
-  averageMood: number;
   code: string | null;
   setCode: React.Dispatch<React.SetStateAction<any>>;
   ouraAccessToken: string | null;
@@ -56,7 +55,6 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, []);
 
-  console.log(sleepData)
   // firebase useEffect
 
   useEffect(() => {
@@ -92,14 +90,6 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // app-view functions
 
-  useEffect(() => {
-    if (currentUser) {
-      getThisWeeksMoodAverage(currentUser.uid).then(({ averageMood }) => {
-        setAverageMood(Number(averageMood.toFixed(1)));
-      });
-    }
-  }, [currentUser]);
-
   const fetchOuraSleepData = async (ouraAccessToken: string) => {
     try {
       console.log(`Fetching Oura sleep data with access token: ${ouraAccessToken}`);
@@ -128,7 +118,6 @@ const MainContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
         db,
         moods,
         currentUser,
-        averageMood,
         code,
         setCode,
         ouraAccessToken,
