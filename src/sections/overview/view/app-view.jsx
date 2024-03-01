@@ -89,6 +89,7 @@ export default function DashboardView() {
               subheader="sleep, mood, physical activity"
               chart={{
                 labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                colors: ['#2d338d', '#ffab00', '#00a8ff'],
                 series: [
                   {
                     name: 'Sleep',
