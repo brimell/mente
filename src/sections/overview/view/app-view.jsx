@@ -24,18 +24,6 @@ import EveningReflectionButton from '../EveningReflectionButton';
 export default function DashboardView() {
   const { currentUser, sleepData, moods } = useContext(MainContext);
 
-  const [averageSleep, setAverageSleep] = useState(0);
-
-  useEffect(() => {
-    if (sleepData) {
-      const totalSleep = sleepData.reduce(
-        (acc, curr) => acc + curr.total_sleep_duration / 60 ** 2,
-        0
-      );
-      setAverageSleep(totalSleep / sleepData.length);
-    }
-  });
-
   return (
     <Container maxWidth="xl">
       <Typography variant="h3" sx={{ mb: 5 }}>
@@ -48,7 +36,9 @@ export default function DashboardView() {
             title="this week's mood"
             value={
               moods
-                ? (moods.reduce((acc, curr) => acc + parseInt(curr.mood), 0) / moods.length).toFixed(1)
+                ? (
+                    moods.reduce((acc, curr) => acc + parseInt(curr.mood), 0) / moods.length
+                  ).toFixed(1)
                 : 'loading...'
             }
             icon={<Typography variant="h2">🤔</Typography>}
@@ -58,7 +48,14 @@ export default function DashboardView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's sleep"
-            value={averageSleep ? averageSleep.toFixed(1) + 'h' : 'loading...'}
+            value={
+              sleepData
+                ? (
+                    sleepData.reduce((acc, curr) => acc + curr.total_sleep_duration / 60 ** 2, 0) /
+                    sleepData.length
+                  ).toFixed(1) + 'h'
+                : 'loading...'
+            }
             icon={<Typography variant="h2">💤</Typography>}
           />
         </Grid>
@@ -86,35 +83,35 @@ export default function DashboardView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
-          <StatsGraph
-            title="compare your stats!"
-            subheader="sleep, mood, physical activity"
-            chart={{
-              labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-              series: [
-                {
-                  name: 'Sleep',
-                  type: 'column',
-                  fill: 'solid',
-                  data:
-                    sleepData &&
-                    sleepData.map((data) => (data.total_sleep_duration / 60 ** 2).toFixed(1)),
-                },
-                {
-                  name: 'Mood',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: moods ? moods.map((mood) => parseInt(mood.mood)) : [],
-                },
-                {
-                  name: 'Physical Activity',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [3, 2, 0.5, 1, 2, 1.5, 2],
-                },
-              ],
-            }}
-          />
+          {sleepData && moods && (
+            <StatsGraph
+              title="compare your stats!"
+              subheader="sleep, mood, physical activity"
+              chart={{
+                labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                series: [
+                  {
+                    name: 'Sleep',
+                    type: 'column',
+                    fill: 'solid',
+                    data: sleepData.map((data) => (data.total_sleep_duration / 60 ** 2).toFixed(1)),
+                  },
+                  {
+                    name: 'Mood',
+                    type: 'area',
+                    fill: 'gradient',
+                    data: moods.map((mood) => parseInt(mood.mood)),
+                  },
+                  {
+                    name: 'Physical Activity',
+                    type: 'line',
+                    fill: 'solid',
+                    data: [3, 2, 0.5, 1, 2, 1.5, 2],
+                  },
+                ],
+              }}
+            />
+          )}
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
