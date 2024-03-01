@@ -46,7 +46,11 @@ export default function DashboardView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="this week's mood"
-            value={moods ? moods.reduce((acc, curr) => acc + curr, 0) / moods.length : 'loading...'}
+            value={
+              moods
+                ? (moods.reduce((acc, curr) => acc + parseInt(curr.mood), 0) / moods.length).toFixed(1)
+                : 'loading...'
+            }
             icon={<Typography variant="h2">🤔</Typography>}
           />
         </Grid>
@@ -92,13 +96,15 @@ export default function DashboardView() {
                   name: 'Sleep',
                   type: 'column',
                   fill: 'solid',
-                  data: sleepData && sleepData.map((data) => (data.total_sleep_duration / 60 ** 2).toFixed(1)),
+                  data:
+                    sleepData &&
+                    sleepData.map((data) => (data.total_sleep_duration / 60 ** 2).toFixed(1)),
                 },
                 {
                   name: 'Mood',
                   type: 'area',
                   fill: 'gradient',
-                  data: moods ? moods.map((mood) => mood.mood) : [],
+                  data: moods ? moods.map((mood) => parseInt(mood.mood)) : [],
                 },
                 {
                   name: 'Physical Activity',
