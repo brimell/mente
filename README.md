@@ -3,6 +3,7 @@
 Welcome to mente, your all-in-one platform for tracking and analyzing various aspects of your life! mente integrates seamlessly with popular services and devices to provide comprehensive insights into your daily activities, habits, and well-being.
 
 ![image](image.png)
+![image](image2.png)
 
 ## Features
 
