@@ -27,15 +27,7 @@ export default function StatsGraph({ title, subheader, chart, ...other }) {
       shared: true,
       intersect: false,
       y: {
-        formatter: (value, { seriesIndex }) => {
-          if (typeof value !== 'undefined') {
-            if (seriesIndex === 1) {
-              return `${value.toFixed(0)}/5`;
-            }
-            return `${value.toFixed(0)} hours`;
-          }
-          return value;
-        },
+        formatter: (seriesName) => seriesName,
       },
     },
     ...options,
